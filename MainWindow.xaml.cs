@@ -44,7 +44,6 @@ namespace Edit_Community
         int isEditChanged = 0;
         bool isMenuShow = false;
         internal RichTextBox[] RTbx = new RichTextBox[6];
-        internal RichTextBox[] RtbxVisual = new RichTextBox[6];
         internal Label[] LblF = new Label[2];
         internal Ellipse[] LblC =  new Ellipse [9];
         internal Ellipse[] LblH = new Ellipse[4];
@@ -144,11 +143,6 @@ namespace Edit_Community
                 string displayname = "Rtx" + i;
                 RTbx[i] = (RichTextBox)this.FindName(displayname);
             }
-            for (int i = 0; i < RtbxVisual.Length; i++)
-            {
-                string displayname = "Rtx" + i + "Visual";
-                RtbxVisual[i] = (RichTextBox)FindName(displayname);
-            }
             for (int i = 0; i < LblF.Length; i++)
             {
                 string displayname = "LblEditF" + i;
@@ -203,9 +197,11 @@ namespace Edit_Community
                 InputMethod.SetPreferredImeState(RTbx[i], InputMethodState.DoNotCare);
                 InputLanguageManager.SetInputLanguage(RTbx[i], CultureInfo.GetCultureInfo("zh-CN"));
             }
+
             Area.LoadBackgroundImage();
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
             this.EditICs.SetPropertys(Area.Local.inkColorIndex, Area.Local.inkPenwidth);
+
             Loaded += MainWindow_Loaded;
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -419,6 +415,9 @@ namespace Edit_Community
 
             Console.WriteLine("PropertyChaned");
         }
+        #endregion
+        #region 菜单交互操作
+
         #endregion
         #region RichTextBox操作
         private void Rtx_TextChanged(object sender, TextChangedEventArgs e)

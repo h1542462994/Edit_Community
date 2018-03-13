@@ -450,21 +450,6 @@ namespace Edit_Community
             Area.MainWindow.IsEditLoaded = true;
         }
         /// <summary>
-        ///读取rtf并导入到RichTextbox,若不存在,则从模板处创建.
-        /// </summary>
-        public static void ReadRtfFileVisual(int index)
-        {
-            string filename = index.ToString() + ".rtf";
-            if (!File.Exists(Area.EditBranchFolder + filename))
-            {
-                File.Copy(Area.ModFolder + filename, Area.EditBranchFolder + filename, true);
-            }
-            TextRange t = new TextRange(Area.MainWindow.RtbxVisual[index].Document.ContentStart, Area.MainWindow.RtbxVisual[index].Document.ContentEnd);
-            FileStream file = new FileStream(Area.EditBranchFolder + filename, FileMode.Open);
-            t.Load(file, DataFormats.Rtf);
-            file.Close();
-        }
-        /// <summary>
         /// 将对应索引的RichTextBox的内容保存为rtf.
         /// </summary>
         /// <param name="index"></param>
