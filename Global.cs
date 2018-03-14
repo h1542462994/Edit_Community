@@ -174,58 +174,62 @@ namespace Edit_Community
     /// </summary>
     public sealed class Edit
     {
-        public class Property<TValue> : UProperty<TValue>
-        {
-            protected override string Folder => Area.EditBranchFolder;
-            protected override string RootName => "Edit";
-            public Property(string name, TValue value) : base(name, value)
-            {
-            }
-        }
-        public Property<double[]> columnDefi = new Property<double[]>("columnDefi", new double[] { 0.33, 0.33 });
-        public Property<double> rowDefi0 = new Property<double>("rowDefi0", 0.5);
-        public Property<double> rowDefi1 = new Property<double>("rowDefi1", 0.5);
-        public Property<double> rowDefi2 = new Property<double>("rowDefi2", 0.5);
-        private Property<int> editfiletype = new Property<int>("editfiletype", 1);
-        private int Editfiletype { get => editfiletype.Value; set => editfiletype.Value = value; }
-        public Property<double> columnElp0 = new Property<double>("columnElp0", 0.4);
-        public Property<double> columnElp1 = new Property<double>("columnElp1", 0.4);
-        public Property<double> rowElp0 = new Property<double>("rowElp0", 0.5);
-        public Property<double> rowElp1 = new Property<double>("rowElp1", 0.5);
-        public Property<double> rowElp2 = new Property<double>("rowElp2", 0.5);
-        private Property<DateTime> createTime = new Property<DateTime>("createTime", new DateTime());
-        public Property<string> title = new Property<string>("title", "");
+        public USettings uSettings = new USettings(Area.EditBranchFolder, "Edit");
+        public USettingsProperty<double[]> ColumnDefiProperty;
+        public USettingsProperty<double> RowDefi0Property;
+        public USettingsProperty<double> RowDefi1Property;
+        public USettingsProperty<double> RowDefi2Property;
+        public USettingsProperty<double> ColumnElp0Property;
+        public USettingsProperty<double> ColumnElp1Property;
+        public USettingsProperty<double> RowElo0Property;
+        public USettingsProperty<double> RowElp1Property;
+        public USettingsProperty<double> RowElp2Property;
+        private USettingsProperty<DateTime> CreateTimeProperty;
+        public USettingsProperty<string> TitleProperty;
+        private USettingsProperty<int> EditFileTypeProperty;
 
-        public double[] ColumnDefi { get => columnDefi.Value; set => columnDefi.Value = value; }
-        public double RowDefi0 { get => rowDefi0.Value; set => rowDefi0.Value = value; }
-        public double RowDefi1 { get => rowDefi1.Value; set => rowDefi1.Value = value; }
-        public double RowDefi2 { get => rowDefi2.Value; set => rowDefi2.Value = value; }
+        private Edit()
+        {
+            ColumnDefiProperty = uSettings.Register("columnDefi", new double[] { 0.33, 0.33 },true);
+            RowDefi0Property = uSettings.Register("rowDefi0", 0.5,true);
+            RowDefi1Property = uSettings.Register("rowDefi1", 0.5,true);
+            RowDefi2Property = uSettings.Register("rowDefi2", 0.5,true);
+            ColumnElp0Property = uSettings.Register("columnElp0", 0.4,true);
+            ColumnElp1Property = uSettings.Register("columnElp1", 0.4,true);
+            RowElo0Property = uSettings.Register("rowElp0", 0.5,true);
+            RowElp1Property = uSettings.Register("rowElp1", 0.5,true);
+            RowElp2Property = uSettings.Register("rowElp2", 0.5,true);
+            CreateTimeProperty = uSettings.Register("createTime", new DateTime());
+            TitleProperty = uSettings.Register("title", "");
+            EditFileTypeProperty = uSettings.Register("editfiletype", 1);
+        }
+
+        public double[] ColumnDefi { get => ColumnDefiProperty.Value; set => ColumnDefiProperty.Value = value; }
+        public double RowDefi0 { get => RowDefi0Property.Value; set => RowDefi0Property.Value = value; }
+        public double RowDefi1 { get => RowDefi1Property.Value; set => RowDefi1Property.Value = value; }
+        public double RowDefi2 { get => RowDefi2Property.Value; set => RowDefi2Property.Value = value; }
         public EditType EditType
         {
             get
             {
-                return Area.GetEditType(editfiletype.Value);
+                return Area.GetEditType(EditFileTypeProperty.Value);
             }
         }
-        public double ColumnElp0 { get => columnElp0.Value; set => columnElp0.Value = value; }
-        public double ColumnElp1 { get => columnElp1.Value; set => columnElp1.Value = value; }
-        public double RowElp0 { get => rowElp0.Value; set => rowElp0.Value = value; }
-        public double RowElp1 { get => rowElp1.Value; set => rowElp1.Value = value; }
-        public double RowElp2 { get => rowElp2.Value; set => rowElp2.Value = value; }
-        private DateTime _createTime { set => createTime.Value = value; }
-        public DateTime CreateTime => createTime.Value;
-        public string Title { get => title.Value; set => title.Value = value; }
-
-        private Edit()
-        {
-
-        }
+        public double ColumnElp0 { get => ColumnElp0Property.Value; set => ColumnElp0Property.Value = value; }
+        public double ColumnElp1 { get => ColumnElp1Property.Value; set => ColumnElp1Property.Value = value; }
+        public double RowElp0 { get => RowElo0Property.Value; set => RowElo0Property.Value = value; }
+        public double RowElp1 { get => RowElp1Property.Value; set => RowElp1Property.Value = value; }
+        public double RowElp2 { get => RowElp2Property.Value; set => RowElp2Property.Value = value; }
+        private DateTime _createTime { set => CreateTimeProperty.Value = value; }
+        public DateTime CreateTime => CreateTimeProperty.Value;
+        public string Title { get => TitleProperty.Value; set => TitleProperty.Value = value; }
+        private int EditFileType { get => EditFileTypeProperty.Value; set => EditFileTypeProperty.Value = value; }
         public static Edit SelectMod()
         {
             Area.EditBranchFolder = Area.ModFolder;
             return new Edit
             {
-                Editfiletype = 0
+                EditFileType = 0
             };
         }
         /// <summary>
@@ -261,7 +265,7 @@ namespace Edit_Community
             Area.Edit = new Edit();
             if (!File.Exists(Area.EditBranchFolder + "Edit.xml"))
             {
-                Area.Edit.Editfiletype = 1;
+                Area.Edit.EditFileType = 1;
             }
             if (date.Date == DateTime.Now.Date)
             {
@@ -309,7 +313,7 @@ namespace Edit_Community
             Area.Edit = new Edit();
             if (!File.Exists(Area.EditBranchFolder + "Edit.xml"))
             {
-                Area.Edit.Editfiletype = 1;
+                Area.Edit.EditFileType = 1;
             }
             if (Switcher.IsDateTimeString(info.Name))
             {
@@ -337,7 +341,7 @@ namespace Edit_Community
             Area.EditBranchFolder = Area.ModFolder;
             Area.Edit = new Edit()
             {
-                Editfiletype = 0,
+                EditFileType = 0,
             };
             Area.Edit.Flush();
             for (int i = 0; i < 6; i++)
@@ -408,26 +412,8 @@ namespace Edit_Community
         public void Flush()
         {
             Area.MainWindow.IsWindowLoaded = false;
-            columnDefi.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            rowDefi0.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            rowDefi1.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            rowDefi2.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            columnElp0.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            columnElp1.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            rowElp0.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            rowElp1.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            rowElp2.UPropertyChanged += Area.MainWindow.PropertyChanged;
-
-            dynamic t;
-            t = ColumnDefi;
-            t = RowDefi0;
-            t = RowDefi1;
-            t = RowDefi2;
-            t = ColumnElp0;
-            t = ColumnElp1;
-            t = RowElp0;
-            t = RowElp1;
-            t = RowElp2;
+            uSettings.USettingsChanged += Area.MainWindow.Edit_PropertyChanged;
+            uSettings.Flush();
             Area.MainWindow.IsWindowLoaded = true;
         }
 

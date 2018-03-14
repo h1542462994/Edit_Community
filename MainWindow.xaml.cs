@@ -262,72 +262,54 @@ namespace Edit_Community
                 }
             }
         }
-        /// <summary>
-        /// 与事件的交互
-        /// </summary>
-        /// <param name="sender">发送者</param>
-        /// <param name="e">事件信息.</param>
-        public void PropertyChanged(object sender, UPropertyChangedEventargs e)
+        public void Edit_PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
         {
-
-            if (Area.Edit != null)
+            if (key == Area.Edit.ColumnDefiProperty)
             {
-                if (sender.Equals(Area.Edit.columnDefi))
-                {
-                    double[] arg = (double[])e.Newvalue;
-                    ColumnDefi0.Width = new GridLength(arg[0], GridUnitType.Star);
-                    ColumnDefi1.Width = new GridLength(arg[1], GridUnitType.Star);
-                    ColumnDefi2.Width = new GridLength(1 - arg[0] - arg[1], GridUnitType.Star);
-                    SetElpLocationAll();
-                }
+                double[] arg = (double[])e.NewValue;
+                ColumnDefi0.Width = new GridLength(arg[0], GridUnitType.Star);
+                ColumnDefi1.Width = new GridLength(arg[1], GridUnitType.Star);
+                ColumnDefi2.Width = new GridLength(1 - arg[0] - arg[1], GridUnitType.Star);
+                SetElpLocationAll();
             }
-            if (e.IsChanged)
+            else if (key == Area.Edit.RowDefi0Property)
             {
-                if (Area.Edit != null)
-                {
-                    if (sender.Equals(Area.Edit.rowDefi0))
-                    {
-                        double arg = (double)e.Newvalue;
-                        RowDefiU0.Height = new GridLength(arg, GridUnitType.Star);
-                        RowDefiD0.Height = new GridLength(1 - arg, GridUnitType.Star);
-                    }
-                    else if (sender.Equals(Area.Edit.rowDefi1))
-                    {
-                        double arg = (double)e.Newvalue;
-                        RowDefiU1.Height = new GridLength(arg, GridUnitType.Star);
-                        RowDefiD1.Height = new GridLength(1 - arg, GridUnitType.Star);
-                    }
-                    else if (sender.Equals(Area.Edit.rowDefi2))
-                    {
-                        double arg = (double)e.Newvalue;
-                        RowDefiU2.Height = new GridLength(arg, GridUnitType.Star);
-                        RowDefiD2.Height = new GridLength(1 - arg, GridUnitType.Star);
-                    }
-                    else if (sender.Equals(Area.Edit.columnElp0))
-                    {
-                        SetElpLocation(0, (double)e.Newvalue);
-                    }
-                    else if (sender.Equals(Area.Edit.columnElp1))
-                    {
-                        SetElpLocation(1, (double)e.Newvalue);
-                    }
-                    else if (sender.Equals(Area.Edit.rowElp0))
-                    {
-                        SetElpLocation(2, (double)e.Newvalue);
-                    }
-                    else if (sender.Equals(Area.Edit.rowElp1))
-                    {
-                        SetElpLocation(3, (double)e.Newvalue);
-                    }
-                    else if (sender.Equals(Area.Edit.rowElp2))
-                    {
-                        SetElpLocation(4, (double)e.Newvalue);
-                    }
-                }
+                double arg = (double)e.NewValue;
+                RowDefiU0.Height = new GridLength(arg, GridUnitType.Star);
+                RowDefiD0.Height = new GridLength(1 - arg, GridUnitType.Star);
             }
-
-
-            Console.WriteLine("PropertyChaned");
+            else if (key == Area.Edit.RowDefi1Property)
+            {
+                double arg = (double)e.NewValue;
+                RowDefiU1.Height = new GridLength(arg, GridUnitType.Star);
+                RowDefiD1.Height = new GridLength(1 - arg, GridUnitType.Star);
+            }
+            else if (key == Area.Edit.RowDefi2Property)
+            {
+                double arg = (double)e.NewValue;
+                RowDefiU2.Height = new GridLength(arg, GridUnitType.Star);
+                RowDefiD2.Height = new GridLength(1 - arg, GridUnitType.Star);
+            }
+            else if (key == Area.Edit.ColumnElp0Property)
+            {
+                SetElpLocation(0, (double)e.NewValue);
+            }
+            else if (key == Area.Edit.ColumnElp1Property)
+            {
+                SetElpLocation(1, (double)e.NewValue);
+            }
+            else if (key == Area.Edit.RowDefi0Property)
+            {
+                SetElpLocation(2, (double)e.NewValue);
+            }
+            else if (key == Area.Edit.RowDefi1Property)
+            {
+                SetElpLocation(3, (double)e.NewValue);
+            }
+            else if (key == Area.Edit.RowDefi2Property)
+            {
+                SetElpLocation(4, (double)e.NewValue);
+            }
         }
         #endregion
         #region 全局布局
@@ -460,7 +442,7 @@ namespace Edit_Community
                 }
             }
             User.UI.TriggerImage triggerImage = (User.UI.TriggerImage)sender;
-            if (gridBinding.TryGetValue(triggerImage,out Grid grid))
+            if (gridBinding.TryGetValue(triggerImage, out Grid grid))
             {
                 if (triggerImage.IsChecked == false)
                 {
@@ -598,12 +580,8 @@ namespace Edit_Community
         }
         private void Window_MouseLeave(object sender, MouseEventArgs e)
         {
-           
+
         }
-        #endregion
-
-        #region 菜单交互操作
-
         #endregion
         #region RichTextBox操作
         private void Rtx_TextChanged(object sender, TextChangedEventArgs e)
