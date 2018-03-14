@@ -24,33 +24,33 @@ namespace Edit_Community
     public partial class MainWindow : Window
     {
         #region 公用参数
-        enum MouseOnobject
-        {
-            None,
-            ElpC1,
-            ElpC2,
-            ElpR1,
-            ElpR2,
-            ElpR3,
-            SliderFontSize,
-            ImgEditBrush,
-            ImgEditWeather,
-            ImgEditSettings,
-            ImgEditSearch,
-            ImgEditOut,
-        }
+        //enum MouseOnobject
+        //{
+        //    None,
+        //    ElpC1,
+        //    ElpC2,
+        //    ElpR1,
+        //    ElpR2,
+        //    ElpR3,
+        //    SliderFontSize,
+        //    ImgEditBrush,
+        //    ImgEditWeather,
+        //    ImgEditSettings,
+        //    ImgEditSearch,
+        //    ImgEditOut,
+        //}
         bool isWindowLoaded = false;
         bool isEditLoaded = false;
         int isEditChanged = 0;
-        bool isMenuShow = false;
+
         internal RichTextBox[] RTbx = new RichTextBox[6];
         internal Label[] LblF = new Label[2];
-        internal Ellipse[] LblC =  new Ellipse [9];
+        internal Ellipse[] LblC = new Ellipse[9];
         internal Ellipse[] LblH = new Ellipse[4];
-        internal Border[] BdrBackgroundColorDefault = new Border[4];
-        internal Border[] BdrBackgroundColorHistory = new Border[4];
+        //internal Border[] BdrBackgroundColorDefault = new Border[4];
+        //internal Border[] BdrBackgroundColorHistory = new Border[4];
         const double elpWidth = 8;
-        MouseOnobject mouseOnobject = MouseOnobject.None;
+        //MouseOnobject mouseOnobject = MouseOnobject.None;
         const double elpdefimin = 0.05;
         const int fontsizemin = 10;
         const int fontsizemax = 76;
@@ -61,36 +61,9 @@ namespace Edit_Community
         bool needReturnFocus = false;
         bool isGridbackMousedown = false;
         bool isgridmenumoreshow;
-
+        public static Size ScreenSize => new Size(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
         public bool IsWindowLoaded { get => isWindowLoaded; set => isWindowLoaded = value; }
         public bool IsEditLoaded { get => isEditLoaded; set => isEditLoaded = value; }
-
-        public bool IsMenuShow
-        {
-            get => isMenuShow;
-            set
-            {
-                if (isMenuShow != value)
-                {
-                    Imgmenu.IsChecked = value;
-                    if (value == false)
-                    {
-                        GridMenu.Visibility = Visibility.Hidden;
-                        isgridmenumoreshow = GridMenuMore.Visibility == Visibility.Visible;
-                        GridMenuMore.Visibility = Visibility.Hidden;
-                    }
-                    else
-                    {
-                        GridMenu.Visibility = Visibility.Visible;
-                        if (isgridmenumoreshow)
-                        {
-                            GridMenuMore.Visibility = Visibility.Visible;
-                        }
-                    }
-                }
-                isMenuShow = value;
-            }
-        }
         public int IsEditChanged { get => isEditChanged; set => isEditChanged = value; }
         public bool Ismouseleftdown { get => ismouseleftdown; set => ismouseleftdown = value; }
         public int LastRtxFocusIndex { get => lastRtxFocusIndex; set => lastRtxFocusIndex = value; }
@@ -120,16 +93,6 @@ namespace Edit_Community
 
             ExitEdit();
         }
-        //private void Timer_SaveBitmap(object sender, EventArgs e)
-        //{
-        //    if (IsEditChanged < 2)
-        //    {
-        //        RtxCopyToVisual();
-        //        //Edit.SaveRtfBitmap();
-        //        IsEditChanged++;
-        //        Console.WriteLine("Edit=>SaveBitmap");
-        //    }
-        //}
         #endregion
         #region 全局
         public MainWindow()
@@ -168,27 +131,25 @@ namespace Edit_Community
                 LblH[i].MouseLeave += LblEdit_MouseLeave;
                 LblH[i].MouseUp += LblEditC_MouseUp;
             }
-            for (int i = 0; i < BdrBackgroundColorDefault.Length; i++)
-            {
-                string displayname = "BdrBackgroundColorDefault" + i;
-                BdrBackgroundColorDefault[i] = (Border)FindName(displayname);
-                Color arg = Area.Local.EditBackgroundColorDefault[i];
-                BdrBackgroundColorDefault[i].Background = new SolidColorBrush(arg);
-                BdrBackgroundColorDefault[i].ToolTip = string.Format("{0},{1},{2},{3}", arg.A, arg.R, arg.G, arg.B);
-                BdrBackgroundColorDefault[i].MouseUp += BdrEditBackgrounds_MouseUp;
-            }
-            for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
-            {
-                string displayname = "BdrBackgroundColorHistory" + i;
-                BdrBackgroundColorHistory[i] = (Border)FindName(displayname);
-                BdrBackgroundColorHistory[i].MouseUp += BdrEditBackgrounds_MouseUp;
-            }
+            //for (int i = 0; i < BdrBackgroundColorDefault.Length; i++)
+            //{
+            //    string displayname = "BdrBackgroundColorDefault" + i;
+            //    BdrBackgroundColorDefault[i] = (Border)FindName(displayname);
+            //    Color arg = Area.Local.EditBackgroundColorDefault[i];
+            //    BdrBackgroundColorDefault[i].Background = new SolidColorBrush(arg);
+            //    BdrBackgroundColorDefault[i].ToolTip = string.Format("{0},{1},{2},{3}", arg.A, arg.R, arg.G, arg.B);
+            //    BdrBackgroundColorDefault[i].MouseUp += BdrEditBackgrounds_MouseUp;
+            //}
+            //for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
+            //{
+            //    string displayname = "BdrBackgroundColorHistory" + i;
+            //    BdrBackgroundColorHistory[i] = (Border)FindName(displayname);
+            //    BdrBackgroundColorHistory[i].MouseUp += BdrEditBackgrounds_MouseUp;
+            //}
 
             UComboBox1.SelectionStringChanged += UComboBox1_SelectionStringChanged;
             TbxTemp.GotFocus += TbxTemp_GotFocus;
             TbxTemp.LostFocus += TbxTemp_LostFocus;
-            ImgBefore.MouseUp += ImgMove_MouseUp;
-            ImgNext.MouseUp += ImgMove_MouseUp;
             for (int i = 0; i < RTbx.Length; i++)
             {
                 RTbx[i].SelectionChanged += Rtx_SelectionChanged;
@@ -198,9 +159,16 @@ namespace Edit_Community
                 InputLanguageManager.SetInputLanguage(RTbx[i], CultureInfo.GetCultureInfo("zh-CN"));
             }
 
+            gridBinding = new Dictionary<User.UI.TriggerImage, Grid>()
+            {
+                { ImgEditSettings,GridSettings}
+                ,
+            };
+
             Area.LoadBackgroundImage();
+
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
-            this.EditICs.SetPropertys(Area.Local.inkColorIndex, Area.Local.inkPenwidth);
+            this.EditICs.SetPropertys(Area.Local.InkColorIndexProperty, Area.Local.InkPenWidthProperty);
 
             Loaded += MainWindow_Loaded;
         }
@@ -214,53 +182,27 @@ namespace Edit_Community
             Edit.SetInfos();
             RegisterTimer();
         }
-        private void ImgMove_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (sender.Equals(ImgBefore))
-            {
-                Edit.Move(false);
-            }
-            else
-            {
-                Edit.Move(true);
-            }
-            Edit.SetInfos();
-        }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (!Area.Local.IsFullScreen)
             {
-                Area.Local.AppLocation = new Point(Left / Area.ScreenSize.Width, Top / Area.ScreenSize.Height);
-                Area.Local.AppSize = new Size(Width / Area.ScreenSize.Width, Height / Area.ScreenSize.Height);
+                Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
                 Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
             }
         }
-        private void ImgfullScreen_MouseUp(object sender, MouseButtonEventArgs e)
+        public void Local_PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
         {
-            Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
-            Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
-        }
-        private void Imgmenu_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            IsMenuShow = !IsMenuShow;
-        }
-        /// <summary>
-        /// 与事件的交互
-        /// </summary>
-        /// <param name="sender">发送者</param>
-        /// <param name="e">事件信息.</param>
-        public void PropertyChanged(object sender, UPropertyChangedEventargs e)
-        {
-            if (sender.Equals(Area.Local.editcolor))
+            if (key == Area.Local.EditColorProperty)
             {
                 Console.WriteLine("isEditColor => ???");
-                Color[] arg = (Color[])e.Newvalue;
+                Color[] arg = (Color[])e.NewValue;
                 int num = arg.Length > LblC.Length ? LblC.Length : arg.Length;
                 for (int i = 0; i < LblC.Length; i++)
                 {
                     if (i < num)
                     {
-                        LblC[i].Fill = new SolidColorBrush(arg[i]);   
+                        LblC[i].Fill = new SolidColorBrush(arg[i]);
                         LblC[i].ToolTip = string.Format("{0},{1},{2}", arg[i].R, arg[i].G, arg[i].B);
                     }
                     else
@@ -270,42 +212,64 @@ namespace Edit_Community
                     }
                 }
             }
-            else if (sender.Equals(Area.Local.editBackgroundColorHistory))
+            else if (key == Area.Local.IsFullScreenProperty)
             {
-                Console.WriteLine("iseditBackgroundColorHistory => ???");
-                Color[] arg = (Color[])e.Newvalue;
-                for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
+                ImgFullScreen.IsChecked = (bool)e.NewValue;
+                FullScreenChanged((bool)e.NewValue);
+            }
+            else if (key == Area.Local.EditBackgroundColorProperty)
+            {
+                Color arg = (Color)e.NewValue;
+                //BdrEditBackground.Background = new SolidColorBrush(arg);
+                //BdrEditBackground.ToolTip = string.Format("{0},{1},{2},{3}", arg.A, arg.R, arg.G, arg.B);
+                BdrRtxBack.Background = new SolidColorBrush((Color)e.NewValue);
+                for (int i = 0; i < RTbx.Length; i++)
                 {
-                    if (i < arg.Length)
+                    RTbx[i].Background = new SolidColorBrush((Color)e.NewValue);
+                }
+            }
+            else if (key == Area.Local.IsEditBrushOpenProperty)
+            {
+                if (Area.Local.IsFullScreen)
+                {
+                    this.ImgEditBrush.IsChecked = (bool)e.NewValue;
+                    if ((bool)e.NewValue)
                     {
-                        BdrBackgroundColorHistory[i].Background = new SolidColorBrush(arg[i]);
-                        BdrBackgroundColorHistory[i].ToolTip = string.Format("{0},{1},{2},{3}", arg[i].A, arg[i].R, arg[i].G, arg[i].B);
+                        this.EditICs.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        BdrBackgroundColorHistory[i].Background = Brushes.Transparent;
-                        BdrBackgroundColorHistory[i].ToolTip = null;
+                        this.EditICs.Visibility = Visibility.Hidden;
                     }
                 }
-            }
-            else if (sender.Equals(Area.Local.editcolorHistory))
-            {
-                Console.WriteLine("iseditcolorHistory => ???");
-                Color[] arg = (Color[])e.Newvalue;
-                for (int i = 0; i < LblH.Length; i++)
+                else
                 {
-                    if (i < arg.Length)
-                    {
-                        LblH[i].Fill = new SolidColorBrush(arg[i]);
-                        LblH[i].ToolTip = string.Format("{0},{1},{2}", arg[i].R, arg[i].G, arg[i].B);
-                    }
-                    else
-                    {
-                        LblH[i].Fill = Brushes.Transparent;
-                        LblH[i].ToolTip = null;
-                    }
+                    this.EditICs.Visibility = Visibility.Hidden;
                 }
             }
+            else if (key == Area.Local.IsRtxHiddenProperty)
+            {
+                //this.ImgMenuEditHideRtx.IsChecked = (bool)e.NewValue;
+                if ((bool)e.NewValue)
+                {
+                    this.BdrRtxBack.Visibility = Visibility.Visible;
+                    this.GridEditRtx.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    this.BdrRtxBack.Visibility = Visibility.Hidden;
+                    this.GridEditRtx.Visibility = Visibility.Visible;
+                }
+            }
+        }
+        /// <summary>
+        /// 与事件的交互
+        /// </summary>
+        /// <param name="sender">发送者</param>
+        /// <param name="e">事件信息.</param>
+        public void PropertyChanged(object sender, UPropertyChangedEventargs e)
+        {
+
             if (Area.Edit != null)
             {
                 if (sender.Equals(Area.Edit.columnDefi))
@@ -314,61 +278,11 @@ namespace Edit_Community
                     ColumnDefi0.Width = new GridLength(arg[0], GridUnitType.Star);
                     ColumnDefi1.Width = new GridLength(arg[1], GridUnitType.Star);
                     ColumnDefi2.Width = new GridLength(1 - arg[0] - arg[1], GridUnitType.Star);
-                    SetElpLocation();
+                    SetElpLocationAll();
                 }
             }
             if (e.IsChanged)
             {
-                if (sender.Equals(Area.Local.isFullScreen))
-                {
-                    ImgfullScreen.IsChecked = (bool)e.Newvalue;
-                    Area.FullScreenChanged((bool)e.Newvalue);
-                }
-                if (sender.Equals(Area.Local.editBackgroundColor))
-                {
-                    Color arg = (Color)e.Newvalue;
-                    BdrEditBackground.Background = new SolidColorBrush(arg);
-                    BdrEditBackground.ToolTip = string.Format("{0},{1},{2},{3}", arg.A, arg.R, arg.G, arg.B);
-                    BdrRtxBack.Background = new SolidColorBrush((Color)e.Newvalue);
-                    for (int i = 0; i < RTbx.Length; i++)
-                    {
-                        RTbx[i].Background = new SolidColorBrush((Color)e.Newvalue);
-                    }
-                }
-                if (sender.Equals(Area.Local.isEditBrushOpen))
-                {
-                    if (Area.Local.IsFullScreen)
-                    {
-                        this.ImgEditBrush.IsChecked = (bool)e.Newvalue;
-                        if ((bool)e.Newvalue)
-                        {
-                            this.EditICs.Visibility = Visibility.Visible;
-                        }
-                        else
-                        {
-                            this.EditICs.Visibility = Visibility.Hidden;
-                        }
-                    }
-                    else
-                    {
-                        this.EditICs.Visibility = Visibility.Hidden;
-                    }
-                }
-                if (sender.Equals(Area.Local.isRtxHidden))
-                {
-                    this.ImgMenuEditHideRtx.IsChecked = (bool)e.Newvalue;
-                    if ((bool)e.Newvalue)
-                    {
-                        this.BdrRtxBack.Visibility = Visibility.Visible;
-                        this.GridEditRtx.Visibility = Visibility.Hidden;
-                    }
-                    else
-                    {
-                        this.BdrRtxBack.Visibility = Visibility.Hidden;
-                        this.GridEditRtx.Visibility = Visibility.Visible;
-                    }
-                }
-
                 if (Area.Edit != null)
                 {
                     if (sender.Equals(Area.Edit.rowDefi0))
@@ -416,6 +330,278 @@ namespace Edit_Community
             Console.WriteLine("PropertyChaned");
         }
         #endregion
+        #region 全局布局
+        bool isMenuShow = false;
+        public bool IsMenuShow
+        {
+            get => isMenuShow;
+            set
+            {
+                if (isMenuShow != value)
+                {
+                    ImgMenu.IsChecked = value;
+                    if (value == false)
+                    {
+                        GridMenu.Visibility = Visibility.Hidden;
+                        isgridmenumoreshow = GridMenuMore.Visibility == Visibility.Visible;
+                        GridMenuMore.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        GridMenu.Visibility = Visibility.Visible;
+                        if (isgridmenumoreshow)
+                        {
+                            GridMenuMore.Visibility = Visibility.Visible;
+                        }
+                    }
+                }
+                isMenuShow = value;
+            }
+        }
+        Dictionary<User.UI.TriggerImage, Grid> gridBinding = new Dictionary<User.UI.TriggerImage, Grid>();
+        /// <summary>
+        /// 全屏状态改变.
+        /// </summary>
+        public void FullScreenChanged(bool isfullscreen)
+        {
+            if (isfullscreen)
+            {
+                if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
+                {
+                    Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                    Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                }
+                WindowStyle = WindowStyle.None;
+                ResizeMode = ResizeMode.NoResize;
+                Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
+                WindowState = WindowState.Normal;
+                Left = 0;
+                Top = 0;
+                Width = ScreenSize.Width;
+                Height = ScreenSize.Height;
+                ImgEditBrush.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                ResizeMode = ResizeMode.CanResize;
+                if (Area.Local.IsMaxShow)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                Left = Area.Local.AppLocation.X * ScreenSize.Width;
+                Top = Area.Local.AppLocation.Y * ScreenSize.Height;
+                Width = Area.Local.AppSize.Width * ScreenSize.Width;
+                Height = Area.Local.AppSize.Height * ScreenSize.Height;
+                ImgEditBrush.Visibility = Visibility.Hidden;
+            }
+        }
+        private void ImgEditMove_Tapped(object sender, RoutedEventArgs e)
+        {
+            if (sender.Equals(ImgBefore))
+            {
+                Edit.Move(false);
+            }
+            else
+            {
+                Edit.Move(true);
+            }
+            Edit.SetInfos();
+        }
+        private void ImgMenu_Tapped(object sender, RoutedEventArgs e)
+        {
+            IsMenuShow = !IsMenuShow;
+
+        }
+        private void ImgFullScreen_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+            Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+        }
+        private void ImgEditBrush_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
+        }
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetElpLocationAll();
+            if (IsWindowLoaded)
+            {
+                Area.DialogInventory.Move();
+            }
+        }
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
+            {
+                ShowRtxEditBox();
+                Point point = e.GetPosition(GridMain);
+                if (point.X < 0.2 * ActualWidth || point.X > 0.8 * ActualWidth)
+                {
+                    Area.TimerInventory[TimerDisplayName.HideImg].TickTime = 1;
+                    ShowImg();
+                }
+                ShowMouse();
+            }
+            else if (mouseElpOnobjectButton == MouseButton.Left && mouseElpDownOnobject != null)
+            {
+                Elp_SetValue(e.GetPosition(GridMain));
+                Console.WriteLine("=>(Down)Window MouseMove");
+            }
+        }
+        private void ImgSelectedItem_Tapped(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in gridBinding)
+            {
+                if (item.Key != sender)
+                {
+                    item.Key.IsChecked = false;
+                    item.Value.Visibility = Visibility.Collapsed;
+                }
+            }
+            User.UI.TriggerImage triggerImage = (User.UI.TriggerImage)sender;
+            if (gridBinding.TryGetValue(triggerImage,out Grid grid))
+            {
+                if (triggerImage.IsChecked == false)
+                {
+                    grid.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    grid.Visibility = Visibility.Visible;
+                }
+            }
+            SetEditMoreVisibility();
+        }
+        private void ShowImg()
+        {
+            ImgFullScreen.Visibility = Visibility.Visible;
+            ImgMenu.Visibility = Visibility.Visible;
+            SetEditMoreVisibility();
+        }
+        private void HideImg()
+        {
+            ImgFullScreen.Visibility = Visibility.Hidden;
+            ImgMenu.Visibility = Visibility.Hidden;
+            GridMenu.Visibility = Visibility.Hidden;
+        }
+        private void SetEditMoreVisibility()
+        {
+            bool isSelected = false;
+            foreach (var item in gridBinding.Keys)
+            {
+                if (item.IsChecked == true)
+                {
+                    isSelected = true;
+                }
+            }
+            if (isSelected)
+            {
+                GridMenuMore.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GridMenuMore.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
+        #region Rtx布局
+        object mouseElpDownOnobject = null;
+        MouseButton mouseElpOnobjectButton = MouseButton.Left;
+        private void Elp_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            mouseElpDownOnobject = sender;
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Elp_SetValue(e.GetPosition(GridMain));
+            }
+            mouseElpOnobjectButton = e.ChangedButton;
+        }
+        private void Elp_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (mouseElpOnobjectButton == MouseButton.Right && mouseElpDownOnobject != null)
+            {
+                ExitEdit();
+            }
+            mouseElpDownOnobject = null;
+        }
+        private void Elp_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (mouseElpOnobjectButton == MouseButton.Right)
+            {
+                mouseElpDownOnobject = null;
+            }
+        }
+        private void Elp_SetValue(Point mousepoint)
+        {
+            double[] v = new double[2];
+            double[] colmundefi = Area.Edit.ColumnDefi;
+            double num = colmundefi[0] + colmundefi[1];
+            if (mouseElpDownOnobject == ElpC1 || mouseElpDownOnobject == ElpC2)
+            {
+                v[1] = Switcher.Checkdouble(mousepoint.Y / this.GridMain.ActualHeight, elpdefimin, 1 - elpdefimin);
+                if (mouseElpDownOnobject == ElpC1)
+                {
+                    v[0] = Switcher.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
+                         , Area.Local.ColumnDefiMin
+                         , num - Area.Local.ColumnDefiMin);
+                    Area.Edit.ColumnDefi = new double[] { v[0], num - v[0] };
+                    Area.Edit.ColumnElp0 = v[1];
+                    //ElpC1.Margin = new Thickness(-elpWidth, -elpWidth + v[1] * GridMain.ActualHeight, 0, 0);
+                }
+                else
+                {
+                    v[0] = Switcher.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
+                        , colmundefi[0] + Area.Local.ColumnDefiMin
+                        , 1 - Area.Local.ColumnDefiMin);
+                    Area.Edit.ColumnDefi = new double[] { colmundefi[0], v[0] - colmundefi[0] };
+                    Area.Edit.ColumnElp1 = v[1];
+                    //ElpC2.Margin = new Thickness(-elpWidth, -elpWidth + v[1] * GridMain.ActualHeight, 0, 0);
+                }
+            }
+            else if (mouseElpDownOnobject == ElpR1 || mouseElpDownOnobject == ElpR2 || mouseElpDownOnobject == ElpR3)
+            {
+                v[1] = Switcher.Checkdouble(mousepoint.Y / GridMain.ActualHeight, Area.Local.RowDefiMin, 1 - Area.Local.RowDefiMin);
+                if (mouseElpDownOnobject == ElpR1)
+                {
+                    v[0] = Switcher.Checkdouble(mousepoint.X / (GridMain.ActualWidth * colmundefi[0]), elpdefimin, 1 - elpdefimin);
+                    //ElpR1.Margin =  new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[0], -elpWidth, 0, 0);
+                    Area.Edit.RowDefi0 = v[1];
+                    Area.Edit.RowElp0 = v[0];
+                }
+                else if (mouseElpDownOnobject == ElpR2)
+                {
+                    v[0] = Switcher.Checkdouble((mousepoint.X - GridMain.ActualWidth * colmundefi[0]) / (GridMain.ActualWidth * colmundefi[1]), elpdefimin, 1 - elpdefimin);
+                    //ElpR2.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[1], -elpWidth, 0, 0);
+                    Area.Edit.RowDefi1 = v[1];
+                    Area.Edit.RowElp1 = v[0];
+                }
+                else
+                {
+                    v[0] = Switcher.Checkdouble((mousepoint.X - GridMain.ActualWidth * num) / (GridMain.ActualWidth * (1 - num)), elpdefimin, 1 - elpdefimin);
+                    //ElpR3.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * (1- num), -elpWidth, 0, 0);
+                    Area.Edit.RowDefi2 = v[1];
+                    Area.Edit.RowElp2 = v[0];
+                }
+            }
+        }
+        private void SetElpLocationAll()
+        {
+            if (IsWindowLoaded)
+            {
+                SetElpLocation(0, Area.Edit.ColumnElp0);
+                SetElpLocation(1, Area.Edit.ColumnElp1);
+                SetElpLocation(2, Area.Edit.RowElp0);
+                SetElpLocation(3, Area.Edit.RowElp1);
+                SetElpLocation(4, Area.Edit.RowElp2);
+            }
+        }
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+           
+        }
+        #endregion
+
         #region 菜单交互操作
 
         #endregion
@@ -538,7 +724,7 @@ namespace Edit_Community
         {
             int index = Rtx_GetSectionIndex();
             if (index != -1)
-            {               
+            {
                 if (method == "fontsize")
                 {
                     RTbx[index].Selection.ApplyPropertyValue(TextElement.FontSizeProperty, string.Concat((int)value));
@@ -584,7 +770,6 @@ namespace Edit_Community
         #region GridEditBox
         private void SlideFontSize_SlideValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            SetMouseOnobject(sender);
             SlideFontSize_SetValue(SlideFontSize.SlideValue, true);
         }
         private void LblEditF_MouseUp(object sender, MouseButtonEventArgs e)
@@ -598,7 +783,7 @@ namespace Edit_Community
                 else if (sender.Equals(LblEditF1))
                 {
                     rtxProperty.Fontitalic = !rtxProperty.Fontitalic;
-                } 
+                }
             }
         }
         private void LblEdit_MouseDown(object sender, MouseButtonEventArgs e)
@@ -821,82 +1006,34 @@ namespace Edit_Community
         }
         _EditMenuName editMenuName;
         _EditMenuName EditMenuName { get => editMenuName; set => editMenuName = value; }
-        private void ImgAll_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine("ImgAll -> MouseUp");
-            if (GetMouseOnobject(sender) == mouseOnobject)
-            {
-                if (mouseOnobject == MouseOnobject.ImgEditSettings || mouseOnobject == MouseOnobject.ImgEditOut || mouseOnobject == MouseOnobject.ImgEditSearch)
-                {
-                    SetImgEditChecked(sender);
-                }
-                else if (mouseOnobject == MouseOnobject.ImgEditBrush)
-                {
-                    Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
-                }
-                else if (mouseOnobject == MouseOnobject.ImgEditWeather)
-                {
-                    Area.Local.IsWeatherOpen = !Area.Local.IsWeatherOpen;
-                }
-            }
-        }
-        private void ImgAll_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Console.WriteLine("ImgAll -> MouseDown");
-            SetMouseOnobject(sender);
-            Console.WriteLine(mouseOnobject);
-        }
         private void SetImgEditChecked(object sender)
         {
-            ImgMenu[] obj = new ImgMenu[] { ImgEditSettings };
-            Grid[] linkgrid = new Grid[] { GridMenuEditSettings };
-            for (int i = 0; i < obj.Length; i++)
-            {
-                if (sender.Equals(obj[i]))
-                {
-                    obj[i].IsChecked = !obj[i].IsChecked;
-                    if (obj[i].IsChecked)
-                    {
-                        GridMenuMore.Visibility = Visibility.Visible;
-                        linkgrid[i].Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        GridMenuMore.Visibility = Visibility.Hidden;
-                        linkgrid[i].Visibility = Visibility.Hidden;
-                    }
-                }
-                else
-                {
-                    obj[i].IsChecked = false;
-                    linkgrid[i].Visibility = Visibility.Hidden;
-                }
-            }
+
         }
         #region Settings分项
         private void BdrEditBackground_MouseUp(object sender, MouseButtonEventArgs e)
         {
             ShowColorPicker(e, Area.Local.EditBackgroundColor, ColorPickTask.EditBackColor, 0, DialogAuto.Absolute, true);
         }
-        private void BdrEditBackgrounds_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            for (int i = 0; i < BdrBackgroundColorDefault.Length; i++)
-            {
-                if (sender.Equals(BdrBackgroundColorDefault[i]))
-                {
-                    Area.Local.EditBackgroundColor = Area.Local.EditBackgroundColorDefault[i];
-                    return;
-                }
-            }
-            for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
-            {
-                if (i < Area.Local.EditBackgroundColorHistory.Length && sender.Equals(BdrBackgroundColorHistory[i]))
-                {
-                    Area.Local.EditBackgroundColor = Area.Local.EditBackgroundColorHistory[i];
-                    return;
-                }
-            }
-        }
+        //private void BdrEditBackgrounds_MouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    for (int i = 0; i < BdrBackgroundColorDefault.Length; i++)
+        //    {
+        //        if (sender.Equals(BdrBackgroundColorDefault[i]))
+        //        {
+        //            Area.Local.EditBackgroundColor = Area.Local.EditBackgroundColorDefault[i];
+        //            return;
+        //        }
+        //    }
+        //    for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
+        //    {
+        //        if (i < Area.Local.EditBackgroundColorHistory.Length && sender.Equals(BdrBackgroundColorHistory[i]))
+        //        {
+        //            Area.Local.EditBackgroundColor = Area.Local.EditBackgroundColorHistory[i];
+        //            return;
+        //        }
+        //    }
+        //}
 
         private void ApplyBackgroundColorHistory(Color color)
         {
@@ -918,72 +1055,27 @@ namespace Edit_Community
             int num = colorlist.Count > 4 ? 4 : colorlist.Count;
             Area.Local.EditBackgroundColorHistory = colorlist.Take(num).ToArray();
         }
-        private void ImgMenuEditMod_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            //ImgMenuEditMod.IsChecked = !ImgMenuEditMod.IsChecked;
-            if (ImgMenuEditMod.IsChecked)
-            {
-                Edit.LoadMod();
-            }
-            else
-            {
-                Edit.ExitMod();
-            }
-        }
-        private void ImgMenuHideRtx_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
-        }
+        //private void ImgMenuEditMod_MouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    //ImgMenuEditMod.IsChecked = !ImgMenuEditMod.IsChecked;
+        //    if (ImgMenuEditMod.IsChecked)
+        //    {
+        //        Edit.LoadMod();
+        //    }
+        //    else
+        //    {
+        //        Edit.ExitMod();
+        //    }
+        //}
+        //private void ImgMenuHideRtx_MouseUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
+        //}
         #endregion
         #endregion
         #region 布局
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SetElpLocation();
-            Area.Local.GridWeatherLocation = Area.Local.GridWeatherLocation;
-            if (IsWindowLoaded)
-            {
-                Area.DialogInventory.Move();
-            }
-        }
-        private void Elp_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            SetMouseOnobject(sender);
-            Ismouseleftdown = e.LeftButton == MouseButtonState.Pressed;
-            Elp_SetValue(e.GetPosition(GridMain));
-        }
-        private void Window_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
-            {
-                ShowRtxEditBox();
-                Point point = e.GetPosition(GridMain);
-                if (point.X < 0.2 * ActualWidth || point.X > 0.8 * ActualWidth)
-                {
-                    Area.TimerInventory[TimerDisplayName.HideImg].TickTime = 1;
-                    ShowImg();
-                }
-                ShowMouse();
-            }
-            else
-            {
-                Elp_SetValue(e.GetPosition(GridMain));
-                Console.WriteLine("=>(Down)Window MouseMove");
-            }
-        }
-        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (!Ismouseleftdown && (mouseOnobject != MouseOnobject.None && mouseOnobject != MouseOnobject.SliderFontSize))
-            {
-                ExitEdit();
-            }
-            mouseOnobject = MouseOnobject.None;
-            Console.WriteLine("=>WindowMouseUp");
-        }
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            mouseOnobject = MouseOnobject.None;
-        }
+
+
         private void Rtx_SelectionChanged(object sender, RoutedEventArgs e)
         {
             ShowRtxEditBox();
@@ -1008,31 +1100,6 @@ namespace Edit_Community
                 }
             }
         }
-        private MouseOnobject GetMouseOnobject(object obj)
-        {
-            if (obj.Equals(ElpC1))
-                return MouseOnobject.ElpC1;
-            else if (obj.Equals(ElpC2))
-                return MouseOnobject.ElpC2;
-            else if (obj.Equals(ElpR1))
-                return MouseOnobject.ElpR1;
-            else if (obj.Equals(ElpR2))
-                return MouseOnobject.ElpR2;
-            else if (obj.Equals(ElpR3))
-                return MouseOnobject.ElpR3;
-            else if (obj.Equals(SlideFontSize))
-                return MouseOnobject.SliderFontSize;
-            else if (obj.Equals(ImgEditBrush))
-                return MouseOnobject.ImgEditBrush;
-            else if (obj.Equals(ImgEditSettings))
-                return MouseOnobject.ImgEditSettings;
-            else
-                return MouseOnobject.None;
-        }
-        private void SetMouseOnobject(object obj)
-        {
-            mouseOnobject = GetMouseOnobject(obj);
-        }
         private void SetElpLocation(int index, double value)
         {
             if (index == 0)
@@ -1056,70 +1123,7 @@ namespace Edit_Community
                 ElpR3.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * (1 - Area.Edit.ColumnDefi[0] - Area.Edit.ColumnDefi[1]), -elpWidth, 0, 0);
             }
         }
-        private void SetElpLocation()
-        {
-            if (IsWindowLoaded)
-            {
-                SetElpLocation(0, Area.Edit.ColumnElp0);
-                SetElpLocation(1, Area.Edit.ColumnElp1);
-                SetElpLocation(2, Area.Edit.RowElp0);
-                SetElpLocation(3, Area.Edit.RowElp1);
-                SetElpLocation(4, Area.Edit.RowElp2);
-            }
-        }
-        private void Elp_SetValue(Point mousepoint)
-        {
-            double[] v = new double[2];
-            double[] colmundefi = Area.Edit.ColumnDefi;
-            double num = colmundefi[0] + colmundefi[1];
-            if (mouseOnobject == MouseOnobject.ElpC1 || mouseOnobject == MouseOnobject.ElpC2)
-            {
-                v[1] = Switcher.Checkdouble(mousepoint.Y / this.GridMain.ActualHeight, elpdefimin, 1 - elpdefimin);
-                if (mouseOnobject == MouseOnobject.ElpC1)
-                {
-                    v[0] = Switcher.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
-                         , Area.Local.ColumnDefiMin
-                         , num - Area.Local.ColumnDefiMin);
-                    Area.Edit.ColumnDefi = new double[] { v[0], num - v[0] };
-                    Area.Edit.ColumnElp0 = v[1];
-                    //ElpC1.Margin = new Thickness(-elpWidth, -elpWidth + v[1] * GridMain.ActualHeight, 0, 0);
-                }
-                else
-                {
-                    v[0] = Switcher.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
-                        , colmundefi[0] + Area.Local.ColumnDefiMin
-                        , 1 - Area.Local.ColumnDefiMin);
-                    Area.Edit.ColumnDefi = new double[] { colmundefi[0], v[0] - colmundefi[0] };
-                    Area.Edit.ColumnElp1 = v[1];
-                    //ElpC2.Margin = new Thickness(-elpWidth, -elpWidth + v[1] * GridMain.ActualHeight, 0, 0);
-                }
-            }
-            else if (mouseOnobject == MouseOnobject.ElpR1 || mouseOnobject == MouseOnobject.ElpR2 || mouseOnobject == MouseOnobject.ElpR3)
-            {
-                v[1] = Switcher.Checkdouble(mousepoint.Y / GridMain.ActualHeight, Area.Local.RowDefiMin, 1 - Area.Local.RowDefiMin);
-                if (mouseOnobject == MouseOnobject.ElpR1)
-                {
-                    v[0] = Switcher.Checkdouble(mousepoint.X / (GridMain.ActualWidth * colmundefi[0]), elpdefimin, 1 - elpdefimin);
-                    //ElpR1.Margin =  new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[0], -elpWidth, 0, 0);
-                    Area.Edit.RowDefi0 = v[1];
-                    Area.Edit.RowElp0 = v[0];
-                }
-                else if (mouseOnobject == MouseOnobject.ElpR2)
-                {
-                    v[0] = Switcher.Checkdouble((mousepoint.X - GridMain.ActualWidth * colmundefi[0]) / (GridMain.ActualWidth * colmundefi[1]), elpdefimin, 1 - elpdefimin);
-                    //ElpR2.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[1], -elpWidth, 0, 0);
-                    Area.Edit.RowDefi1 = v[1];
-                    Area.Edit.RowElp1 = v[0];
-                }
-                else
-                {
-                    v[0] = Switcher.Checkdouble((mousepoint.X - GridMain.ActualWidth * num) / (GridMain.ActualWidth * (1 - num)), elpdefimin, 1 - elpdefimin);
-                    //ElpR3.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * (1- num), -elpWidth, 0, 0);
-                    Area.Edit.RowDefi2 = v[1];
-                    Area.Edit.RowElp2 = v[0];
-                }
-            }
-        }
+
 
         private void InEdit()
         {
@@ -1157,23 +1161,6 @@ namespace Edit_Community
             ElpR1.Visibility = Visibility.Hidden;
             ElpR2.Visibility = Visibility.Hidden;
             ElpR3.Visibility = Visibility.Hidden;
-        }
-        private void ShowImg()
-        {
-            ImgfullScreen.Visibility = Visibility.Visible;
-            Imgmenu.Visibility = Visibility.Visible;
-            if (Imgmenu.IsChecked)
-            {
-                GridMenu.Visibility = Visibility.Visible;
-            }
-            //GridMenuMore.Visibility = Visibility.Visible;
-        }
-        private void HideImg()
-        {
-            ImgfullScreen.Visibility = Visibility.Hidden;
-            Imgmenu.Visibility = Visibility.Hidden;
-            GridMenu.Visibility = Visibility.Hidden;
-            //GridMenuMore.Visibility = Visibility.Hidden;
         }
 
         private void HideMouse()
@@ -1276,7 +1263,7 @@ namespace Edit_Community
 
 
         #endregion
-        private void PageNavigationHelper_PageChanged(object sender, User.UI. PageNavigationEventargs e)
+        private void PageNavigationHelper_PageChanged(object sender, User.UI.PageNavigationEventargs e)
         {
             if (e.IsFirstPage)
             {
@@ -1300,5 +1287,7 @@ namespace Edit_Community
         {
             Area.PageNavigationHelper.Back();
         }
+
+
     }
 }

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using User.SoftWare;
 
 namespace Edit_Community
 {
@@ -30,9 +31,9 @@ namespace Edit_Community
         internal Ellipse[] ElpInkColor = new Ellipse[25];
         public SaveBrushEventHander SaveBrushCallBack;
         private int inkColorIndex = 0;
-        private UProperty<int> inkColorIndexProperty;
+        private USettingsProperty<int> inkColorIndexProperty;
         private double penwidth = 4;
-        private UProperty<double> penwidthProperty;
+        private USettingsProperty<double> penwidthProperty;
         private int inkMenuSelectindex = 1;
         public bool IsTransparentStyle
         {
@@ -79,13 +80,6 @@ namespace Edit_Community
             Colors.LawnGreen,Colors.Green,Colors.SeaGreen,Colors.DeepSkyBlue,Colors.Blue,
             Colors.Tomato,Colors.Violet,Colors.LightYellow,Colors.LightGreen,Colors.LightBlue,
             Colors.Pink,Colors.RosyBrown,Colors.Chocolate,Colors.Brown,Colors.Purple,
-
-            //Colors.Black,Colors.Gray,Colors.White,Colors.Red,Colors.Yellow,
-            //Colors.SeaGreen, Colors.SkyBlue,Colors.Blue,Colors.Orange,Colors.Purple,
-            //Colors.LightPink,Colors.LightSeaGreen,Colors.LightBlue,Colors.Violet,Colors.LightYellow,
-            //Colors.Tomato,Colors.OrangeRed,Colors.Chocolate,Colors.SandyBrown,Colors.Pink,
-            //Colors.DarkRed,Colors.DarkSeaGreen,Colors.DarkOrange,Colors.DarkBlue,Colors.PaleVioletRed
-
 };
         public int InkMenuSelectIndex
         {
@@ -346,25 +340,20 @@ namespace Edit_Community
         {
             this.EditICs.InkCanvas.Strokes = value;
         }
-        public void SetPropertys(UProperty<int> inkColorIndexProperty, UProperty<double> penwidthProperty)
+        public void SetPropertys(USettingsProperty<int> inkColorIndexProperty, USettingsProperty<double> penwidthProperty)
         {
             this.inkColorIndexProperty = inkColorIndexProperty;
             this.penwidthProperty = penwidthProperty;
-            inkColorIndexProperty.UPropertyChanged += PropertyChanged;
-            penwidthProperty.UPropertyChanged += PropertyChanged;
         }
-        private void PropertyChanged(object sender, UPropertyChangedEventargs e)
+        public void PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
         {
-            if (e.IsNewest)
+            if (key == inkColorIndexProperty)
             {
-                if (sender.Equals(this.inkColorIndexProperty))
-                {
-                    InkColorIndex = (int)e.Newvalue;
-                }
-                else if (sender.Equals(this.penwidthProperty))
-                {
-                    Penwidth = (double)e.Newvalue;
-                }
+                InkColorIndex = (int)e.NewValue;
+            }
+            else if(key == penwidthProperty)
+            {
+                Penwidth = (double)e.NewValue;
             }
         }
         private void BdrEraser_MouseDown(object sender, MouseButtonEventArgs e)
@@ -396,7 +385,6 @@ namespace Edit_Community
                 BdEM.Margin = new Thickness(point.X - 35, 0, 0, 0);
             }
         }
-
     }
     public delegate void SaveBrushEventHander(StrokeCollection value);
 }

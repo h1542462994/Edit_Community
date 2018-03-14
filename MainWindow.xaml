@@ -7,7 +7,7 @@
         xmlns:libr="clr-namespace:Library;assembly=Library"
         xmlns:uslibr="clr-namespace:User.UI;assembly=UserLibrary"
         mc:Ignorable="d"
-        Title="Edit Community [1.0.0.0]" Height="699.5" Width="880" Closing="Window_Closing"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseUp="Window_MouseUp" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp">
+        Title="Edit Community [1.0.0.0]" Height="699.5" Width="880" Closing="Window_Closing"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp">
     <Grid Background="Transparent" x:Name="GridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -32,7 +32,6 @@
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <!--作业编辑器-->
                 <Grid Grid.ColumnSpan="3" Grid.RowSpan="2" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition x:Name="ColumnDefi0" Width="0.333333333*"/>
@@ -46,7 +45,7 @@
                         </Grid.RowDefinitions>
                         <RichTextBox x:Name="Rtx0" Background="Transparent" />
                         <RichTextBox Grid.Row="1" x:Name="Rtx1" Background="Transparent"  />
-                        <Ellipse x:Name="ElpR1" Grid.Row="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="20,-6,0,0" Fill="#B2EA5717" Stroke="Black" MouseDown="Elp_MouseDown"/>
+                        <Ellipse x:Name="ElpR1" Grid.Row="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="20,-6,0,0" Fill="#B2EA5717" Stroke="Black" MouseDown="Elp_MouseDown" MouseUp="Elp_MouseUp" MouseLeave="Elp_MouseLeave"/>
                     </Grid>
                     <Grid Grid.Column="1"  Grid.RowSpan="2">
                         <Grid.RowDefinitions>
@@ -55,7 +54,7 @@
                         </Grid.RowDefinitions>
                         <RichTextBox x:Name="Rtx2" Background="Transparent" Foreground="Wheat" />
                         <RichTextBox Grid.Row="1" x:Name="Rtx3" Background="Transparent" Foreground="Wheat" />
-                        <Ellipse x:Name="ElpR2" Grid.Row="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="20,-8,0,0" Fill="#B2EA5717" Stroke="Black" MouseDown="Elp_MouseDown"/>
+                        <Ellipse x:Name="ElpR2" Grid.Row="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="20,-8,0,0" Fill="#B2EA5717" Stroke="Black" MouseDown="Elp_MouseDown" MouseLeave="Elp_MouseLeave" MouseUp="Elp_MouseUp"/>
                     </Grid>
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
@@ -64,12 +63,13 @@
                         </Grid.RowDefinitions>
                         <RichTextBox x:Name="Rtx4" Background="Transparent" Foreground="Wheat" />
                         <RichTextBox Grid.Row="1" x:Name="Rtx5" Background="Transparent" Foreground="Wheat" />
-                        <Ellipse x:Name="ElpR3" Grid.Row="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="20,-8,0,0" Fill="#B2EA5717" Stroke="Black" MouseDown="Elp_MouseDown"/>
+                        <Ellipse x:Name="ElpR3" Grid.Row="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="20,-8,0,0" Fill="#B2EA5717" Stroke="Black" MouseDown="Elp_MouseDown" MouseUp="Elp_MouseUp" MouseLeave="Elp_MouseLeave"/>
                     </Grid>
-                    <Ellipse x:Name="ElpC1" Grid.Column="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="-8,40,0,0" Fill="#B244F2D8" MouseDown="Elp_MouseDown" Stroke="Black"/>
-                    <Ellipse x:Name="ElpC2" Grid.Column="2" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="-8,40,0,0" Fill="#B244F2D8" Stroke="Black" MouseDown="Elp_MouseDown"/>
+                    <Ellipse x:Name="ElpC1" Grid.Column="1" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="-8,40,0,0" Fill="#B244F2D8" MouseDown="Elp_MouseDown" Stroke="Black" MouseLeave="Elp_MouseLeave" MouseUp="Elp_MouseUp"/>
+                    <Ellipse x:Name="ElpC2" Grid.Column="2" Width="16" HorizontalAlignment="Left" VerticalAlignment="Top" Height="16" Margin="-8,40,0,0" Fill="#B244F2D8" Stroke="Black" MouseDown="Elp_MouseDown" MouseLeave="Elp_MouseLeave" MouseUp="Elp_MouseUp"/>
 
                 </Grid>
+                <!--作业编辑器-->
             </Grid>
             <Border x:Name="BdrRtxBack" Visibility="Hidden" Background="Black"/>
             <Grid  x:Name="GridEditBox" VerticalAlignment="Top" HorizontalAlignment="Left" Background="#CCFFFFFF" Margin="42.667,100,0,0" Width="270" Height="90" Visibility="Collapsed">
@@ -138,111 +138,25 @@
             <local:MultiInkCanvasWithTool x:Name="EditICs" Visibility="Hidden"/>
         </Grid>
         <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Visible">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition />
-                <RowDefinition Height="80"/>
-            </Grid.RowDefinitions>
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="ColumnDefiSettings" Width="60"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <libr:ImgMenu ImageSourceUnchecked="/Assets/leftarrow.png" MouseLeftButtonUp="ImgMenu_MouseLeftButtonUp"/>
-                <Label Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="设置主页" Foreground="White" FontWeight="Bold" FontSize="22"/>
-            </Grid>
-            <Grid Grid.Row="1"  x:Name="GridMenuEditSettings" Visibility="Collapsed">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <Grid Height="40">
-                            <Label Content="个性化" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFCF803F" FontSize="20" FontWeight="Bold" Background="{x:Null}"/>
-                        </Grid>
-                        <!--背景颜色-->
-                        <Grid Height="180">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Label Content="背景" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF5FE4AE" FontSize="16"/>
-                            <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="75"/>
-                                    <ColumnDefinition Width="20"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="背景颜色" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="16" Margin="0,10,1,10"/>
-                                <Border x:Name="BdrEditBackground" Grid.Column="2" Height="30" Background="#FFE07D7D" MouseUp="BdrEditBackground_MouseUp"/>
-                            </Grid>
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="75"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="预设颜色" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="16" Margin="0,10,1,10"/>
-                                <Border x:Name="BdrBackgroundColorDefault0" Grid.Column="2" Height="30" Background="#FF10273A"/>
-                                <Border x:Name="BdrBackgroundColorDefault1" Grid.Column="4" Height="30" Background="#FF2C2C2C"/>
-                                <Border x:Name="BdrBackgroundColorDefault2" Grid.Column="6" Height="30" Background="#FF092106"/>
-                                <Border x:Name="BdrBackgroundColorDefault3" Grid.Column="8" Height="30" Background="#FF363608"/>
-                            </Grid>
-                            <Grid Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="75"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="10"/>
-                                </Grid.ColumnDefinitions>
-                                <Label Content="历史颜色" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="16" Margin="0,10,1,10"/>
-                                <Border x:Name="BdrBackgroundColorHistory0" Grid.Column="2" Height="30" Background="#FF133A5B"/>
-                                <Border x:Name="BdrBackgroundColorHistory1" Grid.Column="4" Height="30" Background="#FF2C2C2C"/>
-                                <Border x:Name="BdrBackgroundColorHistory2" Grid.Column="6" Height="30" Background="#FF092106"/>
-                                <Border x:Name="BdrBackgroundColorHistory3" Grid.Column="8" Height="30" Background="#FF363608"/>
-                            </Grid>
-                        </Grid>
-                        <Grid Height="40">
-                            <Label Content="高级设置" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFCF803F" FontSize="20" FontWeight="Bold" Background="{x:Null}"/>
-                        </Grid>
-                        <Grid Height="30">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75"/>
-                                <ColumnDefinition Width="20*"/>
-                                <ColumnDefinition Width="162*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="编辑模板" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF5FE4AE" FontSize="16" Margin="0,0,1,0"/>
-                            <uslibr:TriggerSwitch x:Name="ImgMenuEditMod" Grid.Column="2" HorizontalAlignment="Left" Width="50" Height="20" MouseUp="ImgMenuEditMod_MouseUp"></uslibr:TriggerSwitch>
-                        </Grid>
-                        <Grid Height="30">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="75"/>
-                                <ColumnDefinition Width="20*"/>
-                                <ColumnDefinition Width="162*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Content="隐藏文本" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF5FE4AE" FontSize="16" Margin="0,0,1,0"/>
-                            <uslibr:TriggerSwitch x:Name="ImgMenuEditHideRtx" Grid.Column="2" HorizontalAlignment="Left" Width="50" Height="20" MouseUp="ImgMenuHideRtx_MouseUp"></uslibr:TriggerSwitch>
-                        </Grid>
-                    </StackPanel>
-                </ScrollViewer>
-            </Grid>
-            <Grid Grid.Row="1" x:Name="GridSettings" Visibility="Visible">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Frame x:Name="FrameSettings" NavigationUIVisibility="Hidden"/>
-                </ScrollViewer>
+            <Grid x:Name="GridSettings">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition />
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="ColumnDefiSettings" Width="60"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <libr:ImgMenu ImageSourceUnchecked="/Assets/leftarrow.png" MouseLeftButtonUp="ImgMenu_MouseLeftButtonUp"/>
+                    <Label Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="设置主页" Foreground="White" FontWeight="Bold" FontSize="22"/>
+                </Grid>
+                <Grid Grid.Row="1" Visibility="Visible">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Frame x:Name="FrameSettings" NavigationUIVisibility="Hidden"/>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
         </Grid>
         <Grid x:Name="GridMenu"  Background="#B2000000" Margin="0,0,0,39.667" Grid.RowSpan="2" Visibility="Collapsed">
@@ -260,18 +174,18 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="TbxEditI" Grid.Row="6" Grid.RowSpan="2" Foreground="White" Text="2017/12/24  20/40"  FontSize="14" TextWrapping="Wrap" />
-                    <libr:ImgMenu Grid.Row="4" x:Name="ImgEditBrush" ImageSourceUnchecked="Assets/brush0.png" ImageSourceChecked="Assets/brush1.png"  MouseDown="ImgAll_MouseDown" MouseUp="ImgAll_MouseUp"/>
-                    <libr:ImgMenu Grid.Row="3" x:Name="ImgEditSettings" ImageSourceUnchecked="Assets/settings0.png" ImageSourceChecked="Assets/settings1.png" MouseDown="ImgAll_MouseDown" MouseUp="ImgAll_MouseUp" />
-                    <libr:ImgMenu Grid.Row="5" x:Name="ImgBefore" ImageSourceUnchecked="Assets/before.png"/>
-                    <libr:ImgMenu Grid.Row="8" x:Name="ImgNext" ImageSourceUnchecked="Assets/next.png"/>
+                    <uslibr:TriggerImage Grid.Row="4" x:Name="ImgEditBrush" CanAutoCheck="False" ImageSourceUnchecked="Assets/brush0.png" ImageSourceChecked="Assets/brush1.png" Tapped="ImgEditBrush_Tapped"/>
+                    <uslibr:TriggerImage Grid.Row="3" x:Name="ImgEditSettings" ImageSourceUnchecked="Assets/settings0.png" ImageSourceChecked="Assets/settings1.png" Tapped="ImgSelectedItem_Tapped" />
+                    <uslibr:TriggerImage Grid.Row="5" x:Name="ImgBefore" CanAutoCheck="False" ImageSourceUnchecked="Assets/before.png" Tapped="ImgEditMove_Tapped"/>
+                    <uslibr:TriggerImage Grid.Row="8" x:Name="ImgNext" CanAutoCheck="False" ImageSourceUnchecked="Assets/next.png" Tapped="ImgEditMove_Tapped"/>
                 </Grid>
             </Grid>
         </Grid>
         <Grid x:Name="GridLeftButton" Grid.Row="1" Margin="0,0.333,0,-0.333" d:IsHidden="True">
-            <libr:ImgMenu x:Name="Imgmenu" ImageSourceUnchecked="Assets/menu0.png" ImageSourceChecked="Assets/menu1.png" MouseUp="Imgmenu_MouseUp" Opacity="0.8" />
+            <uslibr:TriggerImage x:Name="ImgMenu" CanAutoCheck="False" ImageSourceUnchecked="Assets/menu0.png" ImageSourceChecked="Assets/menu1.png" Opacity="0.8" Tapped="ImgMenu_Tapped" />
         </Grid>
         <Grid x:Name="GridRightButton" Grid.Row="1" Grid.Column="3" Margin="0,0.333,0,-0.333" d:IsHidden="True" >
-            <libr:ImgMenu x:Name="ImgfullScreen" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" MouseUp="ImgfullScreen_MouseUp" Opacity="0.8"/>
+            <uslibr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
         </Grid>
         <Grid x:Name="GridDialogBack" Grid.ColumnSpan="4" Grid.RowSpan="3" Background="Transparent" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp" MouseDown="GridDialogBack_MouseDown" d:IsHidden="True"/>
         <Grid x:Name="GridDialog" Grid.ColumnSpan="4" Grid.RowSpan="3" d:IsHidden="True"/>

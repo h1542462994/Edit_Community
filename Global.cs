@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Ink;
 using System.Windows.Controls;
 using System.Windows.Input;
+using User.SoftWare;
 using User.UI;
 
 namespace Edit_Community
@@ -108,7 +109,7 @@ namespace Edit_Community
                     {
                         if (editTemp.CreateTime.Date != Switcher.GetDateTimeFromstring(editfolder.Name).Date)
                         {
-                           date = Switcher.GetDateTimeFromstring(editfolder.Name);
+                            date = Switcher.GetDateTimeFromstring(editfolder.Name);
                         }
                     }
                     else
@@ -522,105 +523,85 @@ namespace Edit_Community
     /// </summary>
     public sealed class Local
     {
-        public class Property<TValue> : UProperty<TValue>
+        public USettings uSettings = new USettings(Area.LocalFolder, "Settings");
+        public readonly USettingsProperty<bool> IsFullScreenProperty;
+        public readonly USettingsProperty<Size> AppSizeProperty;
+        public readonly USettingsProperty<Point> AppLocationProperty;
+        public readonly USettingsProperty<bool> IsMaxShowProperty;
+        public readonly USettingsProperty<Color> EditBackgroundColorProperty;
+        public readonly USettingsProperty<double> ColumnDefiMinProperty;
+        public readonly USettingsProperty<double> RowDefiMinProperty;
+        public readonly USettingsProperty<Color[]> EditColorProperty;
+        public readonly USettingsProperty<Color[]> EditBackgroundColorHistoryProperty;
+        public readonly USettingsProperty<int> ExitEditIntervalProperty;
+        public readonly USettingsProperty<Color[]> EditColorHistoryProperty;
+        public readonly USettingsProperty<bool> IsEditBrushOpenProperty;
+        public readonly USettingsProperty<bool> IsRtxHiddenProperty;
+        public readonly USettingsProperty<int> InkColorIndexProperty;
+        public readonly USettingsProperty<double> InkPenWidthProperty;
+        public Local()
         {
-            protected override string Folder => Area.LocalFolder;
-            protected override string RootName => "Settings";
-            public Property(string name, TValue value) : base(name, value)
-            {
-            }
+            IsFullScreenProperty = uSettings.Register("isFullScreen", false,true);
+            AppSizeProperty = uSettings.Register("appSize", new Size(0.7, 0.7));
+            AppLocationProperty = uSettings.Register("appLocation", new Point(0.15, 0.15));
+            IsMaxShowProperty = uSettings.Register("isMaxShow", false);
+            EditBackgroundColorProperty = uSettings.Register("editBackgroundColor", Color.FromRgb(20, 32, 0),true);
+            ColumnDefiMinProperty = uSettings.Register("columnDefiMin", 0.04);
+            RowDefiMinProperty = uSettings.Register("rowDefiMin", 0.04);
+            EditColorProperty = uSettings.Register("editcolor", new Color[]{
+                Color.FromRgb(255,172,17),
+                Color.FromRgb(253,99,40),
+                Color.FromRgb(205,119,251),
+                Color.FromRgb(1,199,252),
+                Color.FromRgb(12,116,102),
+                Colors.Chocolate,
+                Color.FromRgb(12,234,145),
+                Colors.White},true);
+            EditBackgroundColorHistoryProperty = uSettings.Register("editBackgroundColorHistory", new Color[0]);
+            ExitEditIntervalProperty = uSettings.Register("exitEditInterval", 12);
+            EditColorHistoryProperty = uSettings.Register("editcolorHistory", new Color[0],true);
+            IsEditBrushOpenProperty = uSettings.Register("isEditBrushOpen", false,true);
+            IsRtxHiddenProperty = uSettings.Register("isRtxHidden", false);
+            InkColorIndexProperty = uSettings.Register("inkColorIndex", 0);
+            InkPenWidthProperty = uSettings.Register("inkPenWidth", 4.0);
         }
-
-        public Property<bool> isFullScreen = new Property<bool>("isFullScreen", false);
-        public Property<Size> appSize = new Property<Size>("appSize", new Size(0.7, 0.7));
-        public Property<Point> appLocation = new Property<Point>("appLocation", new Point(0.15, 0.15));
-        public Property<bool> isMaxShow = new Property<bool>("isMaxShow", false);
-        public Property<Color> editBackgroundColor = new Property<Color>("editBackgroundColor", Color.FromRgb(20, 32, 0));
-        public Property<double> columnDefiMin = new Property<double>("columnDefiMin", 0.04);
-        public Property<double> rowDefiMin = new Property<double>("rowDefiMin", 0.04);
-        public Property<Color[]> editcolor = new Property<Color[]>("editcolor", new Color[]
-        {   Color.FromRgb(255,172,17),
-            Color.FromRgb(253,99,40),
-            Color.FromRgb(205,119,251),
-            Color.FromRgb(1,199,252),
-            Color.FromRgb(12,116,102),
-            Colors.Chocolate,
-            Color.FromRgb(12,234,145),
-            Colors.White});
-        public Property<Color[]> editBackgroundColorHistory = new Property<Color[]>("editBackgroundColorHistory", new Color[0]);
-        public Property<int> exitEditInterval = new Property<int>("exitEditInterval", 12);
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
-        public Property<Color[]> editcolorHistory = new Property<Color[]>("editcolorHistory", new Color[0]);
-        public Property<bool> isEditBrushOpen = new Property<bool>("isEditBrushOpen", false);
-        public Property<bool> isRtxHidden = new Property<bool>("isRtxHidden", false);
-        public Property<int> inkColorIndex = new Property<int>("inkColorIndex", 0);
-        public Property<double> inkPenwidth = new Property<double>("inkPenwidth", 4);
-        public Property<bool> isWeatherOpen = new Property<bool>("isWeatherOpen", false);
-        public Property<Point> gridWeatherLocation = new Property<Point>("gridWeatherLocation", new Point(0.2, 0.2));
-
         /// <summary>
         /// 是否为全屏模式.
         /// </summary>
-        public bool IsFullScreen { get => isFullScreen.Value; set => isFullScreen.Value = value; }
+        public bool IsFullScreen { get => IsFullScreenProperty.Value; set => IsFullScreenProperty.Value = value; }
         /// <summary>
         /// Application的大小,不实时更新.
         /// </summary>
-        public Size AppSize { get => appSize.Value; set => appSize.Value = value; }
+        public Size AppSize { get => AppSizeProperty.Value; set => AppSizeProperty.Value = value; }
         /// <summary>
         /// Application的位置,不实时更新.
         /// </summary>
-        public Point AppLocation { get => appLocation.Value; set => appLocation.Value = value; }
+        public Point AppLocation { get => AppLocationProperty.Value; set => AppLocationProperty.Value = value; }
         /// <summary>
         /// 是否是最大化模式,不实时更新.
         /// </summary>
-        public bool IsMaxShow { get => isMaxShow.Value; set => isMaxShow.Value = value; }
+        public bool IsMaxShow { get => IsMaxShowProperty.Value; set => IsMaxShowProperty.Value = value; }
         /// <summary>
         /// Edit的背景颜色
         /// </summary>
-        public Color EditBackgroundColor { get => editBackgroundColor.Value; set => editBackgroundColor.Value = value; }
-        public double ColumnDefiMin { get => columnDefiMin.Value; set => columnDefiMin.Value = value; }
-        public double RowDefiMin { get => rowDefiMin.Value; set => rowDefiMin.Value = value; }
-        public Color[] Editcolor { get => editcolor.Value; set => editcolor.Value = value; }
-        public Color[] EditBackgroundColorHistory { get => editBackgroundColorHistory.Value; set => editBackgroundColorHistory.Value = value; }
-        public int ExitEditInterval { get => exitEditInterval.Value; set => exitEditInterval.Value = value; }
-        public Color[] EditcolorHistory { get => editcolorHistory.Value; set => editcolorHistory.Value = value; }
-        public bool IsEditBrushOpen { get => isEditBrushOpen.Value; set => isEditBrushOpen.Value = value; }
-        public bool IsRtxHidden { get => isRtxHidden.Value; set => isRtxHidden.Value = value; }
-        public int InkColorIndex { get => inkColorIndex.Value; set => inkColorIndex.Value = value; }
-        public double InkPenwidth { get => inkPenwidth.Value; set => inkPenwidth.Value = value; }
-        public bool IsWeatherOpen { get => isWeatherOpen.Value; set => isWeatherOpen.Value = value; }
-        public Point GridWeatherLocation { get => gridWeatherLocation.Value; set => gridWeatherLocation.Value = value; }
-        /// <summary>
-        /// 初始化方法,用于注册事件及初始化设置.
-        /// </summary>
+        public Color EditBackgroundColor { get => EditBackgroundColorProperty.Value; set => EditBackgroundColorProperty.Value = value; }
+        public double ColumnDefiMin { get => ColumnDefiMinProperty.Value; set => ColumnDefiMinProperty.Value = value; }
+        public double RowDefiMin { get => RowDefiMinProperty.Value; set => RowDefiMinProperty.Value = value; }
+        public Color[] Editcolor { get => EditColorProperty.Value; set => EditColorProperty.Value = value; }
+        public Color[] EditBackgroundColorHistory { get => EditBackgroundColorHistoryProperty.Value; set => EditBackgroundColorHistoryProperty.Value = value; }
+        public int ExitEditInterval { get => ExitEditIntervalProperty.Value; set => ExitEditIntervalProperty.Value = value; }
+        public Color[] EditcolorHistory { get => EditColorHistoryProperty.Value; set => EditColorHistoryProperty.Value = value; }
+        public bool IsEditBrushOpen { get => IsEditBrushOpenProperty.Value; set => IsEditBrushOpenProperty.Value = value; }
+        public bool IsRtxHidden { get => IsRtxHiddenProperty.Value; set => IsRtxHiddenProperty.Value = value; }
+        public int InkColorIndex { get => InkColorIndexProperty.Value; set => InkColorIndexProperty.Value = value; }
+        public double InkPenwidth { get => InkPenWidthProperty.Value; set => InkPenWidthProperty.Value = value; }
+
         public void Flush()
         {
-            #region 注册事件
-            isFullScreen.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            editBackgroundColor.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            editcolor.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            editBackgroundColorHistory.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            editcolorHistory.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            isEditBrushOpen.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            isRtxHidden.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            inkColorIndex.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            isWeatherOpen.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            gridWeatherLocation.UPropertyChanged += Area.MainWindow.PropertyChanged;
-            #endregion
-            #region 刷新值
-            dynamic t;
-            t = IsFullScreen;
-            t = EditBackgroundColor;
-            t = Editcolor;
-            t = EditBackgroundColorHistory;
-            t = EditcolorHistory;
-            t = IsEditBrushOpen;
-            t = IsRtxHidden;
-            t = InkColorIndex;
-            t = InkPenwidth;
-            t = IsWeatherOpen;
-            t = GridWeatherLocation;
-            #endregion
+            uSettings.USettingsChanged += Area.MainWindow.EditICs.PropertyChanged;
+            uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;
+            uSettings.Flush();
         }
     }
     /// <summary>
@@ -630,7 +611,7 @@ namespace Edit_Community
     {
         static MainWindow mainWindow;
         static Local local = new Local();
-        static PageNavigationHelper pageNavigationHelper = new PageNavigationHelper() ;
+        static PageNavigationHelper pageNavigationHelper = new PageNavigationHelper();
         static Edit edit;
         static string editbranchfolder;
         static string edittempbranchfolder;
@@ -714,50 +695,13 @@ namespace Edit_Community
         /// <summary>
         /// 窗体大小.
         /// </summary>
-        public static Size ScreenSize => new Size(SystemParameters.PrimaryScreenWidth, SystemParameters.PrimaryScreenHeight);
         public static TimerInventory<TimerDisplayName> TimerInventory => timerInventory;
         public static DialogInventory<DialogDisplayName> DialogInventory => dialogInventory;
         public static EditInfo[] EditInfos { get => editInfos; set => editInfos = value; }
         public static int EditIndex { get => editIndex; set => editIndex = value; }
         public static PageNavigationHelper PageNavigationHelper { get => pageNavigationHelper; set => pageNavigationHelper = value; }
 
-        /// <summary>
-        /// 全屏状态改变.
-        /// </summary>
-        public static void FullScreenChanged(bool isfullscreen)
-        {
-            if (isfullscreen)
-            {
-                if (Area.MainWindow.IsWindowLoaded && MainWindow.WindowState == WindowState.Normal)//记录位置和大小.
-                {
-                    Area.Local.AppSize = new Size(MainWindow.Width / ScreenSize.Width, MainWindow.Height / ScreenSize.Height);
-                    Area.Local.AppLocation = new Point(MainWindow.Left / ScreenSize.Width, MainWindow.Top / ScreenSize.Height);
-                }
-                MainWindow.WindowStyle = WindowStyle.None;
-                MainWindow.ResizeMode = ResizeMode.NoResize;
-                Area.Local.IsMaxShow = MainWindow.WindowState == WindowState.Maximized;
-                MainWindow.WindowState = WindowState.Normal;
-                MainWindow.Left = 0;
-                MainWindow.Top = 0;
-                MainWindow.Width = ScreenSize.Width;
-                MainWindow.Height = ScreenSize.Height;
-                MainWindow.ImgEditBrush.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                MainWindow.WindowStyle = WindowStyle.SingleBorderWindow;
-                MainWindow.ResizeMode = ResizeMode.CanResize;
-                if (Area.Local.IsMaxShow)
-                {
-                    Area.MainWindow.WindowState = WindowState.Maximized;
-                }
-                MainWindow.Left = Area.Local.AppLocation.X * ScreenSize.Width;
-                MainWindow.Top = Area.Local.AppLocation.Y * ScreenSize.Height;
-                MainWindow.Width = Area.Local.AppSize.Width * ScreenSize.Width;
-                MainWindow.Height = Area.Local.AppSize.Height * ScreenSize.Height;
-                MainWindow.ImgEditBrush.Visibility = Visibility.Hidden;
-            }
-        }
+
         public static EditType GetEditType(int arg)
         {
             if (arg == 0)
