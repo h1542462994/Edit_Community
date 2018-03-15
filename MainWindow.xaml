@@ -4,10 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Edit_Community"
-        xmlns:libr="clr-namespace:Library;assembly=Library"
         xmlns:uslibr="clr-namespace:User.UI;assembly=UserLibrary"
         mc:Ignorable="d"
-        Title="Edit Community [1.0.0.0]" Height="699.5" Width="880" Closing="Window_Closing"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp">
+        Title="Edit Community [1.0.0.0]" Height="699.5" Width="880"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp" Closed="Window_Closed">
     <Grid Background="Transparent" x:Name="GridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -137,7 +136,7 @@
             </Grid>
             <local:MultiInkCanvasWithTool x:Name="EditICs" Visibility="Hidden"/>
         </Grid>
-        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Visible">
+        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Collapsed">
             <Grid x:Name="GridSettings">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
@@ -149,7 +148,7 @@
                         <ColumnDefinition x:Name="ColumnDefiSettings" Width="60"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <libr:ImgMenu ImageSourceUnchecked="/Assets/leftarrow.png" MouseLeftButtonUp="ImgMenu_MouseLeftButtonUp"/>
+                    <uslibr:TriggerImage ImageSourceUnchecked="/Assets/leftarrow.png" MouseLeftButtonUp="ImgMenu_MouseLeftButtonUp"/>
                     <Label Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="设置主页" Foreground="White" FontWeight="Bold" FontSize="22"/>
                 </Grid>
                 <Grid Grid.Row="1" Visibility="Visible">
@@ -188,6 +187,8 @@
             <uslibr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
         </Grid>
         <Grid x:Name="GridDialogBack" Grid.ColumnSpan="4" Grid.RowSpan="3" Background="Transparent" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp" MouseDown="GridDialogBack_MouseDown" d:IsHidden="True"/>
-        <Grid x:Name="GridDialog" Grid.ColumnSpan="4" Grid.RowSpan="3" d:IsHidden="True"/>
+        <Grid x:Name="GridDialog" Grid.ColumnSpan="4" Grid.RowSpan="3" >
+            <uslibr:ColorPicker x:Name="ColorPicker1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,200,0,0" Visibility="Hidden" ControlStyle="Dark" ChooseOkOrCancel="ColorPick_OkOrCancel_Click"/>
+        </Grid>
     </Grid>
 </Window>

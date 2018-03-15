@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Edit_Community"
-             xmlns:libr="clr-namespace:Library;assembly=Library"
+             xmlns:libr="clr-namespace:User.UI;assembly=UserLibrary"
              mc:Ignorable="d" MouseLeave="UserControl_MouseLeave" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove" >
     <Grid>
         <Grid x:Name="GridVisual" Background="Transparent" Visibility="Visible"/>
@@ -22,10 +22,10 @@
                 <Border Grid.Column="1" x:Name="BdrBack1" Background="#CC000000" Visibility="Hidden" />
                 <Border Grid.Column="2" x:Name="BdrBack2" Background="#CC000000" Visibility="Hidden" />
                 <Border Grid.Column="3" x:Name="BdrBack3" Background="#CC000000" Visibility="Hidden" />
-                <libr:ImgMenu x:Name="ImgInkMenu0" ImageSourceChecked="Assets/select1.png" ImageSourceUnchecked="Assets/select0.png" />
-                <libr:ImgMenu Grid.Column="1" x:Name="ImgInkMenu1" ImageSourceChecked="Assets/pen1.png" ImageSourceUnchecked="Assets/pen0.png"  />
-                <libr:ImgMenu Grid.Column="2" x:Name="ImgInkMenu2" ImageSourceUnchecked="Assets/yarkpen0.png" ImageSourceChecked="Assets/yarkpen1.png" />
-                <libr:ImgMenu Grid.Column="3" x:Name="ImgInkMenu3" ImageSourceUnchecked="Assets/eraser0.png" ImageSourceChecked="Assets/eraser1.png"  />
+                <libr:TriggerImage x:Name="ImgInkMenu0" ImageSourceChecked="Assets/select1.png" ImageSourceUnchecked="Assets/select0.png" />
+                <libr:TriggerImage Grid.Column="1" x:Name="ImgInkMenu1" ImageSourceChecked="Assets/pen1.png" ImageSourceUnchecked="Assets/pen0.png"  />
+                <libr:TriggerImage Grid.Column="2" x:Name="ImgInkMenu2" ImageSourceUnchecked="Assets/yarkpen0.png" ImageSourceChecked="Assets/yarkpen1.png" />
+                <libr:TriggerImage Grid.Column="3" x:Name="ImgInkMenu3" ImageSourceUnchecked="Assets/eraser0.png" ImageSourceChecked="Assets/eraser1.png"  />
             </Grid>
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,50" Width="300" Height="180">
                 <Grid.ColumnDefinitions>

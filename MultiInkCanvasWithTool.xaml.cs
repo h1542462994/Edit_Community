@@ -1,5 +1,4 @@
-﻿using Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using User;
 using User.SoftWare;
+using User.UI;
 
 namespace Edit_Community
 {
@@ -27,7 +28,7 @@ namespace Edit_Community
         const double penwidthmax = 12;
         bool isPenwidthSlideMouseDown;
         bool isEraseSlideMouseDown;
-        internal ImgMenu[] ImgInkMenu = new ImgMenu[4];
+        internal TriggerImage[] ImgInkMenu = new TriggerImage[4];
         internal Ellipse[] ElpInkColor = new Ellipse[25];
         public SaveBrushEventHander SaveBrushCallBack;
         private int inkColorIndex = 0;
@@ -192,7 +193,7 @@ namespace Edit_Community
             for (int i = 0; i < ImgInkMenu.Length; i++)
             {
                 string displayname = "ImgInkMenu" + i;
-                ImgInkMenu[i] = (ImgMenu)FindName(displayname);
+                ImgInkMenu[i] = (TriggerImage)FindName(displayname);
                 ImgInkMenu[i].MouseUp += ImgInkMenu_MouseUp;
             }
             InkColorIndex = 0;
@@ -303,7 +304,7 @@ namespace Edit_Community
         {
             if (isPenwidthSlideMouseDown)
             {
-                double v = Switcher.GetSlideValue(this.BorderInkSize, 10);
+                double v = Tools.GetSlideValue(this.BorderInkSize, 10);
 
                 this.Penwidth = penwidthmin + v * (penwidthmax - penwidthmin);
             }
@@ -311,7 +312,7 @@ namespace Edit_Community
         private void BorderInkSize_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.isPenwidthSlideMouseDown = true;
-            double v = Switcher.GetSlideValue(this.BorderInkSize, 10);
+            double v = Tools.GetSlideValue(this.BorderInkSize, 10);
             this.Penwidth = penwidthmin + v * (penwidthmax - penwidthmin);
             this.GridBack.Visibility = Visibility.Visible;
         }

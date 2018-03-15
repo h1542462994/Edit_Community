@@ -13,8 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Library;
+using User;
 using User.SoftWare;
+using User.UI;
 
 namespace Edit_Community
 {
@@ -182,9 +183,15 @@ namespace Edit_Community
             Edit.SetInfos();
             RegisterTimer();
         }
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        //{
+        //    e.Cancel = true;
+
+        //    Application.Current.Shutdown();
+        //}
+        private void Window_Closed(object sender, EventArgs e)
         {
-            if (!Area.Local.IsFullScreen)
+            if (Area.Local.IsFullScreen == false)
             {
                 Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
                 Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
@@ -209,6 +216,24 @@ namespace Edit_Community
                     {
                         LblC[i].Fill = Brushes.Transparent;
                         LblC[i].ToolTip = null;
+                    }
+                }
+            }
+            else if (key == Area.Local.EditColorHistoryProperty)
+            {
+                Console.WriteLine("iseditcolorHistory => ???");
+                Color[] arg = (Color[])e.NewValue;
+                for (int i = 0; i < LblH.Length; i++)
+                {
+                    if (i < arg.Length)
+                    {
+                        LblH[i].Fill = new SolidColorBrush(arg[i]);
+                        LblH[i].ToolTip = string.Format("{0},{1},{2}", arg[i].R, arg[i].G, arg[i].B);
+                    }
+                    else
+                    {
+                        LblH[i].Fill = Brushes.Transparent;
+                        LblH[i].ToolTip = null;
                     }
                 }
             }
@@ -298,15 +323,15 @@ namespace Edit_Community
             {
                 SetElpLocation(1, (double)e.NewValue);
             }
-            else if (key == Area.Edit.RowDefi0Property)
+            else if (key == Area.Edit.RowElo0Property)
             {
                 SetElpLocation(2, (double)e.NewValue);
             }
-            else if (key == Area.Edit.RowDefi1Property)
+            else if (key == Area.Edit.RowElp1Property)
             {
                 SetElpLocation(3, (double)e.NewValue);
             }
-            else if (key == Area.Edit.RowDefi2Property)
+            else if (key == Area.Edit.RowElp2Property)
             {
                 SetElpLocation(4, (double)e.NewValue);
             }
@@ -457,15 +482,69 @@ namespace Edit_Community
         }
         private void ShowImg()
         {
+            if (ImgMenu.IsChecked)
+            {
+                GridMenu.Visibility = Visibility.Visible;
+            }
             ImgFullScreen.Visibility = Visibility.Visible;
             ImgMenu.Visibility = Visibility.Visible;
             SetEditMoreVisibility();
         }
         private void HideImg()
         {
-            ImgFullScreen.Visibility = Visibility.Hidden;
-            ImgMenu.Visibility = Visibility.Hidden;
-            GridMenu.Visibility = Visibility.Hidden;
+            ImgFullScreen.Visibility = Visibility.Collapsed;
+            ImgMenu.Visibility = Visibility.Collapsed;
+            GridMenu.Visibility = Visibility.Collapsed;
+        }
+        private void InEdit()
+        {
+            for (int i = 0; i < RTbx.Length; i++)
+            {
+                RTbx[i].BorderThickness = new Thickness(1);
+            }
+            if (Area.Edit.EditType != EditType.Mod)
+            {
+                ElpC1.Visibility = Visibility.Visible;
+                ElpC2.Visibility = Visibility.Visible;
+                ElpR1.Visibility = Visibility.Visible;
+                ElpR2.Visibility = Visibility.Visible;
+                ElpR3.Visibility = Visibility.Visible;
+            }
+        }
+        private void ExitEdit()
+        {
+            if (RtxFocusIndex != -1)
+            {
+                RtxFocusIndex = -1;
+                LastRtxFocusIndex = -1;
+                InputLanguageManager.SetInputLanguage(TbxTemp, CultureInfo.GetCultureInfo("zh-cn"));
+                TbxTemp.Focus();
+            }
+
+
+            Area.DialogInventory.Hide(DialogDisplayName.GridEditBox);
+            for (int i = 0; i < RTbx.Length; i++)
+            {
+                RTbx[i].BorderThickness = new Thickness(0);
+            }
+            ElpC1.Visibility = Visibility.Hidden;
+            ElpC2.Visibility = Visibility.Hidden;
+            ElpR1.Visibility = Visibility.Hidden;
+            ElpR2.Visibility = Visibility.Hidden;
+            ElpR3.Visibility = Visibility.Hidden;
+        }
+        private void HideMouse()
+        {
+            Area.TimerInventory[TimerDisplayName.HideMouse].IsStarted = false;
+            //
+            Mouse.OverrideCursor = Cursors.None;
+        }
+        private void ShowMouse()
+        {
+            Area.TimerInventory[TimerDisplayName.HideMouse].IsStarted = true;
+            Area.TimerInventory[TimerDisplayName.HideMouse].TickTime = 1;
+            //
+            Mouse.OverrideCursor = null;
         }
         private void SetEditMoreVisibility()
         {
@@ -521,10 +600,10 @@ namespace Edit_Community
             double num = colmundefi[0] + colmundefi[1];
             if (mouseElpDownOnobject == ElpC1 || mouseElpDownOnobject == ElpC2)
             {
-                v[1] = Switcher.Checkdouble(mousepoint.Y / this.GridMain.ActualHeight, elpdefimin, 1 - elpdefimin);
+                v[1] = Tools.Checkdouble(mousepoint.Y / this.GridMain.ActualHeight, elpdefimin, 1 - elpdefimin);
                 if (mouseElpDownOnobject == ElpC1)
                 {
-                    v[0] = Switcher.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
+                    v[0] = Tools.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
                          , Area.Local.ColumnDefiMin
                          , num - Area.Local.ColumnDefiMin);
                     Area.Edit.ColumnDefi = new double[] { v[0], num - v[0] };
@@ -533,7 +612,7 @@ namespace Edit_Community
                 }
                 else
                 {
-                    v[0] = Switcher.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
+                    v[0] = Tools.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
                         , colmundefi[0] + Area.Local.ColumnDefiMin
                         , 1 - Area.Local.ColumnDefiMin);
                     Area.Edit.ColumnDefi = new double[] { colmundefi[0], v[0] - colmundefi[0] };
@@ -543,24 +622,24 @@ namespace Edit_Community
             }
             else if (mouseElpDownOnobject == ElpR1 || mouseElpDownOnobject == ElpR2 || mouseElpDownOnobject == ElpR3)
             {
-                v[1] = Switcher.Checkdouble(mousepoint.Y / GridMain.ActualHeight, Area.Local.RowDefiMin, 1 - Area.Local.RowDefiMin);
+                v[1] = Tools.Checkdouble(mousepoint.Y / GridMain.ActualHeight, Area.Local.RowDefiMin, 1 - Area.Local.RowDefiMin);
                 if (mouseElpDownOnobject == ElpR1)
                 {
-                    v[0] = Switcher.Checkdouble(mousepoint.X / (GridMain.ActualWidth * colmundefi[0]), elpdefimin, 1 - elpdefimin);
+                    v[0] = Tools.Checkdouble(mousepoint.X / (GridMain.ActualWidth * colmundefi[0]), elpdefimin, 1 - elpdefimin);
                     //ElpR1.Margin =  new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[0], -elpWidth, 0, 0);
                     Area.Edit.RowDefi0 = v[1];
                     Area.Edit.RowElp0 = v[0];
                 }
                 else if (mouseElpDownOnobject == ElpR2)
                 {
-                    v[0] = Switcher.Checkdouble((mousepoint.X - GridMain.ActualWidth * colmundefi[0]) / (GridMain.ActualWidth * colmundefi[1]), elpdefimin, 1 - elpdefimin);
+                    v[0] = Tools.Checkdouble((mousepoint.X - GridMain.ActualWidth * colmundefi[0]) / (GridMain.ActualWidth * colmundefi[1]), elpdefimin, 1 - elpdefimin);
                     //ElpR2.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[1], -elpWidth, 0, 0);
                     Area.Edit.RowDefi1 = v[1];
                     Area.Edit.RowElp1 = v[0];
                 }
                 else
                 {
-                    v[0] = Switcher.Checkdouble((mousepoint.X - GridMain.ActualWidth * num) / (GridMain.ActualWidth * (1 - num)), elpdefimin, 1 - elpdefimin);
+                    v[0] = Tools.Checkdouble((mousepoint.X - GridMain.ActualWidth * num) / (GridMain.ActualWidth * (1 - num)), elpdefimin, 1 - elpdefimin);
                     //ElpR3.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * (1- num), -elpWidth, 0, 0);
                     Area.Edit.RowDefi2 = v[1];
                     Area.Edit.RowElp2 = v[0];
@@ -578,6 +657,54 @@ namespace Edit_Community
                 SetElpLocation(4, Area.Edit.RowElp2);
             }
         }
+        private void Rtx_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            ShowRtxEditBox();
+        }
+        private void ShowRtxEditBox()
+        {
+            if (IsWindowLoaded)
+            {
+                if (Rtx_GetSectionIndex() != -1 && Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
+                {
+                    if (!Area.DialogInventory.Exists(DialogDisplayName.GridEditBox))
+                    {
+                        Rtx_GetSectionValue();
+                        Area.DialogInventory.Show(DialogDisplayName.GridEditBox, new DialogAutoInfo(GridMain, GridEditBox, DialogAuto.Star, Mouse.GetPosition(GridMain), DialogType.Shadow, 30));
+                        Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+                        Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+                    }
+                }
+                else if (Rtx_GetSectionIndex() == -1 || Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
+                {
+                    Area.DialogInventory.Hide(DialogDisplayName.GridEditBox);
+                }
+            }
+        }
+        private void SetElpLocation(int index, double value)
+        {
+            if (index == 0)
+            {
+                ElpC1.Margin = new Thickness(-elpWidth, -elpWidth + value * GridMain.ActualHeight, 0, 0);
+            }
+            else if (index == 1)
+            {
+                ElpC2.Margin = new Thickness(-elpWidth, -elpWidth + value * GridMain.ActualHeight, 0, 0);
+            }
+            else if (index == 2)
+            {
+                ElpR1.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * Area.Edit.ColumnDefi[0], -elpWidth, 0, 0);
+            }
+            else if (index == 3)
+            {
+                ElpR2.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * Area.Edit.ColumnDefi[1], -elpWidth, 0, 0);
+            }
+            else if (index == 4)
+            {
+                ElpR3.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * (1 - Area.Edit.ColumnDefi[0] - Area.Edit.ColumnDefi[1]), -elpWidth, 0, 0);
+            }
+        }
+
         private void Window_MouseLeave(object sender, MouseEventArgs e)
         {
 
@@ -977,186 +1104,7 @@ namespace Edit_Community
             Area.Local.EditcolorHistory = colorlist.Take(num).ToArray();
         }
         #endregion
-        #region 菜单项-Edit
-        enum _EditMenuName
-        {
-            Settings,
-        }
-        _EditMenuName editMenuName;
-        _EditMenuName EditMenuName { get => editMenuName; set => editMenuName = value; }
-        private void SetImgEditChecked(object sender)
-        {
-
-        }
-        #region Settings分项
-        private void BdrEditBackground_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            ShowColorPicker(e, Area.Local.EditBackgroundColor, ColorPickTask.EditBackColor, 0, DialogAuto.Absolute, true);
-        }
-        //private void BdrEditBackgrounds_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    for (int i = 0; i < BdrBackgroundColorDefault.Length; i++)
-        //    {
-        //        if (sender.Equals(BdrBackgroundColorDefault[i]))
-        //        {
-        //            Area.Local.EditBackgroundColor = Area.Local.EditBackgroundColorDefault[i];
-        //            return;
-        //        }
-        //    }
-        //    for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
-        //    {
-        //        if (i < Area.Local.EditBackgroundColorHistory.Length && sender.Equals(BdrBackgroundColorHistory[i]))
-        //        {
-        //            Area.Local.EditBackgroundColor = Area.Local.EditBackgroundColorHistory[i];
-        //            return;
-        //        }
-        //    }
-        //}
-
-        private void ApplyBackgroundColorHistory(Color color)
-        {
-            for (int i = 0; i < Area.Local.EditBackgroundColorDefault.Length; i++)
-            {
-                if (Area.Local.EditBackgroundColorDefault[i] == color)
-                {
-                    return;
-                }
-            }
-            List<Color> colorlist = new List<Color>() { color };
-            for (int i = 0; i < Area.Local.EditBackgroundColorHistory.Length; i++)
-            {
-                if (Area.Local.EditBackgroundColorHistory[i] != color)
-                {
-                    colorlist.Add(Area.Local.EditBackgroundColorHistory[i]);
-                }
-            }
-            int num = colorlist.Count > 4 ? 4 : colorlist.Count;
-            Area.Local.EditBackgroundColorHistory = colorlist.Take(num).ToArray();
-        }
-        //private void ImgMenuEditMod_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    //ImgMenuEditMod.IsChecked = !ImgMenuEditMod.IsChecked;
-        //    if (ImgMenuEditMod.IsChecked)
-        //    {
-        //        Edit.LoadMod();
-        //    }
-        //    else
-        //    {
-        //        Edit.ExitMod();
-        //    }
-        //}
-        //private void ImgMenuHideRtx_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
-        //}
-        #endregion
-        #endregion
-        #region 布局
-
-
-        private void Rtx_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            ShowRtxEditBox();
-        }
-        private void ShowRtxEditBox()
-        {
-            if (IsWindowLoaded)
-            {
-                if (Rtx_GetSectionIndex() != -1 && Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
-                {
-                    if (!Area.DialogInventory.Exists(DialogDisplayName.GridEditBox))
-                    {
-                        Rtx_GetSectionValue();
-                        Area.DialogInventory.Show(DialogDisplayName.GridEditBox, new DialogAutoInfo(GridMain, GridEditBox, DialogAuto.Star, Mouse.GetPosition(GridMain), DialogType.Shadow, 30));
-                        Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
-                        Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
-                    }
-                }
-                else if (Rtx_GetSectionIndex() == -1 || Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
-                {
-                    Area.DialogInventory.Hide(DialogDisplayName.GridEditBox);
-                }
-            }
-        }
-        private void SetElpLocation(int index, double value)
-        {
-            if (index == 0)
-            {
-                ElpC1.Margin = new Thickness(-elpWidth, -elpWidth + value * GridMain.ActualHeight, 0, 0);
-            }
-            else if (index == 1)
-            {
-                ElpC2.Margin = new Thickness(-elpWidth, -elpWidth + value * GridMain.ActualHeight, 0, 0);
-            }
-            else if (index == 2)
-            {
-                ElpR1.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * Area.Edit.ColumnDefi[0], -elpWidth, 0, 0);
-            }
-            else if (index == 3)
-            {
-                ElpR2.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * Area.Edit.ColumnDefi[1], -elpWidth, 0, 0);
-            }
-            else if (index == 4)
-            {
-                ElpR3.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * (1 - Area.Edit.ColumnDefi[0] - Area.Edit.ColumnDefi[1]), -elpWidth, 0, 0);
-            }
-        }
-
-
-        private void InEdit()
-        {
-            for (int i = 0; i < RTbx.Length; i++)
-            {
-                RTbx[i].BorderThickness = new Thickness(1);
-            }
-            if (Area.Edit.EditType != EditType.Mod)
-            {
-                ElpC1.Visibility = Visibility.Visible;
-                ElpC2.Visibility = Visibility.Visible;
-                ElpR1.Visibility = Visibility.Visible;
-                ElpR2.Visibility = Visibility.Visible;
-                ElpR3.Visibility = Visibility.Visible;
-            }
-        }
-        private void ExitEdit()
-        {
-            if (RtxFocusIndex != -1)
-            {
-                RtxFocusIndex = -1;
-                LastRtxFocusIndex = -1;
-                InputLanguageManager.SetInputLanguage(TbxTemp, CultureInfo.GetCultureInfo("zh-cn"));
-                TbxTemp.Focus();
-            }
-
-
-            Area.DialogInventory.Hide(DialogDisplayName.GridEditBox);
-            for (int i = 0; i < RTbx.Length; i++)
-            {
-                RTbx[i].BorderThickness = new Thickness(0);
-            }
-            ElpC1.Visibility = Visibility.Hidden;
-            ElpC2.Visibility = Visibility.Hidden;
-            ElpR1.Visibility = Visibility.Hidden;
-            ElpR2.Visibility = Visibility.Hidden;
-            ElpR3.Visibility = Visibility.Hidden;
-        }
-
-        private void HideMouse()
-        {
-            Area.TimerInventory[TimerDisplayName.HideMouse].IsStarted = false;
-            //
-            Mouse.OverrideCursor = Cursors.None;
-        }
-        private void ShowMouse()
-        {
-            Area.TimerInventory[TimerDisplayName.HideMouse].IsStarted = true;
-            Area.TimerInventory[TimerDisplayName.HideMouse].TickTime = 1;
-            //
-            Mouse.OverrideCursor = null;
-        }
-
-        #endregion
-        #region 交互
+        #region ColorDialog交互
         enum ColorPickTask
         {
             None,
@@ -1165,36 +1113,6 @@ namespace Edit_Community
         }
         ColorPickTask colorPickTask;
         int colorpicktaskindex;
-        private void ColorPick_Ok_Click(object sender, UPropertyChangedEventargs e)
-        {
-            if (colorPickTask == ColorPickTask.GridEditBox)
-            {
-                Color[] arg = Area.Local.Editcolor;
-                if (colorpicktaskindex < arg.Length)
-                {
-                    arg[colorpicktaskindex] = ((ColorP)e.Newvalue).GetColor();
-                }
-                else
-                {
-                    Color[] argclone = new Color[colorpicktaskindex + 1];
-                    for (int i = 0; i < arg.Length; i++)
-                    {
-                        argclone[i] = arg[i];
-                    }
-                    argclone[colorpicktaskindex] = ((ColorP)e.Newvalue).GetColor();
-                    arg = argclone;
-                }
-
-
-                Area.Local.Editcolor = arg;
-            }
-            else if (colorPickTask == ColorPickTask.EditBackColor)
-            {
-                Area.Local.EditBackgroundColor = ((ColorP)e.Newvalue).GetColor();
-                ApplyBackgroundColorHistory(((ColorP)e.Newvalue).GetColor());
-            }
-            HideDialog();
-        }
         private void GridDialogBack_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Console.WriteLine("GridDialogBack -> MouseUp");
@@ -1210,36 +1128,46 @@ namespace Edit_Community
         }
         private void ShowColorPicker(MouseButtonEventArgs e, Color color, ColorPickTask colorPickTask, int colorpicktaskindex = 0, DialogAuto dialogAuto = DialogAuto.Star, bool caneditalpha = false)
         {
+            ColorPicker1.Value = new ColorP(color);
             Area.DialogInventory.Show(DialogDisplayName.Dialog,
-                   new DialogAutoInfo(GridDialog, new ColorPicker(new ColorP(color), new UPropertyChangedEventHander(ColorPick_Ok_Click), caneditalpha),
-                   dialogAuto, e.GetPosition(GridMain), DialogType.Dialog, 30
+                   new DialogAutoInfo(GridDialog,ColorPicker1 ,
+                   dialogAuto, e.GetPosition(GridMain), DialogType.Shadow, 30
                    , new Size(200, 230)));
             IsGridbackMousedown = false;
             GridDialogBack.Visibility = Visibility.Visible;
             this.colorPickTask = colorPickTask;
             this.colorpicktaskindex = colorpicktaskindex;
         }
+        private void ColorPick_OkOrCancel_Click(object sender, PropertyChangedEventargs<User.UI.ColorP> e)
+        {
+            if (colorPickTask == ColorPickTask.GridEditBox)
+            {
+                Color[] arg = Area.Local.Editcolor;
+                if (colorpicktaskindex < arg.Length)
+                {
+                    arg[colorpicktaskindex] = e.NewValue.GetColor();
+                }
+                else
+                {
+                    Color[] argclone = new Color[colorpicktaskindex + 1];
+                    for (int i = 0; i < arg.Length; i++)
+                    {
+                        argclone[i] = arg[i];
+                    }
+                    argclone[colorpicktaskindex] = e.NewValue.GetColor();
+                    arg = argclone;
+                }
+
+
+                Area.Local.Editcolor = arg;
+            }
+            HideDialog();
+        }
         private void HideDialog()
         {
             Area.DialogInventory.Hide(DialogDisplayName.Dialog);
-            GridDialog.Visibility = Visibility.Hidden;
             GridDialogBack.Visibility = Visibility.Hidden;
         }
-        private void MessageBox1_MouseUp(object sender, EventArgs e)
-        {
-            Area.Local.IsFullScreen = false;
-            Area.Local.IsEditBrushOpen = false;
-            HideDialog();
-        }
-        private void MessageBox2_MouseUp(object sender, EventArgs e)
-        {
-            Area.Local.IsFullScreen = true;
-            Area.Local.IsEditBrushOpen = true;
-            HideDialog();
-        }
-
-
-
         #endregion
         private void PageNavigationHelper_PageChanged(object sender, User.UI.PageNavigationEventargs e)
         {

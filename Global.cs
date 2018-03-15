@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Library;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -13,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Ink;
 using System.Windows.Controls;
 using System.Windows.Input;
+using User;
 using User.SoftWare;
 using User.UI;
 
@@ -52,34 +52,34 @@ namespace Edit_Community
     /// </summary>
     public sealed class EditTemp
     {
-        public class Property<TValue> : UProperty<TValue>
+        public USettings uSettings;
+        private USettingsProperty<DateTime> CreateTimeProperty;
+        public USettingsProperty<string> TitleProperty;
+        private USettingsProperty<int> EditFileTypeProperty;
+        string editTempFolder;
+        private EditTemp(string folder)
         {
-            protected override string Folder => Area.EditTempBranchFolder;
-            protected override string RootName => "Edit";
-            public Property(string name, TValue value) : base(name, value)
-            {
-            }
-
+            editTempFolder = Area.EditFolder + folder + @"\";
+            uSettings = new USettings(editTempFolder, "Edit");
+            CreateTimeProperty = uSettings.Register("createTime", new DateTime());
+            TitleProperty = uSettings.Register("title", "");
+            EditFileTypeProperty = uSettings.Register("editfiletype", 1);
         }
-        private Property<int> editfiletype = new Property<int>("editfiletype", 1);
-        private Property<DateTime> createTime = new Property<DateTime>("createTime", new DateTime());
-        private Property<string> title = new Property<string>("title", "");
+
         /// <summary>
         /// Edit的文件类别.
         /// </summary>
-        private EditType EditType => Area.GetEditType(editfiletype.Value);
+        private EditType EditType => Area.GetEditType(EditFileTypeProperty.Value);
         /// <summary>
         /// 创建时间.
         /// </summary>
-        private DateTime CreateTime { get => createTime.Value; }
+        private DateTime CreateTime { get => CreateTimeProperty.Value; }
         /// <summary>
         /// Edit的标题.
         /// </summary>
-        public string Title { get => title.Value; set => title.Value = value; }
-        private EditTemp(string folder)
-        {
-            Area.EditTempBranchFolder = Area.EditFolder + folder + @"\";
-        }
+        public string Title { get => TitleProperty.Value; set => TitleProperty.Value = value; }
+        public string EditTempFolder => editTempFolder;
+
         /// <summary>
         /// 从edit文件夹中获取有效的信息集合.
         /// </summary>
@@ -105,21 +105,21 @@ namespace Edit_Community
                 {
                     EditTemp editTemp = new EditTemp(editfolder.Name);
                     DateTime date = editTemp.CreateTime;
-                    if (Switcher.IsDateTimeString(editfolder.Name))
+                    if (Tools.IsDateTimeString(editfolder.Name))
                     {
-                        if (editTemp.CreateTime.Date != Switcher.GetDateTimeFromstring(editfolder.Name).Date)
+                        if (editTemp.CreateTime.Date != Tools.GetDateTimeFromstring(editfolder.Name).Date)
                         {
-                            date = Switcher.GetDateTimeFromstring(editfolder.Name);
+                            date = Tools.GetDateTimeFromstring(editfolder.Name);
                         }
                     }
                     else
                     {
                         if (editTemp.CreateTime == new DateTime())
                         {
-                            date = Directory.GetCreationTime(Area.EditTempBranchFolder);
+                            date = Directory.GetCreationTime(editTemp.EditTempFolder);
                         }
                     }
-                    editinfos.Add(new EditInfo(Area.EditTempBranchFolder, editTemp.EditType, editTemp.Title, date));
+                    editinfos.Add(new EditInfo(editTemp.EditTempFolder, editTemp.EditType, editTemp.Title, date));
                 }
             }
             editinfos.Sort();
@@ -315,11 +315,11 @@ namespace Edit_Community
             {
                 Area.Edit.EditFileType = 1;
             }
-            if (Switcher.IsDateTimeString(info.Name))
+            if (Tools.IsDateTimeString(info.Name))
             {
-                if (Area.Edit.CreateTime.Date != Switcher.GetDateTimeFromstring(info.Name).Date)
+                if (Area.Edit.CreateTime.Date != Tools.GetDateTimeFromstring(info.Name).Date)
                 {
-                    Area.Edit._createTime = Switcher.GetDateTimeFromstring(info.Name);
+                    Area.Edit._createTime = Tools.GetDateTimeFromstring(info.Name);
                 }
             }
             else
@@ -661,7 +661,7 @@ namespace Edit_Community
         /// <summary>
         /// 为EditTemp提供设置路径.
         /// </summary>
-        public static string EditTempBranchFolder { get => edittempbranchfolder; set => edittempbranchfolder = value; }
+        //public static string EditTempBranchFolder { get => edittempbranchfolder; set => edittempbranchfolder = value; }
         /// <summary>
         /// 正在操作的白板的路径.
         /// </summary>
