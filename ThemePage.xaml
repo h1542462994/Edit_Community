@@ -4,11 +4,50 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Edit_Community"
+      xmlns:libr="clr-namespace:User.UI;assembly=UserLibrary"
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="290"
       Title="ThemePage">
-
-    <Grid>
-        
+    <Grid Background="#B2000000">
+        <StackPanel >
+            <libr:UImageMenu Text="设置主页" Height="40" ControlStyle="Light" ImageSource="Assets/settings.png" Tapped="UImageMenu_Tapped" Margin="40,0,40,0"/>
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                    <TextBlock Text="背景颜色" Foreground="Orange" FontSize="16" />
+                </Label>
+                <Ellipse x:Name="ElpBackground" Grid.Column="1" Margin="5" Stroke="White" StrokeThickness="2" Fill="Wheat"/>
+            </Grid>
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                    <TextBlock Text="历史颜色" Foreground="White" FontSize="16" />
+                </Label>
+                <Ellipse x:Name="Elp0" Grid.Column="1" Stroke="White" StrokeThickness="2" Margin="5"/>
+                <Ellipse x:Name="Elp1" Grid.Column="2" Stroke="White" StrokeThickness="2" Margin="5"/>
+                <Ellipse x:Name="Elp2" Grid.Column="3" Stroke="White" StrokeThickness="2" Margin="5"/>
+                <Ellipse x:Name="Elp3" Grid.Column="4" Stroke="White" StrokeThickness="2" Margin="5"/>
+                <Ellipse x:Name="Elp4" Grid.Column="5" Stroke="White" StrokeThickness="2" Margin="5"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <libr:ColorPicker x:Name="ColorPicker1" Grid.Column="1" ControlStyle="Light" Height="200" ChooseOkOrCancel="ColorPicker1_ChooseOkOrCancel" ValueChanged="ColorPicker1_ValueChanged" />
+            </Grid>
+        </StackPanel>
     </Grid>
 </Page>

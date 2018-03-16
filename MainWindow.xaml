@@ -148,7 +148,7 @@
                         <ColumnDefinition x:Name="ColumnDefiSettings" Width="60"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <uslibr:TriggerImage ImageSourceUnchecked="/Assets/leftarrow.png" MouseLeftButtonUp="ImgMenu_MouseLeftButtonUp"/>
+                    <uslibr:TriggerImage ImageSourceUnchecked="/Assets/leftarrow.png" CanAutoCheck="False" Tapped="ImgSettingsBack_Tapped"/>
                     <Label Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="设置主页" Foreground="White" FontWeight="Bold" FontSize="22"/>
                 </Grid>
                 <Grid Grid.Row="1" Visibility="Visible">

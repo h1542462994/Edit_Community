@@ -480,6 +480,17 @@ namespace Edit_Community
             }
             SetEditMoreVisibility();
         }
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F11)
+            {
+                Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+            }
+        }
+        private void ImgSettingsBack_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.PageNavigationHelper.Back();
+        }
         private void ShowImg()
         {
             if (ImgMenu.IsChecked)
@@ -1179,21 +1190,7 @@ namespace Edit_Community
             {
                 ColumnDefiSettings.Width = new GridLength(60);
             }
-            FrameSettings.Content = e.Page;
+            FrameSettings.Content = Activator.CreateInstance(e.Page.GetType());
         }
-        private void Window_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.F11)
-            {
-                Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
-            }
-        }
-
-        private void ImgMenu_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Area.PageNavigationHelper.Back();
-        }
-
-
     }
 }

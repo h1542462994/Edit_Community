@@ -515,6 +515,7 @@ namespace Edit_Community
         public readonly USettingsProperty<Point> AppLocationProperty;
         public readonly USettingsProperty<bool> IsMaxShowProperty;
         public readonly USettingsProperty<Color> EditBackgroundColorProperty;
+        public readonly USettingsProperty<Color> EditBackgroundColorOldproperty;
         public readonly USettingsProperty<double> ColumnDefiMinProperty;
         public readonly USettingsProperty<double> RowDefiMinProperty;
         public readonly USettingsProperty<Color[]> EditColorProperty;
@@ -532,6 +533,7 @@ namespace Edit_Community
             AppLocationProperty = uSettings.Register("appLocation", new Point(0.15, 0.15));
             IsMaxShowProperty = uSettings.Register("isMaxShow", false);
             EditBackgroundColorProperty = uSettings.Register("editBackgroundColor", Color.FromRgb(20, 32, 0),true);
+            EditBackgroundColorOldproperty = uSettings.Register("editBackgroundColorOld", Color.FromRgb(20, 32, 0));
             ColumnDefiMinProperty = uSettings.Register("columnDefiMin", 0.04);
             RowDefiMinProperty = uSettings.Register("rowDefiMin", 0.04);
             EditColorProperty = uSettings.Register("editcolor", new Color[]{
@@ -572,6 +574,7 @@ namespace Edit_Community
         /// Edit的背景颜色
         /// </summary>
         public Color EditBackgroundColor { get => EditBackgroundColorProperty.Value; set => EditBackgroundColorProperty.Value = value; }
+        public Color EditBackgroundColorOld { get => EditBackgroundColorOldproperty.Value; set => EditBackgroundColorOldproperty.Value = value; }
         public double ColumnDefiMin { get => ColumnDefiMinProperty.Value; set => ColumnDefiMinProperty.Value = value; }
         public double RowDefiMin { get => RowDefiMinProperty.Value; set => RowDefiMinProperty.Value = value; }
         public Color[] Editcolor { get => EditColorProperty.Value; set => EditColorProperty.Value = value; }
