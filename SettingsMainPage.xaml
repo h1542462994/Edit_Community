@@ -7,16 +7,19 @@
       xmlns:libr="clr-namespace:User.UI;assembly=UserLibrary"
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="290"
-      Title="SettingsMainPage">
+      Title="设置主页">
 
-    <Grid Background="#B2000000">
+    <Grid Background="Transparent">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column ="1">
-            <libr:UImageMenu Text="个性化" Height="40" ControlStyle="Light" ImageSource="Assets/settings.png" Tapped="UImageMenu_Tapped"/>
+            <libr:UImageMenu x:Name="UImgTheme" Text="个性化" Height="40" ControlStyle="Light" ImageSource="Assets/theme.png" Tapped="UImageMenu_Tapped" Margin="0,10"/>
+            <libr:UImageMenu x:Name="UImgExtension" Text="扩展功能" Height="40" ControlStyle="Light" ImageSource="Assets/3.png" Tapped="UImageMenu_Tapped" Margin="0,10"/>
+            <libr:UImageMenu x:Name="UImgHelp" Text="轻松使用" Height="40" ControlStyle="Light" ImageSource="Assets/2.png" Tapped="UImageMenu_Tapped" Margin="0,10"/>
+            <libr:UImageMenu x:Name="UImgDeveloper" Text="开发者选项" Height="40" ControlStyle="Light" ImageSource="Assets/1.png" Tapped="UImageMenu_Tapped" Margin="0,10"/>
         </StackPanel>
     </Grid>
 </Page>

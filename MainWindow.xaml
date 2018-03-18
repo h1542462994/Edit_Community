@@ -21,6 +21,7 @@
         <TextBox  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="-100,0,0,0" x:Name="TbxTemp"  Background="Black" Visibility="Visible"/>
         <Grid x:Name="GridEdit" Grid.RowSpan="2" Grid.ColumnSpan="4" Margin="0,0,0,-0.333">
             <Image x:Name="ImageBack" Stretch="Fill"/>
+            <Image x:Name="ImageBackNew" Stretch="Fill"/>
             <Grid x:Name="GridEditRtx">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -141,7 +142,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition />
-                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="60"/>
                 </Grid.RowDefinitions>
                 <Grid >
                     <Grid.ColumnDefinitions>
@@ -149,12 +150,24 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <uslibr:TriggerImage ImageSourceUnchecked="/Assets/leftarrow.png" CanAutoCheck="False" Tapped="ImgSettingsBack_Tapped"/>
-                    <Label Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="设置主页" Foreground="White" FontWeight="Bold" FontSize="22"/>
+                    <Label x:Name="LblSettingsTitle" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="设置主页" Foreground="White"  FontSize="22"/>
                 </Grid>
                 <Grid Grid.Row="1" Visibility="Visible">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <Frame x:Name="FrameSettings" NavigationUIVisibility="Hidden"/>
                     </ScrollViewer>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <uslibr:QuickButton x:Name="QBEditMod" ControlStyle="Dark"  ImageSource="Assets/4.png" Title="编辑模板" Tapped="QBEditMod_Tapped" ThemeColor="DeepSkyBlue"/>
+                    <uslibr:QuickButton Grid.Column="1" x:Name="QBHideText" ControlStyle="Dark" ImageSource="Assets/hide.png" CanAutoCheck="False" Title="文本" Tapped="QBHideText_Tapped"/>
+                    <uslibr:QuickButton Grid.Column="2" x:Name="QBBackgroundMode" ControlStyle="Dark" ImageSource="Assets/themex.png" Title="背景图片" CanAutoCheck="False" Description="幻灯片" Tapped="QBBackgroundMode_Tapped"/>
+                    <uslibr:QuickButton Grid.Column="3" x:Name="QBBrush" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷层"  Description="隐藏" Tapped="QBBrush_Tapped" />
                 </Grid>
             </Grid>
         </Grid>

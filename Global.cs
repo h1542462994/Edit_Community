@@ -27,7 +27,8 @@ namespace Edit_Community
         ExitEdit,
         HideImg,
         HideMouse,
-        Weather
+        Weather,
+        BackgroundPic
     }
     /// <summary>
     /// 对话框的友好名称.
@@ -526,6 +527,12 @@ namespace Edit_Community
         public readonly USettingsProperty<bool> IsRtxHiddenProperty;
         public readonly USettingsProperty<int> InkColorIndexProperty;
         public readonly USettingsProperty<double> InkPenWidthProperty;
+        public readonly USettingsProperty<int> BackgroundModeProperty;
+        public readonly USettingsProperty<string> BackgroundPicPathProperty;
+        public readonly USettingsProperty<string> BackgroundPicFolderProperty;
+        public readonly USettingsProperty<double> BackgroundPicTimestampProperty;
+        public readonly USettingsProperty<DateTime> BackgroundPicLastTimeProperty;
+        public readonly USettingsProperty<int> BackgroundPicCurrentindexProperty;
         public Local()
         {
             IsFullScreenProperty = uSettings.Register("isFullScreen", false,true);
@@ -549,9 +556,15 @@ namespace Edit_Community
             ExitEditIntervalProperty = uSettings.Register("exitEditInterval", 12);
             EditColorHistoryProperty = uSettings.Register("editcolorHistory", new Color[0],true);
             IsEditBrushOpenProperty = uSettings.Register("isEditBrushOpen", false,true);
-            IsRtxHiddenProperty = uSettings.Register("isRtxHidden", false);
+            IsRtxHiddenProperty = uSettings.Register("isRtxHidden", false,true);
             InkColorIndexProperty = uSettings.Register("inkColorIndex", 0);
             InkPenWidthProperty = uSettings.Register("inkPenWidth", 4.0);
+            BackgroundModeProperty = uSettings.Register("BackgroundMode", 0,true);
+            BackgroundPicPathProperty = uSettings.Register("BackgroundPicPath", "");
+            BackgroundPicFolderProperty = uSettings.Register("BackgroundPicFolderPath", "");
+            BackgroundPicTimestampProperty = uSettings.Register("BackgroundPicTimestamp", 15.0);
+            BackgroundPicLastTimeProperty = uSettings.Register("BackgroundPicLastTime", new DateTime());
+            BackgroundPicCurrentindexProperty = uSettings.Register("BackgroundPicCurrentindex", 0);
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
         /// <summary>
@@ -585,7 +598,12 @@ namespace Edit_Community
         public bool IsRtxHidden { get => IsRtxHiddenProperty.Value; set => IsRtxHiddenProperty.Value = value; }
         public int InkColorIndex { get => InkColorIndexProperty.Value; set => InkColorIndexProperty.Value = value; }
         public double InkPenwidth { get => InkPenWidthProperty.Value; set => InkPenWidthProperty.Value = value; }
-
+        public int BackgroundMode { get => BackgroundModeProperty.Value; set => BackgroundModeProperty.Value = value; }
+        public string BackgroundPicPath { get => BackgroundPicPathProperty.Value; set => BackgroundPicPathProperty.Value = value; }
+        public string BackgroundPicFolder { get => BackgroundPicFolderProperty.Value; set => BackgroundPicFolderProperty.Value = value; }
+        public double BackgroundPicTimestamp { get => BackgroundPicTimestampProperty.Value; set => BackgroundPicTimestampProperty.Value = value; }
+        public DateTime BackgroundPicLastTime { get => BackgroundPicLastTimeProperty.Value; set => BackgroundPicLastTimeProperty.Value = value; }
+        public int BackgroundPicCurrentindex { get => BackgroundPicCurrentindexProperty.Value; set => BackgroundPicCurrentindexProperty.Value = value; }
         public void Flush()
         {
             uSettings.USettingsChanged += Area.MainWindow.EditICs.PropertyChanged;
@@ -603,8 +621,6 @@ namespace Edit_Community
         static PageNavigationHelper pageNavigationHelper = new PageNavigationHelper();
         static Edit edit;
         static string editbranchfolder;
-        static string edittempbranchfolder;
-        static string whiteBoardBranchFolder;
         static TimerInventory<TimerDisplayName> timerInventory = new TimerInventory<TimerDisplayName>();
         static DialogInventory<DialogDisplayName> dialogInventory = new DialogInventory<DialogDisplayName>();
         public static readonly SolidColorBrush CheckedBrush = new SolidColorBrush(Color.FromArgb(120, 60, 144, 144));
@@ -662,14 +678,6 @@ namespace Edit_Community
         /// </summary>
         public static string EditBranchFolder { get => editbranchfolder; set => editbranchfolder = value; }
         /// <summary>
-        /// 为EditTemp提供设置路径.
-        /// </summary>
-        //public static string EditTempBranchFolder { get => edittempbranchfolder; set => edittempbranchfolder = value; }
-        /// <summary>
-        /// 正在操作的白板的路径.
-        /// </summary>
-        public static string WhiteBoardBranchFolder { get => whiteBoardBranchFolder; set => whiteBoardBranchFolder = value; }
-        /// <summary>
         /// MainWindow的引用
         /// </summary>
         public static MainWindow MainWindow { get => mainWindow; set => mainWindow = value; }
@@ -690,7 +698,6 @@ namespace Edit_Community
         public static int EditIndex { get => editIndex; set => editIndex = value; }
         public static PageNavigationHelper PageNavigationHelper { get => pageNavigationHelper; set => pageNavigationHelper = value; }
 
-
         public static EditType GetEditType(int arg)
         {
             if (arg == 0)
@@ -704,13 +711,6 @@ namespace Edit_Community
             else
             {
                 return EditType.Users;
-            }
-        }
-        public static void LoadBackgroundImage()
-        {
-            if (File.Exists(Area.LocalFolder + @"background\image.png"))
-            {
-                Area.MainWindow.ImageBack.Source = new BitmapImage(new Uri(Area.LocalFolder + @"background\image.png"));
             }
         }
     }

@@ -6,9 +6,9 @@
       xmlns:local="clr-namespace:Edit_Community"
       xmlns:libr="clr-namespace:User.UI;assembly=UserLibrary"
       mc:Ignorable="d" 
-      d:DesignHeight="400" d:DesignWidth="290"
-      Title="ThemePage">
-    <Grid Background="#B2000000">
+      d:DesignHeight="600" d:DesignWidth="290"
+      Title="个性化">
+    <Grid Background="Transparent">
         <StackPanel >
             <libr:UImageMenu Text="设置主页" Height="40" ControlStyle="Light" ImageSource="Assets/settings.png" Tapped="UImageMenu_Tapped" Margin="40,0,40,0"/>
             <Grid Height="40">
@@ -47,6 +47,50 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <libr:ColorPicker x:Name="ColorPicker1" Grid.Column="1" ControlStyle="Light" Height="200" ChooseOkOrCancel="ColorPicker1_ChooseOkOrCancel" ValueChanged="ColorPicker1_ValueChanged" />
+            </Grid>
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Left">
+                    <TextBlock Text="背景图片" Foreground="Orange" FontSize="16" />
+                </Label>
+                <Label Grid.Column="1"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <TextBlock Text="模式" Foreground="White" FontSize="16" />
+                </Label>
+                <ComboBox x:Name="ComboBox1" Grid.Column="2" Margin="10,10,20,10" Text="无" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="无"/>
+                        <ComboBoxItem Content="图片"/>
+                        <ComboBoxItem Content="幻灯片"/>
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+            <Grid x:Name="Grid1" Height="35" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="LblBackgroundPicFail" Content="请等待加载." Foreground="Yellow" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Button x:Name="BtnChoose" Content="选择文件夹" Grid.Column="1" Margin="5,5" Click="BtnChoose_Click"/>
+                <Button x:Name="BtnSlideNext" Content="立即切换" Grid.Column="2" Margin="5" Click="BtnSlideNext_Click" />
+            </Grid>
+            <Grid x:Name="GridSlideTime" Height="30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="32"/>
+                </Grid.ColumnDefinitions>
+                <Label  VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                    <TextBlock Text="切换时间" Foreground="White" FontSize="12" />
+                </Label>
+                <libr:SlideBar x:Name="SlideBarTime" Grid.Column="1" SlideValueMin="2.0" SlideValueMax="60.0" SlideStyle="TickValue" TickValue="48.0" SlideValue="52.0" SlideValueChanged="SlideBarTime_SlideValueChanged"/>
+                <Label x:Name="LblTime" Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="52.0" Foreground="LightSkyBlue" FontSize="14" FontWeight="Bold"/>
+                <Label  Grid.Column="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="min" Foreground="LightSkyBlue" FontSize="12" />
             </Grid>
         </StackPanel>
     </Grid>

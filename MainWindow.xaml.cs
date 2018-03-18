@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -79,6 +81,13 @@ namespace Edit_Community
             Area.TimerInventory.Register(TimerDisplayName.HideImg, new TimerQueueInfo(6, new EventHandler(Timer_HideImg), false, true));
             //Area.TimerInventory.Register(TimerDisplayName.SaveBitmap, new TimerQueueInfo(40, new EventHandler(Timer_SaveBitmap), false, true));
             Area.TimerInventory.Register(TimerDisplayName.HideMouse, new TimerQueueInfo(6, new EventHandler(Timer_HideMouse), false, true));
+            Area.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
+        }
+        private void Timer_BackgroundPic(object sender, EventArgs e)
+        {
+            int mode = Area.Local.BackgroundMode;
+            OnBackgrondPic(mode);
+            Console.WriteLine("Timer=> BackgroundPic");
         }
         private void Timer_HideMouse(object sender, EventArgs e)
         {
@@ -132,21 +141,6 @@ namespace Edit_Community
                 LblH[i].MouseLeave += LblEdit_MouseLeave;
                 LblH[i].MouseUp += LblEditC_MouseUp;
             }
-            //for (int i = 0; i < BdrBackgroundColorDefault.Length; i++)
-            //{
-            //    string displayname = "BdrBackgroundColorDefault" + i;
-            //    BdrBackgroundColorDefault[i] = (Border)FindName(displayname);
-            //    Color arg = Area.Local.EditBackgroundColorDefault[i];
-            //    BdrBackgroundColorDefault[i].Background = new SolidColorBrush(arg);
-            //    BdrBackgroundColorDefault[i].ToolTip = string.Format("{0},{1},{2},{3}", arg.A, arg.R, arg.G, arg.B);
-            //    BdrBackgroundColorDefault[i].MouseUp += BdrEditBackgrounds_MouseUp;
-            //}
-            //for (int i = 0; i < BdrBackgroundColorHistory.Length; i++)
-            //{
-            //    string displayname = "BdrBackgroundColorHistory" + i;
-            //    BdrBackgroundColorHistory[i] = (Border)FindName(displayname);
-            //    BdrBackgroundColorHistory[i].MouseUp += BdrEditBackgrounds_MouseUp;
-            //}
 
             UComboBox1.SelectionStringChanged += UComboBox1_SelectionStringChanged;
             TbxTemp.GotFocus += TbxTemp_GotFocus;
@@ -166,8 +160,6 @@ namespace Edit_Community
                 ,
             };
 
-            Area.LoadBackgroundImage();
-
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
             this.EditICs.SetPropertys(Area.Local.InkColorIndexProperty, Area.Local.InkPenWidthProperty);
 
@@ -176,19 +168,14 @@ namespace Edit_Community
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Area.PageNavigationHelper.PageChanged += PageNavigationHelper_PageChanged;
-            Area.PageNavigationHelper.Add(new SettingsMainPage());
+            Area.PageNavigationHelper.Add(typeof(SettingsMainPage));
             Area.Local.Flush();
             Edit.Load(DateTime.Now);
             Edit.GetInfos();
             Edit.SetInfos();
             RegisterTimer();
+            OnBackgrondPic(Area.Local.BackgroundMode, true,false);
         }
-        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
-        //    e.Cancel = true;
-
-        //    Application.Current.Shutdown();
-        //}
         private void Window_Closed(object sender, EventArgs e)
         {
             if (Area.Local.IsFullScreen == false)
@@ -271,19 +258,50 @@ namespace Edit_Community
                 {
                     this.EditICs.Visibility = Visibility.Hidden;
                 }
+                this.QBBrush.IsChecked = (bool)e.NewValue;
+                if ((bool)e.NewValue)
+                {
+                    this.QBBrush.Description = "显示";
+                }
+                else
+                {
+                    this.QBBrush.Description = "隐藏";
+                }
             }
             else if (key == Area.Local.IsRtxHiddenProperty)
             {
-                //this.ImgMenuEditHideRtx.IsChecked = (bool)e.NewValue;
                 if ((bool)e.NewValue)
                 {
                     this.BdrRtxBack.Visibility = Visibility.Visible;
                     this.GridEditRtx.Visibility = Visibility.Hidden;
+                    QBHideText.Description = "隐藏";
+                    QBHideText.IsChecked = true;
                 }
                 else
                 {
                     this.BdrRtxBack.Visibility = Visibility.Hidden;
                     this.GridEditRtx.Visibility = Visibility.Visible;
+                    QBHideText.Description = "显示";
+                    QBHideText.IsChecked = false;
+                }
+            }
+            else if (key == Area.Local.BackgroundModeProperty)
+            {
+                int mode = (int)e.NewValue;
+                if (mode == 0)
+                {
+                    QBBackgroundMode.IsChecked = false;
+                    QBBackgroundMode.Description = "无";
+                }
+                else if (mode == 1)
+                {
+                    QBBackgroundMode.IsChecked = true;
+                    QBBackgroundMode.Description = "图片";
+                }
+                else
+                {
+                    QBBackgroundMode.IsChecked = true;
+                    QBBackgroundMode.Description = "幻灯片";
                 }
             }
         }
@@ -387,6 +405,7 @@ namespace Edit_Community
                 Width = ScreenSize.Width;
                 Height = ScreenSize.Height;
                 ImgEditBrush.Visibility = Visibility.Visible;
+                QBBrush.Visibility = Visibility.Visible;
             }
             else
             {
@@ -400,8 +419,10 @@ namespace Edit_Community
                 Top = Area.Local.AppLocation.Y * ScreenSize.Height;
                 Width = Area.Local.AppSize.Width * ScreenSize.Width;
                 Height = Area.Local.AppSize.Height * ScreenSize.Height;
-                ImgEditBrush.Visibility = Visibility.Hidden;
+                ImgEditBrush.Visibility = Visibility.Collapsed;
+                QBBrush.Visibility = Visibility.Collapsed;
             }
+            
         }
         private void ImgEditMove_Tapped(object sender, RoutedEventArgs e)
         {
@@ -487,10 +508,6 @@ namespace Edit_Community
                 Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
             }
         }
-        private void ImgSettingsBack_Tapped(object sender, RoutedEventArgs e)
-        {
-            Area.PageNavigationHelper.Back();
-        }
         private void ShowImg()
         {
             if (ImgMenu.IsChecked)
@@ -557,6 +574,8 @@ namespace Edit_Community
             //
             Mouse.OverrideCursor = null;
         }
+        #endregion
+        #region 设置(更多)布局
         private void SetEditMoreVisibility()
         {
             bool isSelected = false;
@@ -574,6 +593,122 @@ namespace Edit_Community
             else
             {
                 GridMenuMore.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void ImgSettingsBack_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.PageNavigationHelper.Back();
+        }
+        private void QBEditMod_Tapped(object sender, RoutedEventArgs e)
+        {
+            if (QBEditMod.IsChecked)
+            {
+                QBEditMod.Description = "开";
+                Edit.LoadMod();
+            }
+            else
+            {
+                QBEditMod.Description = "关";
+                Edit.ExitMod();
+            }
+        }
+        private void QBHideText_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
+        }
+        #endregion
+        #region 背景布局
+        public void OnBackgrondPic(int mode, bool firstload = false,bool isnext = true)
+        {
+            if (mode == 0)
+            {
+                OnBackgroundPicLoad(null);
+            }
+            else if (mode == 1)
+            {
+                try
+                {
+                    OnBackgroundPicLoad(new BitmapImage(new Uri(Area.Local.BackgroundPicPath)));
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("BackgroundFailed:1");
+                }
+            }
+            else if (mode == 2)
+            {
+                bool isOk = true;
+                if (!firstload)
+                {
+                    TimeSpan timeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
+                    if (DateTime.Now - Area.Local.BackgroundPicLastTime < timeSpan)
+                    {
+                        isOk = false;
+                    }
+                }
+                if (isOk)
+                {
+                    try
+                    {
+                        DirectoryInfo Folder = new DirectoryInfo(Area.Local.BackgroundPicFolder);
+                        List<FileInfo> infos = new List<FileInfo>();
+                        foreach (FileInfo file in Folder.GetFiles())
+                        {
+                            if (file.Extension == ".png" || file.Extension == ".bmp" || file.Extension == ".jpg")
+                            {
+                                infos.Add(file);
+                            }
+                        }
+                        if (isnext)
+                        {
+                            Area.Local.BackgroundPicCurrentindex++;
+                            Area.Local.BackgroundPicLastTime = DateTime.Now;
+                        }
+                        if (Area.Local.BackgroundPicCurrentindex >= infos.Count)
+                        {
+                            Area.Local.BackgroundPicCurrentindex = 0;
+                        }
+                        OnBackgroundPicLoad(new BitmapImage(new Uri(infos[Area.Local.BackgroundPicCurrentindex].FullName)));
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("BackgroundFailed:2");
+                    }
+                }
+            }
+            if (FrameSettings.Content is ThemePage page)
+            {
+                page.CheckPic();
+                page.SlideTimeLoad(true);
+            }
+        }
+        void OnBackgroundPicLoad(BitmapImage image)
+        {
+            if (image != (BitmapImage)ImageBackNew.Source)
+            {
+                ImageBack.Source = ImageBackNew.Source;
+                ImageBackNew.Source = image;
+                DoubleAnimation th1 = new DoubleAnimation()
+                {
+                    Duration = new Duration(TimeSpan.FromSeconds(3)),
+                    From = 1,
+                    To = 0
+                };
+                DoubleAnimation th2 = new DoubleAnimation()
+                {
+                    Duration = new Duration(TimeSpan.FromSeconds(3)),
+                    From = 0,
+                    To = 1
+                };
+                Storyboard storyboard = new Storyboard()
+                {
+                    Children = { th1, th2 }
+                };
+                Storyboard.SetTarget(th1, ImageBack);
+                Storyboard.SetTargetProperty(th1, new PropertyPath(nameof(ImageBack.Opacity)));
+                Storyboard.SetTarget(th2, ImageBackNew);
+                Storyboard.SetTargetProperty(th2, new PropertyPath(nameof(ImageBackNew.Opacity)));
+                storyboard.Begin();
             }
         }
         #endregion
@@ -1141,7 +1276,7 @@ namespace Edit_Community
         {
             ColorPicker1.Value = new ColorP(color);
             Area.DialogInventory.Show(DialogDisplayName.Dialog,
-                   new DialogAutoInfo(GridDialog,ColorPicker1 ,
+                   new DialogAutoInfo(GridDialog, ColorPicker1,
                    dialogAuto, e.GetPosition(GridMain), DialogType.Shadow, 30
                    , new Size(200, 230)));
             IsGridbackMousedown = false;
@@ -1190,7 +1325,28 @@ namespace Edit_Community
             {
                 ColumnDefiSettings.Width = new GridLength(60);
             }
-            FrameSettings.Content = Activator.CreateInstance(e.Page.GetType());
+            Page page = (Page)Activator.CreateInstance(e.Page);
+            FrameSettings.Content = page;
+            LblSettingsTitle.Content = page.Title;
+        }
+        private void QBBackgroundMode_Tapped(object sender, RoutedEventArgs e)
+        {
+            int mode = Area.Local.BackgroundMode;
+            mode++;
+            if (mode > 2) mode = 0;
+            Area.Local.BackgroundMode = mode;
+            if (FrameSettings.Content is ThemePage page)
+            {
+                page.ComboBox1.SelectedIndex = mode;
+            }
+            else
+            {
+                OnBackgrondPic(mode, true, false);
+            }
+        }
+        private void QBBrush_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
         }
     }
 }

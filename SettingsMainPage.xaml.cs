@@ -27,7 +27,22 @@ namespace Edit_Community
 
         private void UImageMenu_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.PageNavigationHelper.Add(new ThemePage());
+            if (sender.Equals(UImgTheme))
+            {
+                Area.PageNavigationHelper.Add(typeof(ThemePage));
+            }
+            else if (sender.Equals(UImgExtension))
+            {
+                Area.PageNavigationHelper.Add(typeof(ExtensionPage));
+            }
+            else if (sender.Equals(UImgHelp))
+            {
+                Area.PageNavigationHelper.Add(typeof(HelpPage));
+            }
+            else if (sender.Equals(UImgDeveloper))
+            {
+                Area.PageNavigationHelper.Add(typeof(DeveloperPage));
+            }
         }
     }
 }
