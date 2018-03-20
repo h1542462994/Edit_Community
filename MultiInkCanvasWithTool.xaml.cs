@@ -346,16 +346,12 @@ namespace Edit_Community
             this.inkColorIndexProperty = inkColorIndexProperty;
             this.penwidthProperty = penwidthProperty;
         }
-        public void PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
+        public void LoadPropertys()
         {
-            if (key == inkColorIndexProperty)
-            {
-                InkColorIndex = (int)e.NewValue;
-            }
-            else if(key == penwidthProperty)
-            {
-                Penwidth = (double)e.NewValue;
-            }
+            if (inkColorIndexProperty !=null)
+                InkColorIndex = inkColorIndexProperty.Value;
+            if (penwidthProperty != null)
+                Penwidth = penwidthProperty.Value;
         }
         private void BdrEraser_MouseDown(object sender, MouseButtonEventArgs e)
         {

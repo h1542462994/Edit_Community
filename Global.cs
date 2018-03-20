@@ -606,7 +606,6 @@ namespace Edit_Community
         public int BackgroundPicCurrentindex { get => BackgroundPicCurrentindexProperty.Value; set => BackgroundPicCurrentindexProperty.Value = value; }
         public void Flush()
         {
-            uSettings.USettingsChanged += Area.MainWindow.EditICs.PropertyChanged;
             uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;
             uSettings.Flush();
         }

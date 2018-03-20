@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Edit_Community"
-        xmlns:uslibr="clr-namespace:User.UI;assembly=UserLibrary"
+        xmlns:uslibr="clr-namespace:User.UI;assembly=HTLibrary"
         mc:Ignorable="d"
         Title="Edit Community [1.0.0.0]" Height="699.5" Width="880"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp" Closed="Window_Closed">
     <Grid Background="Transparent" x:Name="GridMain">
@@ -137,12 +137,26 @@
             </Grid>
             <local:MultiInkCanvasWithTool x:Name="EditICs" Visibility="Hidden"/>
         </Grid>
-        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Collapsed">
+        <Grid x:Name="GridLeftButton" Grid.Row="1" Margin="0,0.333,0,-0.333" d:IsHidden="True">
+            <uslibr:TriggerImage x:Name="ImgMenu" CanAutoCheck="False" ImageSourceUnchecked="Assets/menu0.png" ImageSourceChecked="Assets/menu1.png" Opacity="0.8" Tapped="ImgMenu_Tapped" />
+        </Grid>
+        <Grid x:Name="GridRightButton" Grid.Row="1" Grid.Column="3" Margin="0,0.333,0,-0.333" d:IsHidden="True" >
+            <uslibr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
+        </Grid>
+        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform x:Name="GridEditMoreTranslate" X="0"/>
+                </TransformGroup>
+            </Grid.RenderTransform>
             <Grid x:Name="GridSettings">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition />
-                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid >
                     <Grid.ColumnDefinitions>
@@ -164,13 +178,23 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <uslibr:QuickButton x:Name="QBEditMod" ControlStyle="Dark"  ImageSource="Assets/4.png" Title="编辑模板" Tapped="QBEditMod_Tapped" ThemeColor="DeepSkyBlue"/>
-                    <uslibr:QuickButton Grid.Column="1" x:Name="QBHideText" ControlStyle="Dark" ImageSource="Assets/hide.png" CanAutoCheck="False" Title="文本" Tapped="QBHideText_Tapped"/>
-                    <uslibr:QuickButton Grid.Column="2" x:Name="QBBackgroundMode" ControlStyle="Dark" ImageSource="Assets/themex.png" Title="背景图片" CanAutoCheck="False" Description="幻灯片" Tapped="QBBackgroundMode_Tapped"/>
-                    <uslibr:QuickButton Grid.Column="3" x:Name="QBBrush" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷层"  Description="隐藏" Tapped="QBBrush_Tapped" />
+                    <StackPanel >
+                        <uslibr:QuickButton x:Name="QBBackgroundNext" Height="55" Visibility="Visible" ImageSource="Assets/down.png" Title="下一张" Description="8/22" CanAutoCheck="False" Tapped="QBBackgroundNext_Tapped"  Margin="2"/>
+                        <uslibr:QuickButton x:Name="QBEditMod" Height="55" ControlStyle="Dark"  ImageSource="Assets/4.png" Title="编辑模板" Tapped="QBEditMod_Tapped" Margin="2" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <uslibr:QuickButton x:Name="QBHideText" Height="55" ControlStyle="Dark"  ImageSource="Assets/hide.png" CanAutoCheck="False" Title="文本" Tapped="QBHideText_Tapped"  Margin="2"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <uslibr:QuickButton x:Name="QBBackgroundMode" Height="55" ControlStyle="Dark"  ImageSource="Assets/pic.png" Title="背景图片" CanAutoCheck="False" Description="幻灯片"  Tapped="QBBackgroundMode_Tapped"  Margin="2" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3">
+                        <uslibr:QuickButton x:Name="QBBrush" Height="55" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷层"  Description="隐藏"  Tapped="QBBrush_Tapped"  Margin="2" />
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Grid>
+        <Grid x:Name="GridMenuMoreLeft" Grid.Column="1" Grid.RowSpan="2" Background="Transparent" Visibility="Collapsed" MouseDown="GridMenuMoreLeft_MouseDown" MouseLeave="GridMenuMoreLeft_MouseLeave" MouseUp="GridMenuMoreLeft_MouseUp"/>
         <Grid x:Name="GridMenu"  Background="#B2000000" Margin="0,0,0,39.667" Grid.RowSpan="2" Visibility="Collapsed">
             <Grid Height="360" VerticalAlignment="Bottom">
                 <Grid>
@@ -192,12 +216,6 @@
                     <uslibr:TriggerImage Grid.Row="8" x:Name="ImgNext" CanAutoCheck="False" ImageSourceUnchecked="Assets/next.png" Tapped="ImgEditMove_Tapped"/>
                 </Grid>
             </Grid>
-        </Grid>
-        <Grid x:Name="GridLeftButton" Grid.Row="1" Margin="0,0.333,0,-0.333" d:IsHidden="True">
-            <uslibr:TriggerImage x:Name="ImgMenu" CanAutoCheck="False" ImageSourceUnchecked="Assets/menu0.png" ImageSourceChecked="Assets/menu1.png" Opacity="0.8" Tapped="ImgMenu_Tapped" />
-        </Grid>
-        <Grid x:Name="GridRightButton" Grid.Row="1" Grid.Column="3" Margin="0,0.333,0,-0.333" d:IsHidden="True" >
-            <uslibr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
         </Grid>
         <Grid x:Name="GridDialogBack" Grid.ColumnSpan="4" Grid.RowSpan="3" Background="Transparent" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp" MouseDown="GridDialogBack_MouseDown" d:IsHidden="True"/>
         <Grid x:Name="GridDialog" Grid.ColumnSpan="4" Grid.RowSpan="3" >

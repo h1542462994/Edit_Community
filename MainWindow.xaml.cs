@@ -162,7 +162,7 @@ namespace Edit_Community
 
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
             this.EditICs.SetPropertys(Area.Local.InkColorIndexProperty, Area.Local.InkPenWidthProperty);
-
+            this.EditICs.LoadPropertys();
             Loaded += MainWindow_Loaded;
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -292,16 +292,19 @@ namespace Edit_Community
                 {
                     QBBackgroundMode.IsChecked = false;
                     QBBackgroundMode.Description = "无";
+                    QBBackgroundNext.Visibility = Visibility.Collapsed;
                 }
                 else if (mode == 1)
                 {
                     QBBackgroundMode.IsChecked = true;
                     QBBackgroundMode.Description = "图片";
+                    QBBackgroundNext.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
                     QBBackgroundMode.IsChecked = true;
                     QBBackgroundMode.Description = "幻灯片";
+                    QBBackgroundNext.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -439,7 +442,6 @@ namespace Edit_Community
         private void ImgMenu_Tapped(object sender, RoutedEventArgs e)
         {
             IsMenuShow = !IsMenuShow;
-
         }
         private void ImgFullScreen_Tapped(object sender, RoutedEventArgs e)
         {
@@ -576,6 +578,7 @@ namespace Edit_Community
         }
         #endregion
         #region 设置(更多)布局
+        bool isMenuMouseLeftDown = false;
         private void SetEditMoreVisibility()
         {
             bool isSelected = false;
@@ -589,15 +592,31 @@ namespace Edit_Community
             if (isSelected)
             {
                 GridMenuMore.Visibility = Visibility.Visible;
+                GridMenuMoreLeft.Visibility = Visibility.Visible;
             }
             else
             {
                 GridMenuMore.Visibility = Visibility.Collapsed;
+                GridMenuMoreLeft.Visibility = Visibility.Collapsed;
             }
         }
         private void ImgSettingsBack_Tapped(object sender, RoutedEventArgs e)
         {
             Area.PageNavigationHelper.Back();
+        }
+        private void PageNavigationHelper_PageChanged(object sender, PageNavigationEventargs e)
+        {
+            if (e.IsFirstPage)
+            {
+                ColumnDefiSettings.Width = new GridLength(0);
+            }
+            else
+            {
+                ColumnDefiSettings.Width = new GridLength(60);
+            }
+            Page page = (Page)Activator.CreateInstance(e.Page);
+            FrameSettings.Content = page;
+            LblSettingsTitle.Content = page.Title;
         }
         private void QBEditMod_Tapped(object sender, RoutedEventArgs e)
         {
@@ -615,6 +634,51 @@ namespace Edit_Community
         private void QBHideText_Tapped(object sender, RoutedEventArgs e)
         {
             Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
+        }
+        private void QBBackgroundMode_Tapped(object sender, RoutedEventArgs e)
+        {
+            int mode = Area.Local.BackgroundMode;
+            mode++;
+            if (mode > 2) mode = 0;
+            Area.Local.BackgroundMode = mode;
+            if (FrameSettings.Content is ThemePage page)
+            {
+                page.ComboBox1.SelectedIndex = mode;
+            }
+            else
+            {
+                OnBackgrondPic(mode, true, false);
+            }
+        }
+        private void QBBrush_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
+        }
+        private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
+        {
+            OnBackgrondPic(Area.Local.BackgroundMode,true,true);
+        }
+        private void GridMenuMoreLeft_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton .Left)
+            {
+                isMenuMouseLeftDown = true;
+            }
+        }
+        private void GridMenuMoreLeft_MouseLeave(object sender, MouseEventArgs e)
+        {
+            isMenuMouseLeftDown = false;
+        }
+        private void GridMenuMoreLeft_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (isMenuMouseLeftDown)
+            {
+                foreach (var item in gridBinding.Keys)
+                {
+                    item.IsChecked = false;
+                }
+                SetEditMoreVisibility();
+            }
         }
         #endregion
         #region 背景布局
@@ -668,6 +732,7 @@ namespace Edit_Community
                         {
                             Area.Local.BackgroundPicCurrentindex = 0;
                         }
+                        QBBackgroundNext.Description = string.Format("{0}/{1}", Area.Local.BackgroundPicCurrentindex +1, infos.Count);
                         OnBackgroundPicLoad(new BitmapImage(new Uri(infos[Area.Local.BackgroundPicCurrentindex].FullName)));
                     }
                     catch (Exception)
@@ -1315,38 +1380,5 @@ namespace Edit_Community
             GridDialogBack.Visibility = Visibility.Hidden;
         }
         #endregion
-        private void PageNavigationHelper_PageChanged(object sender, User.UI.PageNavigationEventargs e)
-        {
-            if (e.IsFirstPage)
-            {
-                ColumnDefiSettings.Width = new GridLength(0);
-            }
-            else
-            {
-                ColumnDefiSettings.Width = new GridLength(60);
-            }
-            Page page = (Page)Activator.CreateInstance(e.Page);
-            FrameSettings.Content = page;
-            LblSettingsTitle.Content = page.Title;
-        }
-        private void QBBackgroundMode_Tapped(object sender, RoutedEventArgs e)
-        {
-            int mode = Area.Local.BackgroundMode;
-            mode++;
-            if (mode > 2) mode = 0;
-            Area.Local.BackgroundMode = mode;
-            if (FrameSettings.Content is ThemePage page)
-            {
-                page.ComboBox1.SelectedIndex = mode;
-            }
-            else
-            {
-                OnBackgrondPic(mode, true, false);
-            }
-        }
-        private void QBBrush_Tapped(object sender, RoutedEventArgs e)
-        {
-            Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
-        }
     }
 }

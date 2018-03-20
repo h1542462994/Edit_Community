@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using User;
 using User.UI;
 
 namespace Edit_Community
@@ -51,12 +52,12 @@ namespace Edit_Community
         }
         #region 背景颜色
         bool isElpLeftMouseDown;
-        private void ColorPicker1_ChooseOkOrCancel(object sender, User.SoftWare.PropertyChangedEventargs<ColorP> e)
+        private void ColorPicker1_ChooseOkOrCancel(object sender, PropertyChangedEventargs<ColorP> e)
         {
             Area.Local.EditBackgroundColorOld = e.OldValue.GetColor();
             ApplyEditBackgroundHistoryColor(e.NewValue.GetColor());
         }
-        private void ColorPicker1_ValueChanged(object sender, User.SoftWare.PropertyChangedEventargs<ColorP> e)
+        private void ColorPicker1_ValueChanged(object sender, PropertyChangedEventargs<ColorP> e)
         {
             ElpBackground.Fill = new SolidColorBrush(e.NewValue.GetColor());
             Area.Local.EditBackgroundColor = e.NewValue.GetColor();
@@ -135,13 +136,13 @@ namespace Edit_Community
                 Grid1.Visibility = Visibility.Visible;
                 if (Area.Local.BackgroundMode == 1)
                 {
-                    BtnChoose.Content = "选择图片";
+                    BtnChoose.InnerContent = "选择图片";
                     BtnSlideNext.Visibility = Visibility.Collapsed;
                     GridSlideTime.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    BtnChoose.Content = "选择文件夹";
+                    BtnChoose.InnerContent = "选择文件夹";
                     BtnSlideNext.Visibility = Visibility.Visible;
                     GridSlideTime.Visibility = Visibility.Visible;
                 }
@@ -160,7 +161,7 @@ namespace Edit_Community
                 Area.MainWindow.OnBackgrondPic(Area.Local.BackgroundMode, true, false);
             }
         }
-        private void BtnChoose_Click(object sender, RoutedEventArgs e)
+        private void BtnChoose_Tapped(object sender, RoutedEventArgs e)
         {
             if (Area.Local.BackgroundMode == 1)
             {
@@ -189,7 +190,7 @@ namespace Edit_Community
                 }
             }
         }
-        private void BtnSlideNext_Click(object sender, RoutedEventArgs e)
+        private void BtnSlideNext_Tapped(object sender, RoutedEventArgs e)
         {
             Area.MainWindow.OnBackgrondPic(Area.Local.BackgroundMode,true);
         }
