@@ -533,6 +533,10 @@ namespace Edit_Community
         public readonly USettingsProperty<double> BackgroundPicTimestampProperty;
         public readonly USettingsProperty<DateTime> BackgroundPicLastTimeProperty;
         public readonly USettingsProperty<int> BackgroundPicCurrentindexProperty;
+        public readonly USettingsProperty<bool> WeatherisOpenProperty;
+        public readonly USettingsProperty<string> WeathercityProperty;
+        public readonly USettingsProperty<double> WeatherTimestampProperty;
+        public readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
         public Local()
         {
             IsFullScreenProperty = uSettings.Register("isFullScreen", false,true);
@@ -565,6 +569,10 @@ namespace Edit_Community
             BackgroundPicTimestampProperty = uSettings.Register("BackgroundPicTimestamp", 15.0);
             BackgroundPicLastTimeProperty = uSettings.Register("BackgroundPicLastTime", new DateTime());
             BackgroundPicCurrentindexProperty = uSettings.Register("BackgroundPicCurrentindex", 0);
+            WeatherisOpenProperty = uSettings.Register("WeatherisOpen", false, true);
+            WeathercityProperty = uSettings.Register("Weathercity", "杭州",true);
+            WeatherTimestampProperty = uSettings.Register("WeatherTimestamp", 120.0);
+            WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
         /// <summary>
@@ -604,6 +612,10 @@ namespace Edit_Community
         public double BackgroundPicTimestamp { get => BackgroundPicTimestampProperty.Value; set => BackgroundPicTimestampProperty.Value = value; }
         public DateTime BackgroundPicLastTime { get => BackgroundPicLastTimeProperty.Value; set => BackgroundPicLastTimeProperty.Value = value; }
         public int BackgroundPicCurrentindex { get => BackgroundPicCurrentindexProperty.Value; set => BackgroundPicCurrentindexProperty.Value = value; }
+        public bool WeatherisOpen { get => WeatherisOpenProperty.Value; set => WeatherisOpenProperty.Value = value; }
+        public string Weathercity { get => WeathercityProperty.Value; set => WeathercityProperty.Value = value; }
+        public double WeatherTimestamp { get => WeatherTimestampProperty.Value; set => WeatherTimestampProperty.Value = value; }
+        public DateTime WeatherLastTime { get => WeatherLastTimeProperty.Value; set => WeatherLastTimeProperty.Value = value; }
         public void Flush()
         {
             uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;

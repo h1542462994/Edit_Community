@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using User;
 using User.SoftWare;
+using User.SoftWare.Service;
 using User.UI;
 
 namespace Edit_Community
@@ -75,13 +76,29 @@ namespace Edit_Community
         public bool IsGridbackMousedown { get => isGridbackMousedown; set => isGridbackMousedown = value; }
         #endregion
         #region 计时器模块
+        bool isWeatherFirstLoaded = false;
         private void RegisterTimer()
         {
             Area.TimerInventory.Register(TimerDisplayName.ExitEdit, new TimerQueueInfo(Area.Local.ExitEditInterval, new EventHandler(Timer_ExitEdit), false, true));
             Area.TimerInventory.Register(TimerDisplayName.HideImg, new TimerQueueInfo(6, new EventHandler(Timer_HideImg), false, true));
-            //Area.TimerInventory.Register(TimerDisplayName.SaveBitmap, new TimerQueueInfo(40, new EventHandler(Timer_SaveBitmap), false, true));
             Area.TimerInventory.Register(TimerDisplayName.HideMouse, new TimerQueueInfo(6, new EventHandler(Timer_HideMouse), false, true));
             Area.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
+            Area.TimerInventory.Register(TimerDisplayName.Weather, new TimerQueueInfo(10, new EventHandler(Timer_Weather), false, true));
+        }
+        private void Timer_Weather(object sender, EventArgs e)
+        {
+            if (Area.Local.WeatherisOpen)
+            {
+                if (isWeatherFirstLoaded)
+                {
+                    OnWeatherAsync(false);
+                }
+                else
+                {
+                    OnWeatherAsync(true);
+                    isWeatherFirstLoaded = true;
+                }
+            }
         }
         private void Timer_BackgroundPic(object sender, EventArgs e)
         {
@@ -100,7 +117,6 @@ namespace Edit_Community
         private void Timer_ExitEdit(object sender, EventArgs e)
         {
             Console.WriteLine("=> Timer_ExitEdit" + Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime);
-
             ExitEdit();
         }
         #endregion
@@ -173,6 +189,7 @@ namespace Edit_Community
             Edit.Load(DateTime.Now);
             Edit.GetInfos();
             Edit.SetInfos();
+            WeatherText.Target = Rtx4;
             RegisterTimer();
             OnBackgrondPic(Area.Local.BackgroundMode, true,false);
         }
@@ -307,6 +324,31 @@ namespace Edit_Community
                     QBBackgroundNext.Visibility = Visibility.Visible;
                 }
             }
+            else if (key == Area.Local.WeathercityProperty)
+            {
+                WeatherText.City = (string)e.NewValue;
+            }
+            else if (key == Area.Local.WeatherisOpenProperty)
+            {
+                if ((bool)e.NewValue)
+                {
+                    if (Area.Edit==null || Area.Edit.CreateTime.Date == DateTime.Today)
+                    {
+                        QBWeather.Description = "开";
+                        QBWeather.ThemeColor = ControlBase.ThemeColorDefault;
+                    }
+                    else
+                    {
+                        QBWeather.Description = ">今天";
+                        QBWeather.ThemeColor = Color.FromRgb(235,149,20);
+                    }
+                }
+                else
+                {
+                    QBWeather.Description = "关";
+                }
+                QBWeather.IsChecked = (bool)e.NewValue;
+            }
         }
         public void Edit_PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
         {
@@ -438,6 +480,7 @@ namespace Edit_Community
                 Edit.Move(true);
             }
             Edit.SetInfos();
+            FreshQBWeather();
         }
         private void ImgMenu_Tapped(object sender, RoutedEventArgs e)
         {
@@ -618,7 +661,7 @@ namespace Edit_Community
             FrameSettings.Content = page;
             LblSettingsTitle.Content = page.Title;
         }
-        private void QBEditMod_Tapped(object sender, RoutedEventArgs e)
+        internal void QBEditMod_Tapped(object sender, RoutedEventArgs e)
         {
             if (QBEditMod.IsChecked)
             {
@@ -630,10 +673,19 @@ namespace Edit_Community
                 QBEditMod.Description = "关";
                 Edit.ExitMod();
             }
+            FreshQBWeather();
+            if (FrameSettings.Content is ExtensionPage page)
+            {
+                page.SetEditMode();
+            }
         }
-        private void QBHideText_Tapped(object sender, RoutedEventArgs e)
+        internal void QBHideText_Tapped(object sender, RoutedEventArgs e)
         {
             Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
+            if (FrameSettings.Content is ExtensionPage page)
+            {
+                page.SetText();
+            }
         }
         private void QBBackgroundMode_Tapped(object sender, RoutedEventArgs e)
         {
@@ -653,6 +705,18 @@ namespace Edit_Community
         private void QBBrush_Tapped(object sender, RoutedEventArgs e)
         {
             Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
+        }
+        internal void QBWeather_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.WeatherisOpen = !Area.Local.WeatherisOpen;
+            if (Area.Local.WeatherisOpen)
+            {
+                OnWeatherAsync(true);
+            }
+            if (FrameSettings.Content is ExtensionPage page)
+            {
+                page.SetWeather();
+            }
         }
         private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
         {
@@ -1380,5 +1444,43 @@ namespace Edit_Community
             GridDialogBack.Visibility = Visibility.Hidden;
         }
         #endregion
+        #region 天气
+        public WeatherText WeatherText = new WeatherText("杭州");
+        public async void OnWeatherAsync(bool isFirst = false)
+        {
+            if ((isFirst || DateTime.Now - Area.Local.WeatherLastTime > TimeSpan.FromMinutes( Area.Local.WeatherTimestamp)) && Area.Edit.CreateTime.Date == DateTime.Today )
+            {
+                try
+                {
+                    await WeatherText.LoadWeather();
+                    WeatherText.Next();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                Area.Local.WeatherLastTime = DateTime.Now;
+            }
+        }
+        void FreshQBWeather()
+        {
+            //附加.
+            if (Area.Local.WeatherisOpen)
+            {
+                if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                {
+                    QBWeather.Description = "开";
+                    QBWeather.ThemeColor = ControlBase.ThemeColorDefault;
+                }
+                else
+                {
+                    QBWeather.Description = ">今天";
+                    QBWeather.ThemeColor = Color.FromRgb(235, 149, 20);
+                }
+            }
+        }
+        #endregion
+
+
     }
 }

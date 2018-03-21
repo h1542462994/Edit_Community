@@ -11,7 +11,40 @@
     <Grid Background="Transparent">
         <StackPanel >
             <libr:UImageMenu Text="设置主页" Height="40" ControlStyle="Light" ImageSource="Assets/settings.png" Tapped="UImageMenu_Tapped" Margin="40,0,40,0"/>
-
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Orange" FontSize="16" Content="文本"/>
+                <libr:TriggerSwitch x:Name="TSText" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Tapped="TSText_Tapped"/>
+                <Label Grid.Column="2" x:Name="LblText" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Content="显示"/>
+            </Grid>
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Orange" FontSize="16" Content="编辑模板"/>
+                <libr:TriggerSwitch x:Name="TSEditMode" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Tapped="TSEditMode_Tapped"/>
+                <Label x:Name="LblEditMode" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Content="关"/>
+            </Grid>
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Orange" FontSize="16" Content="天气"/>
+                <libr:TriggerSwitch x:Name="TSWeather" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" IsChecked="True" Tapped="TSWeather_Tapped"/>
+                <Label x:Name="LblWeather" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Content="开"/>
+                <libr:TriggerButton Grid.Column="3" InnerContent="详细设置" ControlStyle="Dark" Foreground="White" Margin="10,8"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

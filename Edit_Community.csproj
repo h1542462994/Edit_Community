@@ -173,6 +173,7 @@
     <Resource Include="Assets\brush.png" />
     <Resource Include="Assets\down.png" />
     <Resource Include="Assets\pic.png" />
+    <Resource Include="Assets\cloud.png" />
     <Content Include="mod\0.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -179,17 +179,18 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel >
-                        <uslibr:QuickButton x:Name="QBBackgroundNext" Height="55" Visibility="Visible" ImageSource="Assets/down.png" Title="下一张" Description="8/22" CanAutoCheck="False" Tapped="QBBackgroundNext_Tapped"  Margin="2"/>
+                        <uslibr:QuickButton x:Name="QBBackgroundNext" ControlStyle="Dark" Height="55" Visibility="Visible" ImageSource="Assets/down.png" Title="下一张" Description="8/22" CanAutoCheck="False" Tapped="QBBackgroundNext_Tapped"  Margin="2"/>
                         <uslibr:QuickButton x:Name="QBEditMod" Height="55" ControlStyle="Dark"  ImageSource="Assets/4.png" Title="编辑模板" Tapped="QBEditMod_Tapped" Margin="2" />
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <uslibr:QuickButton x:Name="QBHideText" Height="55" ControlStyle="Dark"  ImageSource="Assets/hide.png" CanAutoCheck="False" Title="文本" Tapped="QBHideText_Tapped"  Margin="2"/>
+                        <uslibr:QuickButton x:Name="QBWeather" Height="55" ControlStyle="Dark" ImageSource="Assets/cloud.png" CanAutoCheck="False" Title="天气"  Description="关"  Tapped="QBWeather_Tapped"  Margin="2" />
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <uslibr:QuickButton x:Name="QBBackgroundMode" Height="55" ControlStyle="Dark"  ImageSource="Assets/pic.png" Title="背景图片" CanAutoCheck="False" Description="幻灯片"  Tapped="QBBackgroundMode_Tapped"  Margin="2" />
                     </StackPanel>
                     <StackPanel Grid.Column="3">
-                        <uslibr:QuickButton x:Name="QBBrush" Height="55" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷层"  Description="隐藏"  Tapped="QBBrush_Tapped"  Margin="2" />
+                        <uslibr:QuickButton x:Name="QBBrush" Height="55" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷图层"  Description="隐藏"  Tapped="QBBrush_Tapped"  Margin="2" />
                     </StackPanel>
                 </Grid>
             </Grid>
