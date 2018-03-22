@@ -79,6 +79,7 @@
     <Compile Include="SettingsMainPage.xaml.cs">
       <DependentUpon>SettingsMainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StartUp.cs" />
     <Compile Include="ThemePage.xaml.cs">
       <DependentUpon>ThemePage.xaml</DependentUpon>
     </Compile>
@@ -174,24 +175,12 @@
     <Resource Include="Assets\down.png" />
     <Resource Include="Assets\pic.png" />
     <Resource Include="Assets\cloud.png" />
-    <Content Include="mod\0.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="mod\1.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="mod\2.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="mod\3.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="mod\4.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="mod\5.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="mod\0.rtf" />
+    <Content Include="mod\1.rtf" />
+    <Content Include="mod\2.rtf" />
+    <Content Include="mod\3.rtf" />
+    <Content Include="mod\4.rtf" />
+    <Content Include="mod\5.rtf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

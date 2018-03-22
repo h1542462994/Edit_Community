@@ -452,26 +452,6 @@ namespace Edit_Community
                 file.Close();
             }
         }
-        //public static void SaveRtfBitmap()
-        //{
-        //    string filepath = Area.EditBranchFolder + "BitmapBig.png";
-        //    FileStream file = new FileStream(filepath, FileMode.Create);
-        //    RenderTargetBitmap rtb = new RenderTargetBitmap(1920, 1080, 96.0, 96.0, PixelFormats.Default);
-        //    rtb.Render(Area.MainWindow.GridEditVisual);
-        //    PngBitmapEncoder be = new PngBitmapEncoder();
-        //    be.Frames.Add(BitmapFrame.Create(rtb));
-        //    be.Save(file);
-        //    file.Close();
-        //    //Area.MainWindow.ImgVisual.Source = BitmapFrame.Create(rtb);
-        //    //string filepath2 = Area.EditBranchFolder + "BitmapSmall.png";
-        //    //FileStream file2 = new FileStream(filepath2, FileMode.Create);
-        //    //RenderTargetBitmap rtb2 = new RenderTargetBitmap((int)Area.MainWindow.ImgVisual.Width, (int)Area.MainWindow.ImgVisual.Height, 96.0, 96.0, PixelFormats.Default);
-        //    //rtb2.Render(Area.MainWindow.ImgVisual);
-        //    //PngBitmapEncoder be2 = new PngBitmapEncoder();
-        //    //be2.Frames.Add(BitmapFrame.Create(rtb2));
-        //    //be2.Save(file2);
-        //    //file2.Close();
-        //}
         public static void SaveBrush(StrokeCollection value)
         {
             try
@@ -510,7 +490,7 @@ namespace Edit_Community
     /// </summary>
     public sealed class Local
     {
-        public USettings uSettings = new USettings(Area.LocalFolder, "Settings");
+        public USettings uSettings = new USettings(StartUp.LocalFolder, "Settings");
         public readonly USettingsProperty<bool> IsFullScreenProperty;
         public readonly USettingsProperty<Size> AppSizeProperty;
         public readonly USettingsProperty<Point> AppLocationProperty;
@@ -641,7 +621,7 @@ namespace Edit_Community
         /// <summary>
         /// 本地文件夹路径.
         /// </summary>
-        public static string LocalFolder => AppDomain.CurrentDomain.BaseDirectory;
+        //public static string LocalFolder => AppDomain.CurrentDomain.BaseDirectory;
         /// <summary>
         /// 模板路径.
         /// </summary>
@@ -649,7 +629,7 @@ namespace Edit_Community
         {
             get
             {
-                string path = LocalFolder + @"mod\";
+                string path = StartUp.LocalFolder + @"mod\";
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
@@ -664,7 +644,7 @@ namespace Edit_Community
         {
             get
             {
-                string path = LocalFolder + @"edit\";
+                string path = StartUp.LocalFolder + @"edit\";
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
