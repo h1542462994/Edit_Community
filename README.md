@@ -84,4 +84,4 @@ Edit_Community
 		+ `new` `extension` 天气预报回归.
 # 开发人员
 + [117503445](https://github.com/117503445)提供天气服务的支持.
-+ [h1542462994](https//github.com/h1542462994)
++ [h1542462994](https://github.com/h1542462944)
