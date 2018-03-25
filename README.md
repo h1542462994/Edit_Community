@@ -1,87 +1,87 @@
 Edit_Community
 ==========
-# ÉùÃ÷
-+ ´ËÈí¼þÊÇ¿ªÔ´Èí¼þ,½ûÖ¹ÓÃÓÚÉÌÒµÄ¿µÄ.
-# Èí¼þ½éÉÜ
-ÕâÊÇÒ»¿î**×÷ÒµÕ¹Ê¾Æ÷**Èí¼þ,ÄÜ¹»ÊµÏÖÔÚ°à¼¶½ÌÊÒµçÄÔÕ¹Ê¾µ±ÌìµÄ¹¦ÄÜ.
-+ Ö÷Òª¹¦ÄÜ
-	+ ½«µ±ÌìµÄ×÷ÒµÏÔÊ¾ÔÚ6¸ö**RichTextBox**ÖÐ.![screenshot](https://github.com/h1542462994/Edit_Community/Picture/main.jpg)
-	+ Ö§³Ö±à¼­ÎÄ±¾µÄ×ÖºÅ,×ÖÌå,¼Ó´Ö,ÇãÐ±,ÑÕÉ«.**Ö»ÐèÒªÑ¡ÖÐÎÄ×Ö²¢ËÉ¿ª×ó¼ü¼´¿É** ![screenshot](https://github.com/h1542462994/Edit_Community/Picture/editbox.jpg)
-		+ ÈçÐèÐÞ¸ÄÔ¤Éè×ÖÌåÑÕÉ«,Ö»ÒªÓÒ¼üÑÕÉ«¼´¿É,½«»áÌø³ö`ColorDialog`
-	+ Í¨¹ý×ó¼üµ¥»÷×óÏÂ½ÇÇøÓòÀ´ÇÐ»»µ±Ç°ÏÔÊ¾µÄÎÄ¼þ¼Ð.
-		+ Èç¹ûÒª±à¼­Ä£°å,¿ÉÒÔ°´ÈçÍ¼ËùÊ¾²Ù×÷![screenshot](https://github.com/h1542462994/Edit_Community/Picture/setting1.jpg)
-	+ ±³¾°:Ö§³ÖÐÞ¸Ä`±³¾°ÑÕÉ«`ºÍ`ÏÔÊ¾µÄÍ¼Æ¬`.Ö»ÐèÔÚ`ÉèÖÃ`>`¸öÐÔ»¯`µÄÏà¹ØÀ¸Ä¿½øÐÐÉèÖÃ.
-	+ ÌìÆø:Ö§³ÖÌìÆøµÄÏÔÊ¾,
-+ À©Õ¹¹¦ÄÜ
-	+ ÔÚ¸ùÎÄ¼þÏÂÐÞ¸Ä`StartUp.xml`¿ÉÒÔ¸ü¸ÄÎÄ¼þµÄ»º´æÂ·¾¶.</br>
+# å£°æ˜Ž
++ æ­¤è½¯ä»¶æ˜¯å¼€æºè½¯ä»¶,ç¦æ­¢ç”¨äºŽå•†ä¸šç›®çš„.
+# è½¯ä»¶ä»‹ç»
+è¿™æ˜¯ä¸€æ¬¾**ä½œä¸šå±•ç¤ºå™¨**è½¯ä»¶,èƒ½å¤Ÿå®žçŽ°åœ¨ç­çº§æ•™å®¤ç”µè„‘å±•ç¤ºå½“å¤©çš„åŠŸèƒ½.
++ ä¸»è¦åŠŸèƒ½
+	+ å°†å½“å¤©çš„ä½œä¸šæ˜¾ç¤ºåœ¨6ä¸ª**RichTextBox**ä¸­.![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Picture/main.jpg)
+	+ æ”¯æŒç¼–è¾‘æ–‡æœ¬çš„å­—å·,å­—ä½“,åŠ ç²—,å€¾æ–œ,é¢œè‰².**åªéœ€è¦é€‰ä¸­æ–‡å­—å¹¶æ¾å¼€å·¦é”®å³å¯** ![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Picture/editbox.jpg)
+		+ å¦‚éœ€ä¿®æ”¹é¢„è®¾å­—ä½“é¢œè‰²,åªè¦å³é”®é¢œè‰²å³å¯,å°†ä¼šè·³å‡º`ColorDialog`
+	+ é€šè¿‡å·¦é”®å•å‡»å·¦ä¸‹è§’åŒºåŸŸæ¥åˆ‡æ¢å½“å‰æ˜¾ç¤ºçš„æ–‡ä»¶å¤¹.
+		+ å¦‚æžœè¦ç¼–è¾‘æ¨¡æ¿,å¯ä»¥æŒ‰å¦‚å›¾æ‰€ç¤ºæ“ä½œ![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Picture/settings1.jpg)
+	+ èƒŒæ™¯:æ”¯æŒä¿®æ”¹`èƒŒæ™¯é¢œè‰²`å’Œ`æ˜¾ç¤ºçš„å›¾ç‰‡`.åªéœ€åœ¨`è®¾ç½®`>`ä¸ªæ€§åŒ–`çš„ç›¸å…³æ ç›®è¿›è¡Œè®¾ç½®.
+	+ å¤©æ°”:æ”¯æŒå¤©æ°”çš„æ˜¾ç¤º,
++ æ‰©å±•åŠŸèƒ½
+	+ åœ¨æ ¹æ–‡ä»¶ä¸‹ä¿®æ”¹`StartUp.xml`å¯ä»¥æ›´æ”¹æ–‡ä»¶çš„ç¼“å­˜è·¯å¾„.</br>
 	```xml
 	<?xml version="1.0" encoding="utf-8"?>
-	<!--ÕâÊÇÉèÖÃ1.0.3.0°æ±¾µÄ±¾µØÎÄ¼þ,¿ÉÒÔÊµÏÖ¸Ä±ä×Ö¶ÎÖµ×Ô¶¯±£´æµÄ¹¦ÄÜ,Ö§³Ö±£´æÊý×é.-->
+	<!--è¿™æ˜¯è®¾ç½®1.0.3.0ç‰ˆæœ¬çš„æœ¬åœ°æ–‡ä»¶,å¯ä»¥å®žçŽ°æ”¹å˜å­—æ®µå€¼è‡ªåŠ¨ä¿å­˜çš„åŠŸèƒ½,æ”¯æŒä¿å­˜æ•°ç»„.-->
 	<StartUp filetype="settings" version="1.0.3.0">
 		<RootFolder type="System.String">C:\User\App\Edit Community\LocalCache\</RootFolder>
 		<IsCurrentDomain type="System.Boolean">False</IsCurrentDomain>
 	</StartUp>
 	```		
-# ×¢ÒâÊÂÏî
-+ ´úÂëÏÂÔØ:¸ÃÈí¼þÒýÓÃHTLibrary¿â,µã»÷Ìø×ª
+# æ³¨æ„äº‹é¡¹
++ ä»£ç ä¸‹è½½:è¯¥è½¯ä»¶å¼•ç”¨HTLibraryåº“,ç‚¹å‡»è·³è½¬
 [](https://github.com/h1542462944/HTLibrary)
-# ÀúÊ·
-+ *2017Äê8Äê12ÈÕ - 2017Äê9ÔÂ29ÈÕ* **117503445**·¢²¼HomeWorker°æ±¾ </br>
+# åŽ†å²
++ *2017å¹´8å¹´12æ—¥ - 2017å¹´9æœˆ29æ—¥* **117503445**å‘å¸ƒHomeWorkerç‰ˆæœ¬ </br>
 [](https://github.com/117503445)
-+ *2017Äê10ÔÂ1ÈÕ - 2017Äê12ÔÂ6ÈÕ* **h1542462994**·¢²¼Edit°æ±¾ </br>
++ *2017å¹´10æœˆ1æ—¥ - 2017å¹´12æœˆ6æ—¥* **h1542462994**å‘å¸ƒEditç‰ˆæœ¬ </br>
 [](https://github.com/h1542462994/Edit)
-+ *2017Äê12ÔÂ7ÈÕ - * **h1542462994**·¢²¼Edit_Community°æ±¾ </br>
++ *2017å¹´12æœˆ7æ—¥ - * **h1542462994**å‘å¸ƒEdit_Communityç‰ˆæœ¬ </br>
 [](https://github.com/h1542462994/Edit_Community)
-# ¸üÐÂ
-+ StartUpdate **2017Äê12ÔÂ27ÈÕ - 2018Äê1ÔÂ1ÈÕ**
-	+ *2017Äê12ÔÂ27ÈÕ* **1.0.0.0**
-		+ `important` ·¢²¼µÚÒ»¸öEdit°æ±¾.
-	+ *2017Äê12ÔÂ28ÈÕ* **1.0.0.1**
-		+ `debug` `window` ÐÞ¸´´°Ìå³õÊ¼»¯µÄÎÊÌâ,²¢ÇÒÄÜ¹»ÊµÏÖ*ÆÕÍ¨,×î´ó»¯ºÍÈ«ÆÁ*ÈýÖÖÌ¬µÄÇÐ»».
-		+ `debug` `main` ½â¾öÊäÈë·¨µÄÎÊÌâ(*ÐèÒª°²×°Ó¢ÎÄÓïÑÔ*).
-	+ *2017Äê12ÔÂ30ÈÕ* **1.0.0.2**
-		+ `debug` `userlibrary` ½â¾öUPropertyÊ×´Î´´½¨xmlÎÄ¼þÊ±ÎÞ·¨±£´æÉèÖÃµÄÎÊÌâ.
-		+ `improve` `main` ¿ÉÒÔ¼æÈÝÀÏµÄÎÄ¼þ°æ±¾[Ö»ÒÔ±ê×¼Ê±¼ä×Ö·û´®ÃüÃû].ÀýÈç`20170621`
-		+ `improve` `window` colorDialogÒÔ¼°¶Ô»°¿ò¾ùÊµÏÖµã»÷ÆäËûÇøÓò×Ô¶¯ÍË³ö.
-		+ `improve` `window` colorPicker¼ÓÈëÊÇ·ñ¿ÉÒÔ±à¼­²»Í¸Ã÷¶ÈµÄ¹¦ÄÜ.
-	+ *2017Äê12ÔÂ31ÈÕ]* **1.0.0.3**
-		+ `new` `window` ¼ÓÈëÁË±³¾°Í¼Æ¬µÄ¹¦ÄÜ,¸ù¾Ý±¾µØÎÄ¼þÀ´¶ÁÈ¡.
-		+ `improve` `winodw` ¼ÓÈëÁËµ÷Õû±³¾°ÑÕÉ«ÒÔ¼°Ô¤ÉèºÍÀúÊ·ÑÕÉ«µÄ¹¦ÄÜ(Ö§³Ö²»Í¸Ã÷¶È).
-		+ `improve` `window` ¼ÓÈëÁ½¸öµ÷ÕûÒ³ÊýµÄ°´Å¥ÊÇ·ñÏÔÊ¾.
-		+ `improve` `edit` ¼ÓÈëeditcolorHistoryµÄ¹¦ÄÜ,Èç¹ûÑ¡ÔñµÄÑÕÉ«ÊÇÐÂµÄÑÕÉ«,ÄÇÃ´½«»á¼ÓÈëµ½GridEditBox.
-		+ `debug` `main` ½â¾öÈÕÆÚÖÁÈÕÆÚ×Ö·û´®Ã»ÓÐ¼Ó0µÄÎÊÌâ.
-		+ `improve` `window` ËùÓÐÑÕÉ«ÓÐ¹ØµÄ¿Ø¼þ½«ÏÔÊ¾ARGB(RGB)µÄÏêÏ¸ÐÅÏ¢.
-		+ `improve` `window` ColorPickerÖ§³ÖÊäÈëARGBÑÕÉ«À´Ñ¡È¡ÑÕÉ«.
-	+ *2018Äê1ÔÂ1ÈÕ* **1.0.0.4**
-		+ `improve` `extension` ¼ÓÈë±à¼­Ä£°åµÄ¹¦ÄÜ.
-+ Brush Update **2018Äê1ÔÂ2ÈÕ - 2018Äê1ÔÂ8ÈÕ**
-	+ *2018Äê1ÔÂ2ÈÕ-2018Äê1ÔÂ7ÈÕ* **1.1.0.0**
-		+ `new` `brush` ¼ÓÈë±ÊË¢Í¼²ãÐÂ¹¦ÄÜ.
-		+ `improve` `window` ¼ÓÈëÊó±êÎÞ¶¯×÷6sÒþ²ØÊó±êÍ¼±ê,×Ô¶¯Òþ²Ø²Ëµ¥À¸ºÍÁ½¸ö°´Å¥.µÄ¹¦ÄÜ.
-		+ `improve` `brush` ¼ÓÈëµ÷Õûink±Ê´ÖÏ¸,Ö§³ÖÈ«ÆÁÇå³ý±Ê¼£µÄ¹¦ÄÜ.
-		+ `improve` `brush` ¸øMultiInkCanvasWithTool¼ÓÉÏ*ÒÀÀµÊôÐÔ*IsTransparentStyle,ÒÔÊÊÓ¦*PPT_Helper*µÄ¹¦ÄÜ.
-		+ `debug` `brush` ÔÚÓ«¹â±ÊÄ£Ê½ÏÂµ÷Õû´ÖÏ¸µ¼ÖÂµÄÎÊÌâ.
-		+ `debug` `main` ÐÞ¸´´´½¨Ê±¼ä´Û¸ÄµÄbug.
-	+ *2018Äê1ÔÂ8ÈÕ* **1.1.0.1**
-		+ `debug` `brush` ÐÞ¸´MultiInkCanvas¹ØÓÚÏðÆ¤´óÐ¡²úÉúµÄÎÊÌâ.
-		+ `debug` `brush` ÐÞ¸´MultiInkCanvasWithToolµ÷Õû´ÖÏ¸µ¼ÖÂµÄÎÊÌâ.
-+ Preview Update  **2018Äê1ÔÂ9ÈÕ - 2018Äê1ÔÂ13ÈÕ**
-	+ *2018Äê1ÔÂ9ÈÕ-2018Äê1ÔÂ13ÈÕ* **1.2.0.0**
-		+ `debug` `brush` Ö§³Ö±ÊË¢ÓÐ¹ØµÄ¿Ø¼þ.
-	+ *2018Äê1ÔÂ26ÈÕ* **1.2.0.1**
-		+ `new` `extension` ¼ÓÈëÌìÆøÔ¤±¨¹¦ÄÜ.
-		+ `new` `window` ¼ÓÈë**F11**È«ÆÁ¿ì½Ý¼ü.
+# æ›´æ–°
++ StartUpdate **2017å¹´12æœˆ27æ—¥ - 2018å¹´1æœˆ1æ—¥**
+	+ *2017å¹´12æœˆ27æ—¥* **1.0.0.0**
+		+ `important` å‘å¸ƒç¬¬ä¸€ä¸ªEditç‰ˆæœ¬.
+	+ *2017å¹´12æœˆ28æ—¥* **1.0.0.1**
+		+ `debug` `window` ä¿®å¤çª—ä½“åˆå§‹åŒ–çš„é—®é¢˜,å¹¶ä¸”èƒ½å¤Ÿå®žçŽ°*æ™®é€š,æœ€å¤§åŒ–å’Œå…¨å±*ä¸‰ç§æ€çš„åˆ‡æ¢.
+		+ `debug` `main` è§£å†³è¾“å…¥æ³•çš„é—®é¢˜(*éœ€è¦å®‰è£…è‹±æ–‡è¯­è¨€*).
+	+ *2017å¹´12æœˆ30æ—¥* **1.0.0.2**
+		+ `debug` `userlibrary` è§£å†³UPropertyé¦–æ¬¡åˆ›å»ºxmlæ–‡ä»¶æ—¶æ— æ³•ä¿å­˜è®¾ç½®çš„é—®é¢˜.
+		+ `improve` `main` å¯ä»¥å…¼å®¹è€çš„æ–‡ä»¶ç‰ˆæœ¬[åªä»¥æ ‡å‡†æ—¶é—´å­—ç¬¦ä¸²å‘½å].ä¾‹å¦‚`20170621`
+		+ `improve` `window` colorDialogä»¥åŠå¯¹è¯æ¡†å‡å®žçŽ°ç‚¹å‡»å…¶ä»–åŒºåŸŸè‡ªåŠ¨é€€å‡º.
+		+ `improve` `window` colorPickeråŠ å…¥æ˜¯å¦å¯ä»¥ç¼–è¾‘ä¸é€æ˜Žåº¦çš„åŠŸèƒ½.
+	+ *2017å¹´12æœˆ31æ—¥]* **1.0.0.3**
+		+ `new` `window` åŠ å…¥äº†èƒŒæ™¯å›¾ç‰‡çš„åŠŸèƒ½,æ ¹æ®æœ¬åœ°æ–‡ä»¶æ¥è¯»å–.
+		+ `improve` `winodw` åŠ å…¥äº†è°ƒæ•´èƒŒæ™¯é¢œè‰²ä»¥åŠé¢„è®¾å’ŒåŽ†å²é¢œè‰²çš„åŠŸèƒ½(æ”¯æŒä¸é€æ˜Žåº¦).
+		+ `improve` `window` åŠ å…¥ä¸¤ä¸ªè°ƒæ•´é¡µæ•°çš„æŒ‰é’®æ˜¯å¦æ˜¾ç¤º.
+		+ `improve` `edit` åŠ å…¥editcolorHistoryçš„åŠŸèƒ½,å¦‚æžœé€‰æ‹©çš„é¢œè‰²æ˜¯æ–°çš„é¢œè‰²,é‚£ä¹ˆå°†ä¼šåŠ å…¥åˆ°GridEditBox.
+		+ `debug` `main` è§£å†³æ—¥æœŸè‡³æ—¥æœŸå­—ç¬¦ä¸²æ²¡æœ‰åŠ 0çš„é—®é¢˜.
+		+ `improve` `window` æ‰€æœ‰é¢œè‰²æœ‰å…³çš„æŽ§ä»¶å°†æ˜¾ç¤ºARGB(RGB)çš„è¯¦ç»†ä¿¡æ¯.
+		+ `improve` `window` ColorPickeræ”¯æŒè¾“å…¥ARGBé¢œè‰²æ¥é€‰å–é¢œè‰².
+	+ *2018å¹´1æœˆ1æ—¥* **1.0.0.4**
+		+ `improve` `extension` åŠ å…¥ç¼–è¾‘æ¨¡æ¿çš„åŠŸèƒ½.
++ Brush Update **2018å¹´1æœˆ2æ—¥ - 2018å¹´1æœˆ8æ—¥**
+	+ *2018å¹´1æœˆ2æ—¥-2018å¹´1æœˆ7æ—¥* **1.1.0.0**
+		+ `new` `brush` åŠ å…¥ç¬”åˆ·å›¾å±‚æ–°åŠŸèƒ½.
+		+ `improve` `window` åŠ å…¥é¼ æ ‡æ— åŠ¨ä½œ6séšè—é¼ æ ‡å›¾æ ‡,è‡ªåŠ¨éšè—èœå•æ å’Œä¸¤ä¸ªæŒ‰é’®.çš„åŠŸèƒ½.
+		+ `improve` `brush` åŠ å…¥è°ƒæ•´inkç¬”ç²—ç»†,æ”¯æŒå…¨å±æ¸…é™¤ç¬”è¿¹çš„åŠŸèƒ½.
+		+ `improve` `brush` ç»™MultiInkCanvasWithToolåŠ ä¸Š*ä¾èµ–å±žæ€§*IsTransparentStyle,ä»¥é€‚åº”*PPT_Helper*çš„åŠŸèƒ½.
+		+ `debug` `brush` åœ¨è§å…‰ç¬”æ¨¡å¼ä¸‹è°ƒæ•´ç²—ç»†å¯¼è‡´çš„é—®é¢˜.
+		+ `debug` `main` ä¿®å¤åˆ›å»ºæ—¶é—´ç¯¡æ”¹çš„bug.
+	+ *2018å¹´1æœˆ8æ—¥* **1.1.0.1**
+		+ `debug` `brush` ä¿®å¤MultiInkCanvaså…³äºŽæ©¡çš®å¤§å°äº§ç”Ÿçš„é—®é¢˜.
+		+ `debug` `brush` ä¿®å¤MultiInkCanvasWithToolè°ƒæ•´ç²—ç»†å¯¼è‡´çš„é—®é¢˜.
++ Preview Update  **2018å¹´1æœˆ9æ—¥ - 2018å¹´1æœˆ13æ—¥**
+	+ *2018å¹´1æœˆ9æ—¥-2018å¹´1æœˆ13æ—¥* **1.2.0.0**
+		+ `debug` `brush` æ”¯æŒç¬”åˆ·æœ‰å…³çš„æŽ§ä»¶.
+	+ *2018å¹´1æœˆ26æ—¥* **1.2.0.1**
+		+ `new` `extension` åŠ å…¥å¤©æ°”é¢„æŠ¥åŠŸèƒ½.
+		+ `new` `window` åŠ å…¥**F11**å…¨å±å¿«æ·é”®.
 + Unversil Update
-	+ *2018Äê3ÔÂ11ÈÕ* **1.3.0.1**
-		+ `new` `edit` ¼ÓÈëµ÷Õû×ÖÌåµÄ¹¦ÄÜ.
-	+ *2018Äê3ÔÂ15ÈÕ* **1.3.2.0**
-		+ `change` `htlibrary` ÆúÖÃLibrary¿â,Ê¹ÓÃHTLibrary¿â.
-		+ `improve` `window` ¿Ø¼þÊ¹ÓÃÆ½»¬¿Ø¼þ.
-	+ *2018Äê3ÔÂ16ÈÕ* **1.3.2.1**
-		+ `improve` `window` ±³¾°²ÉÓÃÎÞ,Í¼Æ¬ºÍ»ÃµÆÆ¬ÈýÖÖÄ£Ê½,¿ÉÒÔ×Ô¼ºÑ¡Ôñ.
-	+ *2018Äê3ÔÂ18ÈÕ* **1.3.4.0**
-		+ `improve` `window` ÉèÖÃÏÂ²áÐÂÌí4¸ö`QuickButton`°´Å¥.
-	+ *2018Äê3ÔÂ19ÈÕ* **1.3.4.3**
-		+ `new` `main` ¼ÓÈëÎÄ¼þÂ·¾¶×Ô¶¨ÒåµÄ¹¦ÄÜ *½öÏÞReleaseÄ£Ê½*
-	+ *2018Äê3ÔÂ21ÈÕ* **1.3.4.3**
-		+ `new` `extension` ÌìÆøÔ¤±¨»Ø¹é.
+	+ *2018å¹´3æœˆ11æ—¥* **1.3.0.1**
+		+ `new` `edit` åŠ å…¥è°ƒæ•´å­—ä½“çš„åŠŸèƒ½.
+	+ *2018å¹´3æœˆ15æ—¥* **1.3.2.0**
+		+ `change` `htlibrary` å¼ƒç½®Libraryåº“,ä½¿ç”¨HTLibraryåº“.
+		+ `improve` `window` æŽ§ä»¶ä½¿ç”¨å¹³æ»‘æŽ§ä»¶.
+	+ *2018å¹´3æœˆ16æ—¥* **1.3.2.1**
+		+ `improve` `window` èƒŒæ™¯é‡‡ç”¨æ— ,å›¾ç‰‡å’Œå¹»ç¯ç‰‡ä¸‰ç§æ¨¡å¼,å¯ä»¥è‡ªå·±é€‰æ‹©.
+	+ *2018å¹´3æœˆ18æ—¥* **1.3.4.0**
+		+ `improve` `window` è®¾ç½®ä¸‹å†Œæ–°æ·»4ä¸ª`QuickButton`æŒ‰é’®.
+	+ *2018å¹´3æœˆ19æ—¥* **1.3.4.3**
+		+ `new` `main` åŠ å…¥æ–‡ä»¶è·¯å¾„è‡ªå®šä¹‰çš„åŠŸèƒ½ *ä»…é™Releaseæ¨¡å¼*
+	+ *2018å¹´3æœˆ21æ—¥* **1.3.4.3**
+		+ `new` `extension` å¤©æ°”é¢„æŠ¥å›žå½’.
