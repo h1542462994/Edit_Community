@@ -82,3 +82,6 @@ Edit_Community
 		+ `new` `main` 加入文件路径自定义的功能 *仅限Release模式*
 	+ *2018年3月21日* **1.3.4.3**
 		+ `new` `extension` 天气预报回归.
+# 开发人员
++ [117503445](https://github.com/117503445)提供天气服务的支持.
++ [h1542462994](https//github.com/h1542462994)
