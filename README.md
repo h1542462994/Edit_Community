@@ -6,7 +6,9 @@ Edit_Community
 这是一款**作业展示器**软件,能够实现在班级教室电脑展示当天的功能.
 + 主要功能
 	+ 将当天的作业显示在6个**RichTextBox**中.
-![](https://github.com/h1542462994/Edit_Community/Picture/main.jpg)
+
+![screenshot](https://github.com/h1542462994/Edit_Community/Picture/main.jpg)
+
 	+ 支持编辑文本的字号,字体,加粗,倾斜,颜色.**只需要选中文字并松开左键即可** 
 ![](https://github.com/h1542462994/Edit_Community/Picture/editbox.jpg)
 		+ 如需修改预设字体颜色,只要右键颜色即可,将会跳出`ColorDialog`
@@ -30,11 +32,11 @@ Edit_Community
 [](https://github.com/h1542462944/HTLibrary)
 # 历史
 + *2017年8年12日 - 2017年9月29日* **117503445**发布HomeWorker版本 </br>
-![](https://github.com/117503445)
+[](https://github.com/117503445)
 + *2017年10月1日 - 2017年12月6日* **h1542462994**发布Edit版本 </br>
-![](https://github.com/h1542462994/Edit)
+[](https://github.com/h1542462994/Edit)
 + *2017年12月7日 - * **h1542462994**发布Edit_Community版本 </br>
-![](https://github.com/h1542462994/Edit_Community)
+[](https://github.com/h1542462994/Edit_Community)
 # 更新
 + StartUpdate **2017年12月27日 - 2018年1月1日**
 	+ *2017年12月27日* **1.0.0.0**
