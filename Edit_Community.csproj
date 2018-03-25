@@ -142,6 +142,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Picture\changepage.jpg" />
+    <Resource Include="Picture\editbox.jpg" />
+    <Resource Include="Picture\main.jpg" />
+    <Resource Include="Picture\settings1.jpg" />
     <Resource Include="Properties\Update.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
