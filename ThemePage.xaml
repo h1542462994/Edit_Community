@@ -75,8 +75,8 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Label x:Name="LblBackgroundPicFail" Content="请等待加载." Foreground="Yellow" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                <libr:TriggerButton x:Name="BtnChoose" Foreground="White" InnerContent="立即切换" Grid.Column="1" Margin="5" Tapped="BtnChoose_Tapped" />
-                <libr:TriggerButton x:Name="BtnSlideNext" Foreground="White" InnerContent="立即切换" Grid.Column="2" Margin="5" Tapped="BtnSlideNext_Tapped" />
+                <libr:TriggerButton x:Name="BtnChoose" ControlStyle="Dark"  Foreground="White" InnerContent="立即切换" Grid.Column="1" Margin="5" Tapped="BtnChoose_Tapped" />
+                <libr:TriggerButton x:Name="BtnSlideNext" ControlStyle="Dark" Foreground="White" InnerContent="立即切换" Grid.Column="2" Margin="5" Tapped="BtnSlideNext_Tapped" />
             </Grid>
             <Grid x:Name="GridSlideTime" Height="30">
                 <Grid.ColumnDefinitions>

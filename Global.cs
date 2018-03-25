@@ -191,15 +191,15 @@ namespace Edit_Community
 
         private Edit()
         {
-            ColumnDefiProperty = uSettings.Register("columnDefi", new double[] { 0.33, 0.33 },true);
-            RowDefi0Property = uSettings.Register("rowDefi0", 0.5,true);
-            RowDefi1Property = uSettings.Register("rowDefi1", 0.5,true);
-            RowDefi2Property = uSettings.Register("rowDefi2", 0.5,true);
-            ColumnElp0Property = uSettings.Register("columnElp0", 0.4,true);
-            ColumnElp1Property = uSettings.Register("columnElp1", 0.4,true);
-            RowElo0Property = uSettings.Register("rowElp0", 0.5,true);
-            RowElp1Property = uSettings.Register("rowElp1", 0.5,true);
-            RowElp2Property = uSettings.Register("rowElp2", 0.5,true);
+            ColumnDefiProperty = uSettings.Register("columnDefi", new double[] { 0.33, 0.33 }, true);
+            RowDefi0Property = uSettings.Register("rowDefi0", 0.5, true);
+            RowDefi1Property = uSettings.Register("rowDefi1", 0.5, true);
+            RowDefi2Property = uSettings.Register("rowDefi2", 0.5, true);
+            ColumnElp0Property = uSettings.Register("columnElp0", 0.4, true);
+            ColumnElp1Property = uSettings.Register("columnElp1", 0.4, true);
+            RowElo0Property = uSettings.Register("rowElp0", 0.5, true);
+            RowElp1Property = uSettings.Register("rowElp1", 0.5, true);
+            RowElp2Property = uSettings.Register("rowElp2", 0.5, true);
             CreateTimeProperty = uSettings.Register("createTime", new DateTime());
             TitleProperty = uSettings.Register("title", "");
             EditFileTypeProperty = uSettings.Register("editfiletype", 1);
@@ -425,15 +425,22 @@ namespace Edit_Community
         {
             //=>互操作.
             Area.MainWindow.IsEditLoaded = false;
-            string filename = index.ToString() + ".rtf";
-            if (!File.Exists(Area.EditBranchFolder + filename))
+            try
             {
-                File.Copy(Area.ModFolder + filename, Area.EditBranchFolder + filename, true);
+                string filename = index.ToString() + ".rtf";
+                if (!File.Exists(Area.EditBranchFolder + filename))
+                {
+                    File.Copy(Area.ModFolder + filename, Area.EditBranchFolder + filename, true);
+                }
+                TextRange t = new TextRange(Area.MainWindow.RTbx[index].Document.ContentStart, Area.MainWindow.RTbx[index].Document.ContentEnd);
+                using (FileStream file = new FileStream(Area.EditBranchFolder + filename, FileMode.Open))
+                {
+                    t.Load(file, DataFormats.Rtf);
+                }
             }
-            TextRange t = new TextRange(Area.MainWindow.RTbx[index].Document.ContentStart, Area.MainWindow.RTbx[index].Document.ContentEnd);
-            FileStream file = new FileStream(Area.EditBranchFolder + filename, FileMode.Open);
-            t.Load(file, DataFormats.Rtf);
-            file.Close();
+            catch (Exception)
+            {
+            }
             //=>互操作.
             Area.MainWindow.IsEditLoaded = true;
         }
@@ -519,11 +526,11 @@ namespace Edit_Community
         public readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
         public Local()
         {
-            IsFullScreenProperty = uSettings.Register("isFullScreen", false,true);
+            IsFullScreenProperty = uSettings.Register("isFullScreen", false, true);
             AppSizeProperty = uSettings.Register("appSize", new Size(0.7, 0.7));
             AppLocationProperty = uSettings.Register("appLocation", new Point(0.15, 0.15));
             IsMaxShowProperty = uSettings.Register("isMaxShow", false);
-            EditBackgroundColorProperty = uSettings.Register("editBackgroundColor", Color.FromRgb(20, 32, 0),true);
+            EditBackgroundColorProperty = uSettings.Register("editBackgroundColor", Color.FromRgb(20, 32, 0), true);
             EditBackgroundColorOldproperty = uSettings.Register("editBackgroundColorOld", Color.FromRgb(20, 32, 0));
             ColumnDefiMinProperty = uSettings.Register("columnDefiMin", 0.04);
             RowDefiMinProperty = uSettings.Register("rowDefiMin", 0.04);
@@ -535,22 +542,22 @@ namespace Edit_Community
                 Color.FromRgb(12,116,102),
                 Colors.Chocolate,
                 Color.FromRgb(12,234,145),
-                Colors.White},true);
+                Colors.White}, true);
             EditBackgroundColorHistoryProperty = uSettings.Register("editBackgroundColorHistory", new Color[0]);
             ExitEditIntervalProperty = uSettings.Register("exitEditInterval", 12);
-            EditColorHistoryProperty = uSettings.Register("editcolorHistory", new Color[0],true);
-            IsEditBrushOpenProperty = uSettings.Register("isEditBrushOpen", false,true);
-            IsRtxHiddenProperty = uSettings.Register("isRtxHidden", false,true);
+            EditColorHistoryProperty = uSettings.Register("editcolorHistory", new Color[0], true);
+            IsEditBrushOpenProperty = uSettings.Register("isEditBrushOpen", false, true);
+            IsRtxHiddenProperty = uSettings.Register("isRtxHidden", false, true);
             InkColorIndexProperty = uSettings.Register("inkColorIndex", 0);
             InkPenWidthProperty = uSettings.Register("inkPenWidth", 4.0);
-            BackgroundModeProperty = uSettings.Register("BackgroundMode", 0,true);
+            BackgroundModeProperty = uSettings.Register("BackgroundMode", 0, true);
             BackgroundPicPathProperty = uSettings.Register("BackgroundPicPath", "");
             BackgroundPicFolderProperty = uSettings.Register("BackgroundPicFolderPath", "");
             BackgroundPicTimestampProperty = uSettings.Register("BackgroundPicTimestamp", 15.0);
             BackgroundPicLastTimeProperty = uSettings.Register("BackgroundPicLastTime", new DateTime());
             BackgroundPicCurrentindexProperty = uSettings.Register("BackgroundPicCurrentindex", 0);
             WeatherisOpenProperty = uSettings.Register("WeatherisOpen", false, true);
-            WeathercityProperty = uSettings.Register("Weathercity", "杭州",true);
+            WeathercityProperty = uSettings.Register("Weathercity", "杭州", true);
             WeatherTimestampProperty = uSettings.Register("WeatherTimestamp", 120.0);
             WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
         }

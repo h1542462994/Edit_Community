@@ -202,7 +202,7 @@ namespace Edit_Community
                 Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
             }
         }
-        public void Local_PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
+        public void Local_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
         {
             if (key == Area.Local.EditColorProperty)
             {
@@ -350,7 +350,7 @@ namespace Edit_Community
                 QBWeather.IsChecked = (bool)e.NewValue;
             }
         }
-        public void Edit_PropertyChanged(USettingsProperty key, PropertyChangedEventargs e)
+        public void Edit_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
         {
             if (key == Area.Edit.ColumnDefiProperty)
             {
@@ -766,10 +766,13 @@ namespace Edit_Community
             else if (mode == 2)
             {
                 bool isOk = true;
+                TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
+                TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime ;
+                double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
+                QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51),percent);
                 if (!firstload)
                 {
-                    TimeSpan timeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
-                    if (DateTime.Now - Area.Local.BackgroundPicLastTime < timeSpan)
+                    if (currentTimeSpan < defaultTimeSpan)
                     {
                         isOk = false;
                     }
@@ -782,7 +785,7 @@ namespace Edit_Community
                         List<FileInfo> infos = new List<FileInfo>();
                         foreach (FileInfo file in Folder.GetFiles())
                         {
-                            if (file.Extension == ".png" || file.Extension == ".bmp" || file.Extension == ".jpg")
+                            if (file.Extension.ToLower() == ".png" || file.Extension.ToLower() == ".bmp" || file.Extension.ToLower() == ".jpg")
                             {
                                 infos.Add(file);
                             }
@@ -1413,7 +1416,7 @@ namespace Edit_Community
             this.colorPickTask = colorPickTask;
             this.colorpicktaskindex = colorpicktaskindex;
         }
-        private void ColorPick_OkOrCancel_Click(object sender, PropertyChangedEventargs<User.UI.ColorP> e)
+        private void ColorPick_OkOrCancel_Click(object sender, UPropertyChangedEventArgs<ColorP> e)
         {
             if (colorPickTask == ColorPickTask.GridEditBox)
             {
@@ -1448,7 +1451,7 @@ namespace Edit_Community
         public WeatherText WeatherText = new WeatherText("杭州");
         public async void OnWeatherAsync(bool isFirst = false)
         {
-            if ((isFirst || DateTime.Now - Area.Local.WeatherLastTime > TimeSpan.FromMinutes( Area.Local.WeatherTimestamp)) && Area.Edit.CreateTime.Date == DateTime.Today )
+            if ((isFirst || DateTime.Now - Area.Local.WeatherLastTime > TimeSpan.FromMinutes(Area.Local.WeatherTimestamp)) && Area.Edit.CreateTime.Date == DateTime.Today)
             {
                 try
                 {
@@ -1457,7 +1460,7 @@ namespace Edit_Community
                 }
                 catch (Exception)
                 {
-                    throw;
+                    Console.WriteLine("Weather.Error");
                 }
                 Area.Local.WeatherLastTime = DateTime.Now;
             }
@@ -1480,7 +1483,5 @@ namespace Edit_Community
             }
         }
         #endregion
-
-
     }
 }

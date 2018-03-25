@@ -52,12 +52,12 @@ namespace Edit_Community
         }
         #region 背景颜色
         bool isElpLeftMouseDown;
-        private void ColorPicker1_ChooseOkOrCancel(object sender, PropertyChangedEventargs<ColorP> e)
+        private void ColorPicker1_ChooseOkOrCancel(object sender, UPropertyChangedEventArgs<ColorP> e)
         {
             Area.Local.EditBackgroundColorOld = e.OldValue.GetColor();
             ApplyEditBackgroundHistoryColor(e.NewValue.GetColor());
         }
-        private void ColorPicker1_ValueChanged(object sender, PropertyChangedEventargs<ColorP> e)
+        private void ColorPicker1_ValueChanged(object sender, UPropertyChangedEventArgs<ColorP> e)
         {
             ElpBackground.Fill = new SolidColorBrush(e.NewValue.GetColor());
             Area.Local.EditBackgroundColor = e.NewValue.GetColor();
@@ -212,6 +212,10 @@ namespace Edit_Community
         private void SlideBarTime_SlideValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SlideTimeLoad(false);
+            TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
+            TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
+            double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
+            Area.MainWindow. QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
         }
         public void CheckPic()
         {
@@ -235,7 +239,7 @@ namespace Edit_Community
                     List<FileInfo> infos = new List<FileInfo>();
                     foreach (FileInfo file in Folder.GetFiles())
                     {
-                        if (file.Extension == ".png" || file.Extension == ".bmp" || file.Extension == ".jpg")
+                        if (file.Extension.ToLower() == ".png" || file.Extension.ToLower() == ".bmp" || file.Extension.ToLower() == ".jpg")
                         {
                             infos.Add(file);
                         }
