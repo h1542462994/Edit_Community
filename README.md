@@ -18,7 +18,7 @@ Edit_Community
 # 更新
 + StartUpdate
 	+ *2017年12月27日* **1.0.0.0**
-	<font color=red>important</font> 发布第一个Edit版本.
+	`important` 发布第一个Edit版本.
 	+ *2017年12月28日* **1.0.0.1**
-	<font color=yellow>debug</font> <font color=skyblue>window</font> 修复窗体初始化的问题,并且能够实现*普通,最大化和全屏*三种状态的切换.
-	<span style="color: red">debug</span> <font color=orange>main</font> 解决输入法的问题(*需要安装英文语言*).
+	`debug`	`window` 修复窗体初始化的问题,并且能够实现*普通,最大化和全屏*三种状态的切换.
+	`debug` `main` 解决输入法的问题(*需要安装英文语言*).
