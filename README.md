@@ -24,14 +24,14 @@ Edit_Community
 	```		
 # 注意事项
 + 代码下载:该软件引用HTLibrary库,点击跳转
-[](https://github.com/h1542462944/HTLibrary)
+[htlibrary](https://github.com/h1542462944/HTLibrary)
 # 历史
 + *2017年8年12日 - 2017年9月29日* **117503445**发布HomeWorker版本 </br>
-[](https://github.com/117503445)
+[goto](https://github.com/117503445)
 + *2017年10月1日 - 2017年12月6日* **h1542462994**发布Edit版本 </br>
-[](https://github.com/h1542462994/Edit)
+[goto](https://github.com/h1542462994/Edit)
 + *2017年12月7日 - * **h1542462994**发布Edit_Community版本 </br>
-[](https://github.com/h1542462994/Edit_Community)
+[goto](https://github.com/h1542462994/Edit_Community)
 # 更新
 + StartUpdate **2017年12月27日 - 2018年1月1日**
 	+ *2017年12月27日* **1.0.0.0**
