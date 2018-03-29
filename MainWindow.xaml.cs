@@ -190,8 +190,14 @@ namespace Edit_Community
             Edit.GetInfos();
             Edit.SetInfos();
             WeatherText.Target = Rtx4;
+            AutoCheckText.Target = Rtx4;
+            AutoCheckText.AutoCheckCollection = Area.Local.CheckData;
             RegisterTimer();
             OnBackgrondPic(Area.Local.BackgroundMode, true,false);
+            if (Area.Local.CheckisOpen)
+            {
+                OnAutoCheck();
+            }
         }
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -349,6 +355,27 @@ namespace Edit_Community
                 }
                 QBWeather.IsChecked = (bool)e.NewValue;
             }
+            else if (key == Area.Local.CheckisOpenProperty)
+            {
+                if ((bool)e.NewValue)
+                {
+                    if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                    {
+                        QBAutoCheck.Description = "开";
+                        QBAutoCheck.ThemeColor = ControlBase.ThemeColorDefault;
+                    }
+                    else
+                    {
+                        QBAutoCheck.Description = ">今天";
+                        QBAutoCheck.ThemeColor = Color.FromRgb(235, 149, 20);
+                    }
+                }
+                else
+                {
+                    QBAutoCheck.Description = "关";
+                }
+                QBAutoCheck.IsChecked = (bool)e.NewValue;
+            }
         }
         public void Edit_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
         {
@@ -481,6 +508,7 @@ namespace Edit_Community
             }
             Edit.SetInfos();
             FreshQBWeather();
+            FreshQBAutoCheck();
         }
         private void ImgMenu_Tapped(object sender, RoutedEventArgs e)
         {
@@ -716,6 +744,18 @@ namespace Edit_Community
             if (FrameSettings.Content is ExtensionPage page)
             {
                 page.SetWeather();
+            }
+        }
+        internal void QBAutoCheck_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.CheckisOpen = !Area.Local.CheckisOpen;
+            if (Area.Local.CheckisOpen)
+            {
+                OnAutoCheck();
+            }
+            if (FrameSettings.Content is ExtensionPage page)
+            {
+                page.SetAutoCheck();
             }
         }
         private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
@@ -1455,7 +1495,7 @@ namespace Edit_Community
             {
                 try
                 {
-                    await WeatherText.LoadWeather();
+                    await WeatherText.LoadWeatherAsync();
                     WeatherText.Next();
                 }
                 catch (Exception)
@@ -1479,6 +1519,36 @@ namespace Edit_Community
                 {
                     QBWeather.Description = ">今天";
                     QBWeather.ThemeColor = Color.FromRgb(235, 149, 20);
+                }
+            }
+        }
+        #endregion
+        #region AutoCheck
+        public AutoCheckText AutoCheckText = new AutoCheckText();
+        public void OnAutoCheck()
+        {
+            try
+            {
+                AutoCheckText.Next();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("AutoCheck.Error");
+            }
+        }
+        void FreshQBAutoCheck()
+        {
+            if (Area.Local.CheckisOpen)
+            {
+                if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                {
+                    QBAutoCheck.Description = "开";
+                    QBAutoCheck.ThemeColor = ControlBase.ThemeColorDefault;
+                }
+                else
+                {
+                    QBAutoCheck.Description = ">今天";
+                    QBAutoCheck.ThemeColor = Color.FromRgb(235, 149, 20);
                 }
             }
         }

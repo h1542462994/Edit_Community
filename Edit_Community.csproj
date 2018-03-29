@@ -179,6 +179,7 @@
     <Resource Include="Assets\down.png" />
     <Resource Include="Assets\pic.png" />
     <Resource Include="Assets\cloud.png" />
+    <Resource Include="Assets\check.png" />
     <Content Include="mod\0.rtf" />
     <Content Include="mod\1.rtf" />
     <Content Include="mod\2.rtf" />

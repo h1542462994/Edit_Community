@@ -69,7 +69,15 @@ namespace Edit_Community
             TSWeather.InvokeCheck(Area.MainWindow.QBWeather.IsChecked);
             LblWeather.Content = Area.MainWindow.QBWeather.Description;
         }
-
+        private void TSAutoCheck_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.MainWindow.QBAutoCheck.IsChecked = TSAutoCheck.IsChecked;
+            Area.MainWindow.QBAutoCheck_Tapped(null, new RoutedEventArgs());
+        }
+        public void SetAutoCheck()
+        {
+            TSAutoCheck.InvokeCheck(Area.MainWindow.QBAutoCheck.IsChecked);
+        }
         #endregion
     }
 }

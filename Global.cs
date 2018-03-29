@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using User;
 using User.SoftWare;
+using User.SoftWare.Service;
 using User.UI;
 
 namespace Edit_Community
@@ -524,6 +525,8 @@ namespace Edit_Community
         public readonly USettingsProperty<string> WeathercityProperty;
         public readonly USettingsProperty<double> WeatherTimestampProperty;
         public readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
+        public readonly USettingsProperty<bool> CheckisOpenProperty;
+        public readonly USettingsProperty<AutoCheckCollection> CheckDataProperty;
         public Local()
         {
             IsFullScreenProperty = uSettings.Register("isFullScreen", false, true);
@@ -560,6 +563,8 @@ namespace Edit_Community
             WeathercityProperty = uSettings.Register("Weathercity", "杭州", true);
             WeatherTimestampProperty = uSettings.Register("WeatherTimestamp", 120.0);
             WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
+            CheckisOpenProperty = uSettings.Register("CheckisOpen", true,true);
+            CheckDataProperty = uSettings.Register("CheckData", new AutoCheckCollection() { new AutoCheck("ZWY") { Num = 100 } });
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
         /// <summary>
@@ -603,6 +608,8 @@ namespace Edit_Community
         public string Weathercity { get => WeathercityProperty.Value; set => WeathercityProperty.Value = value; }
         public double WeatherTimestamp { get => WeatherTimestampProperty.Value; set => WeatherTimestampProperty.Value = value; }
         public DateTime WeatherLastTime { get => WeatherLastTimeProperty.Value; set => WeatherLastTimeProperty.Value = value; }
+        public bool CheckisOpen { get => CheckisOpenProperty.Value; set => CheckisOpenProperty.Value = value; }
+        public AutoCheckCollection CheckData { get => CheckDataProperty.Value; set => CheckDataProperty.Value = value; }
         public void Flush()
         {
             uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;
