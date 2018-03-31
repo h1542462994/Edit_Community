@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edit_Community", "Edit_Community\Edit_Community.csproj", "{C62ABC41-2A99-4F72-B405-DF062A0902E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edit_CommunityUpdater", "Edit_CommunityUpdater\Edit_CommunityUpdater.csproj", "{175E1786-7326-440E-A78F-19E87718EF30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C62ABC41-2A99-4F72-B405-DF062A0902E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C62ABC41-2A99-4F72-B405-DF062A0902E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C62ABC41-2A99-4F72-B405-DF062A0902E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{175E1786-7326-440E-A78F-19E87718EF30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{175E1786-7326-440E-A78F-19E87718EF30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{175E1786-7326-440E-A78F-19E87718EF30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{175E1786-7326-440E-A78F-19E87718EF30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

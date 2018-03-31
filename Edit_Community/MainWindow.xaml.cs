@@ -111,6 +111,9 @@ namespace Edit_Community
         public MainWindow()
         {
             InitializeComponent();
+            //检查是否更新.
+
+
             Area.MainWindow = this;
             //Area.WhiteBoardWindow = new WhiteBoardWindow();
             this.Title = "Edit Community " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -1649,6 +1652,23 @@ namespace Edit_Community
                 await Task.Run( () =>SoftWareService.CheckUpdate());
                 Area.Local.UpdateLastTime = DateTime.Now;
             }
+        }
+        public bool CheckHasDownload()
+        {
+            try
+            {
+                if (File.Exists(SoftWareService.UpdateFolder + "UpdateInfo.txt"))
+                {
+                    if (File.ReadAllText(SoftWareService.UpdateFolder + "UpdateInfo.txt") == System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return false;
         }
         #endregion
     }
