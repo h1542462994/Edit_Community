@@ -192,6 +192,7 @@
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <libr:QuickButton x:Name="QBBrush" Height="55" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷图层"  Description="隐藏"  Tapped="QBBrush_Tapped"  Margin="2" />
+                        <libr:QuickButton x:Name="QBAutoUpdate" Height="55" ControlStyle="Dark" ImageSource="Assets/update.png" CanAutoCheck="False" Title="自动更新" Description="开" IsChecked="True" Tapped="QBAutoUpdate_Tapped" Margin="2"/>
                     </StackPanel>
                 </Grid>
             </Grid>

@@ -38,11 +38,13 @@
     <ApplicationIcon>edit.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTLibrary">
-      <HintPath>..\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
+    <Reference Include="HTLibrary, Version=1.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="HTLibrary.XmlSerializers">
-      <HintPath>..\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
+    <Reference Include="HTLibrary.XmlSerializers, Version=1.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -182,6 +184,7 @@
     <Resource Include="Assets\pic.png" />
     <Resource Include="Assets\cloud.png" />
     <Resource Include="Assets\check.png" />
+    <Resource Include="Assets\update.png" />
     <Content Include="mod\0.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

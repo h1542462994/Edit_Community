@@ -28,21 +28,6 @@ namespace Edit_Community
     public partial class MainWindow : Window
     {
         #region 公用参数
-        //enum MouseOnobject
-        //{
-        //    None,
-        //    ElpC1,
-        //    ElpC2,
-        //    ElpR1,
-        //    ElpR2,
-        //    ElpR3,
-        //    SliderFontSize,
-        //    ImgEditBrush,
-        //    ImgEditWeather,
-        //    ImgEditSettings,
-        //    ImgEditSearch,
-        //    ImgEditOut,
-        //}
         bool isWindowLoaded = false;
         bool isEditLoaded = false;
         int isEditChanged = 0;
@@ -51,10 +36,7 @@ namespace Edit_Community
         internal Label[] LblF = new Label[2];
         internal Ellipse[] LblC = new Ellipse[9];
         internal Ellipse[] LblH = new Ellipse[4];
-        //internal Border[] BdrBackgroundColorDefault = new Border[4];
-        //internal Border[] BdrBackgroundColorHistory = new Border[4];
         const double elpWidth = 8;
-        //MouseOnobject mouseOnobject = MouseOnobject.None;
         const double elpdefimin = 0.05;
         const int fontsizemin = 10;
         const int fontsizemax = 76;
@@ -84,6 +66,11 @@ namespace Edit_Community
             Area.TimerInventory.Register(TimerDisplayName.HideMouse, new TimerQueueInfo(6, new EventHandler(Timer_HideMouse), false, true));
             Area.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
             Area.TimerInventory.Register(TimerDisplayName.Weather, new TimerQueueInfo(10, new EventHandler(Timer_Weather), false, true));
+            Area.TimerInventory.Register(TimerDisplayName.Update, new TimerQueueInfo(10, new EventHandler(Timer_Update), false, true));
+        }
+        private void Timer_Update(object sender, EventArgs e)
+        {
+            OnUpdateAsync(false);
         }
         private void Timer_Weather(object sender, EventArgs e)
         {
@@ -175,7 +162,8 @@ namespace Edit_Community
                 { ImgEditSettings,GridSettings}
                 ,
             };
-
+            SoftWareService.ChannelFreshed += SoftWareService_ChannelFreshed;
+            SoftWareService.CheckUpdateCompleted += SoftWareService_CheckUpdateCompleted;
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
             this.EditICs.SetPropertys(Area.Local.InkColorIndexProperty, Area.Local.InkPenWidthProperty);
             this.EditICs.LoadPropertys();
@@ -193,7 +181,7 @@ namespace Edit_Community
             AutoCheckText.Target = Rtx4;
             AutoCheckText.AutoCheckCollection = Area.Local.CheckData;
             RegisterTimer();
-            OnBackgrondPic(Area.Local.BackgroundMode, true,false);
+            OnBackgrondPic(Area.Local.BackgroundMode, true, false);
             if (Area.Local.CheckisOpen)
             {
                 OnAutoCheck();
@@ -338,7 +326,7 @@ namespace Edit_Community
             {
                 if ((bool)e.NewValue)
                 {
-                    if (Area.Edit==null || Area.Edit.CreateTime.Date == DateTime.Today)
+                    if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
                     {
                         QBWeather.Description = "开";
                         QBWeather.ThemeColor = ControlBase.ThemeColorDefault;
@@ -346,7 +334,7 @@ namespace Edit_Community
                     else
                     {
                         QBWeather.Description = ">今天";
-                        QBWeather.ThemeColor = Color.FromRgb(235,149,20);
+                        QBWeather.ThemeColor = Color.FromRgb(235, 149, 20);
                     }
                 }
                 else
@@ -375,6 +363,27 @@ namespace Edit_Community
                     QBAutoCheck.Description = "关";
                 }
                 QBAutoCheck.IsChecked = (bool)e.NewValue;
+            }
+            else if (key == Area.Local.IsAutoUpdateProperty)
+            {
+                QBAutoUpdate.IsChecked = (bool)e.NewValue;
+                if ((bool)e.NewValue)
+                {
+                    if (!UpdateDownloaded)
+                    {
+                        QBAutoUpdate.Description = "开";
+                        QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                    }
+                    else
+                    {
+                        QBAutoUpdate.Description = "需重启";
+                        QBAutoUpdate.ThemeColor = Color.FromRgb(235, 149, 20);
+                    }
+                }
+                else
+                {
+                    QBAutoUpdate.Description = "关";
+                }
             }
         }
         public void Edit_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
@@ -494,7 +503,7 @@ namespace Edit_Community
                 ImgEditBrush.Visibility = Visibility.Collapsed;
                 QBBrush.Visibility = Visibility.Collapsed;
             }
-            
+
         }
         private void ImgEditMove_Tapped(object sender, RoutedEventArgs e)
         {
@@ -758,13 +767,17 @@ namespace Edit_Community
                 page.SetAutoCheck();
             }
         }
+        private void QBAutoUpdate_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.Local.IsAutoUpdate = !Area.Local.IsAutoUpdate;
+        }
         private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
         {
-            OnBackgrondPic(Area.Local.BackgroundMode,true,true);
+            OnBackgrondPic(Area.Local.BackgroundMode, true, true);
         }
         private void GridMenuMoreLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton .Left)
+            if (e.ChangedButton == MouseButton.Left)
             {
                 isMenuMouseLeftDown = true;
             }
@@ -786,7 +799,7 @@ namespace Edit_Community
         }
         #endregion
         #region 背景布局
-        public void OnBackgrondPic(int mode, bool firstload = false,bool isnext = true)
+        public void OnBackgrondPic(int mode, bool firstload = false, bool isnext = true)
         {
             if (mode == 0)
             {
@@ -807,9 +820,9 @@ namespace Edit_Community
             {
                 bool isOk = true;
                 TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
-                TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime ;
+                TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
                 double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
-                QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51),percent);
+                QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
                 if (!firstload)
                 {
                     if (currentTimeSpan < defaultTimeSpan)
@@ -839,7 +852,7 @@ namespace Edit_Community
                         {
                             Area.Local.BackgroundPicCurrentindex = 0;
                         }
-                        QBBackgroundNext.Description = string.Format("{0}/{1}", Area.Local.BackgroundPicCurrentindex +1, infos.Count);
+                        QBBackgroundNext.Description = string.Format("{0}/{1}", Area.Local.BackgroundPicCurrentindex + 1, infos.Count);
                         OnBackgroundPicLoad(new BitmapImage(new Uri(infos[Area.Local.BackgroundPicCurrentindex].FullName)));
                     }
                     catch (Exception)
@@ -1550,6 +1563,91 @@ namespace Edit_Community
                     QBAutoCheck.Description = ">今天";
                     QBAutoCheck.ThemeColor = Color.FromRgb(235, 149, 20);
                 }
+            }
+        }
+        #endregion
+        #region 更新
+        bool UpdateDownloaded { get; set; }
+        public SoftWareService SoftWareService { get; } = new SoftWareService(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "Edit_Community");
+        double DownloadPercent { get; set; }
+        private void SoftWareService_CheckUpdateCompleted(object sender, CheckUpdateEventArgs e)
+        {
+            if (e.ChannelState == ChannelState.Failed || e.ChannelState == ChannelState.FileFailed)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    QBAutoUpdate.IsOpened = true;
+                    QBAutoUpdate.Description = "错误";
+                    QBAutoUpdate.ThemeColor = Colors.OrangeRed;
+                });
+            }
+            else
+            {
+                if (e.UpdateType == User.HTStudioService.UpdateType.Download)
+                {
+                    SoftWareService.DownloadUpdate();
+                }
+                else 
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        QBAutoUpdate.IsOpened = true;
+                        QBAutoUpdate.Description = "最新";
+                        QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                    });
+                }
+            }
+        }
+        private void SoftWareService_ChannelFreshed(object sender, ChannelFreshEventArgs e)
+        {
+            if (e.ChannelState == ChannelState.Completed)
+            {
+                UpdateDownloaded = true;
+            }
+            else
+            {
+                UpdateDownloaded = false;
+            }
+            if (e.ChannelState == ChannelState.Failed || e.ChannelState == ChannelState.FileFailed)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    QBAutoUpdate.IsOpened = true;
+                    QBAutoUpdate.Description = "错误";
+                    QBAutoUpdate.ThemeColor = Colors.OrangeRed;
+                });
+
+            }
+            else if (e.ChannelState == ChannelState.Doing)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    QBAutoUpdate.IsOpened = false;
+                    QBAutoUpdate.Description = string.Format("{0}%", e.Percent);
+                    QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                });
+
+            }
+            else if (e.ChannelState == ChannelState.Completed)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    QBAutoUpdate.IsOpened = true;
+                    QBAutoUpdate.Description = "需重启";
+                    QBAutoUpdate.ThemeColor = Color.FromRgb(235, 149, 20);
+                });
+
+            }
+        }
+        public async void OnUpdateAsync(bool isFirst = false)
+        {
+            if ((isFirst) || DateTime.Now - Area.Local.UpdateLastTime > TimeSpan.FromMinutes(Area.Local.UpdateTiemstamp))
+            {
+                QBAutoUpdate.IsOpened = false;
+                QBAutoUpdate.Description = "检查中";
+                QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                await Task.Run( () =>SoftWareService.CheckUpdate());
+                Area.Local.UpdateLastTime = DateTime.Now;
             }
         }
         #endregion

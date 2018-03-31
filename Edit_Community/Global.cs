@@ -29,7 +29,8 @@ namespace Edit_Community
         HideImg,
         HideMouse,
         Weather,
-        BackgroundPic
+        BackgroundPic,
+        Update
     }
     /// <summary>
     /// 对话框的友好名称.
@@ -527,6 +528,9 @@ namespace Edit_Community
         public readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
         public readonly USettingsProperty<bool> CheckisOpenProperty;
         public readonly USettingsProperty<AutoCheckCollection> CheckDataProperty;
+        public readonly USettingsProperty<bool> IsAutoUpdateProperty;
+        readonly USettingsProperty<double> UpdateTimestampProperty;
+        readonly USettingsProperty<DateTime> UpdateLastTimeProperty;
         public Local()
         {
             IsFullScreenProperty = uSettings.Register("isFullScreen", false, true);
@@ -565,6 +569,9 @@ namespace Edit_Community
             WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
             CheckisOpenProperty = uSettings.Register("CheckisOpen", true,true);
             CheckDataProperty = uSettings.Register("CheckData", new AutoCheckCollection() { new AutoCheck("ZWY") { Num = 100 } });
+            IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", true, true);
+            UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 240.0);
+            UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
         /// <summary>
@@ -610,6 +617,9 @@ namespace Edit_Community
         public DateTime WeatherLastTime { get => WeatherLastTimeProperty.Value; set => WeatherLastTimeProperty.Value = value; }
         public bool CheckisOpen { get => CheckisOpenProperty.Value; set => CheckisOpenProperty.Value = value; }
         public AutoCheckCollection CheckData { get => CheckDataProperty.Value; set => CheckDataProperty.Value = value; }
+        public bool IsAutoUpdate { get=>IsAutoUpdateProperty.Value; set=>IsAutoUpdateProperty.Value =value; }
+        public double UpdateTiemstamp { get => UpdateTimestampProperty.Value; set => UpdateTimestampProperty.Value = value; }
+        public DateTime UpdateLastTime { get => UpdateLastTimeProperty.Value; set => UpdateLastTimeProperty.Value = value; }
         public void Flush()
         {
             uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;
