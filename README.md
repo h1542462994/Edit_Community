@@ -27,6 +27,10 @@ Edit_Community
 [htlibrary https://github.com/h1542462944/HTLibrary](https://github.com/h1542462944/HTLibrary)
 + 软件更新需要HTStudioService服务.
 [HTStudioService](https://github.com/h1542462944/HTStudioService)
++ 自动更新部署.
+	1. 将Edit_CommunityUpdater放在Edit_Community\SoftWareCache\Updater文件夹内.
+	2. 启动HTStudioService服务(需要部署到iis,或者本机).
+	3. 重新生成HTLibrary,Edit_Community,Edit_CommunityUpdater(如果必要的话).
 # 历史
 + *2017年8年12日 - 2017年9月29日* **117503445**发布[HomeWorker](https://github.com/117503445/HomeWorker)版本
 + *2017年10月1日 - 2017年12月6日* **h1542462994**发布[Edit](https://github.com/h1542462994/Edit)版本
