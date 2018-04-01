@@ -80,6 +80,10 @@
     <Compile Include="MultiInkCanvasWithTool.xaml.cs">
       <DependentUpon>MultiInkCanvasWithTool.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NoticeDialog.xaml.cs">
+      <DependentUpon>NoticeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NoticeHelper.cs" />
     <Compile Include="SettingsMainPage.xaml.cs">
       <DependentUpon>SettingsMainPage.xaml</DependentUpon>
     </Compile>
@@ -118,6 +122,10 @@
     <Page Include="MultiInkCanvasWithTool.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NoticeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsMainPage.xaml">
       <SubType>Designer</SubType>
@@ -185,6 +193,9 @@
     <Resource Include="Assets\cloud.png" />
     <Resource Include="Assets\check.png" />
     <Resource Include="Assets\update.png" />
+    <Resource Include="Assets\flag0.png" />
+    <Resource Include="Assets\flag1.png" />
+    <Resource Include="Assets\close.png" />
     <Content Include="mod\0.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

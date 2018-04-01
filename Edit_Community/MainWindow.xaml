@@ -196,6 +196,9 @@
                     </StackPanel>
                 </Grid>
             </Grid>
+            <Grid x:Name="GridNotice" Visibility="Collapsed">
+
+            </Grid>
         </Grid>
         <Grid x:Name="GridMenuMoreLeft" Grid.Column="1" Grid.RowSpan="2" Background="Transparent" Visibility="Collapsed" MouseDown="GridMenuMoreLeft_MouseDown" MouseLeave="GridMenuMoreLeft_MouseLeave" MouseUp="GridMenuMoreLeft_MouseUp"/>
         <Grid x:Name="GridMenu"  Background="#B2000000" Margin="0,0,0,39.667" Grid.RowSpan="2" Visibility="Collapsed">
@@ -214,15 +217,19 @@
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="TbxEditI" Grid.Row="6" Grid.RowSpan="2" Foreground="White" Text="2017/12/24  20/40"  FontSize="14" TextWrapping="Wrap" />
                     <libr:TriggerImage Grid.Row="4" x:Name="ImgEditBrush" CanAutoCheck="False" ImageSourceUnchecked="Assets/brush0.png" ImageSourceChecked="Assets/brush1.png" Tapped="ImgEditBrush_Tapped"/>
-                    <libr:TriggerImage Grid.Row="3" x:Name="ImgEditSettings" ImageSourceUnchecked="Assets/settings0.png" ImageSourceChecked="Assets/settings1.png" Tapped="ImgSelectedItem_Tapped" />
+                    <libr:TriggerImage Grid.Row="3" x:Name="ImgEditSettings" ImageSourceUnchecked="Assets/settings0.png" ImageSourceChecked="Assets/settings1.png" />
+                    <libr:TriggerImage Grid.Row="2" x:Name="ImgNotice" ImageSourceUnchecked="Assets/flag0.png" ImageSourceChecked="Assets/flag1.png"/>
                     <libr:TriggerImage Grid.Row="5" x:Name="ImgBefore" CanAutoCheck="False" ImageSourceUnchecked="Assets/before.png" Tapped="ImgEditMove_Tapped"/>
                     <libr:TriggerImage Grid.Row="8" x:Name="ImgNext" CanAutoCheck="False" ImageSourceUnchecked="Assets/next.png" Tapped="ImgEditMove_Tapped"/>
                 </Grid>
             </Grid>
         </Grid>
-        <Grid x:Name="GridDialogBack" Grid.ColumnSpan="4" Grid.RowSpan="3" Background="Transparent" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp" MouseDown="GridDialogBack_MouseDown" d:IsHidden="True"/>
-        <Grid x:Name="GridDialog" Grid.ColumnSpan="4" Grid.RowSpan="3" >
-            <libr:ColorPicker x:Name="ColorPicker1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,200,0,0" Visibility="Hidden" ControlStyle="Dark" ChooseOkOrCancel="ColorPick_OkOrCancel_Click"/>
+        <Grid Grid.ColumnSpan="4" Grid.RowSpan="3">
+            <Grid x:Name="GridDialogBack"  Background="Transparent" Visibility="Hidden" MouseUp="GridDialogBack_MouseUp" MouseDown="GridDialogBack_MouseDown" d:IsHidden="True"/>
+            <Grid x:Name="GridDialog"  >
+                <libr:ColorPicker x:Name="ColorPicker1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,200,0,0" Visibility="Hidden" ControlStyle="Dark" ChooseOkOrCancel="ColorPick_OkOrCancel_Click"/>
+            </Grid>
+            <local:NoticeDialog x:Name="NoticeDialog1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Closed="NoticeDialog_Closed" ChooseToNotification="NoticeDialog_ChooseToNotification" Choose="NoticeDialog_Choose"/>
         </Grid>
     </Grid>
 </Window>

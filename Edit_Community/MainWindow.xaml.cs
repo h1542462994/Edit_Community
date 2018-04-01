@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -162,9 +163,13 @@ namespace Edit_Community
 
             gridBinding = new Dictionary<User.UI.TriggerImage, Grid>()
             {
-                { ImgEditSettings,GridSettings}
-                ,
+                { ImgEditSettings,GridSettings},
+                {ImgNotice,GridNotice } ,
             };
+            foreach (var item in gridBinding.Keys)
+            {
+                item.Tapped += ImgSelectedItem_Tapped;
+            }
             SoftWareService.ChannelFreshed += SoftWareService_ChannelFreshed;
             SoftWareService.CheckUpdateCompleted += SoftWareService_CheckUpdateCompleted;
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
@@ -1571,6 +1576,7 @@ namespace Edit_Community
         #endregion
         #region 更新
         bool UpdateDownloaded { get; set; }
+        string Version { get; set; }
         public SoftWareService SoftWareService { get; } = new SoftWareService(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "Edit_Community");
         double DownloadPercent { get; set; }
         private void SoftWareService_CheckUpdateCompleted(object sender, CheckUpdateEventArgs e)
@@ -1589,8 +1595,10 @@ namespace Edit_Community
                 if (e.UpdateType == User.HTStudioService.UpdateType.Download)
                 {
                     SoftWareService.DownloadUpdate();
+                    Version = e.Version;
+                    ShowUpdateDialog();
                 }
-                else 
+                else
                 {
                     Dispatcher.Invoke(() =>
                     {
@@ -1649,7 +1657,7 @@ namespace Edit_Community
                 QBAutoUpdate.IsOpened = false;
                 QBAutoUpdate.Description = "检查中";
                 QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
-                await Task.Run( () =>SoftWareService.CheckUpdate());
+                await Task.Run(() => SoftWareService.CheckUpdate());
                 Area.Local.UpdateLastTime = DateTime.Now;
             }
         }
@@ -1659,8 +1667,11 @@ namespace Edit_Community
             {
                 if (File.Exists(SoftWareService.UpdateFolder + "UpdateInfo.txt"))
                 {
-                    if (File.ReadAllText(SoftWareService.UpdateFolder + "UpdateInfo.txt") == System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
+                    string s = File.ReadAllText(SoftWareService.UpdateFolder + "UpdateInfo.txt");
+                    if (s == System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
                     {
+                        Version = s;
+                        ShowUpdateDialog();
                         return true;
                     }
                 }
@@ -1670,6 +1681,54 @@ namespace Edit_Community
             }
             return false;
         }
+        void ShowUpdateDialog()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Area.NoticeHelper.Add(new NotificationInfo
+                {
+                    DateTime = DateTime.Now,
+                    Title = "已下载更新",
+                    Description = $"更新以下载完毕.点击[更新]启动.\n版本:{Version}",
+                    Button = "更新",
+                    ButtonEvent = "Update"
+                });
+            });
+        }
+        void ToUpdate()
+        {
+            string path = SoftWareService.Folder + @"Updater\Edit_CommunityUpdater.exe";
+            if (File.Exists(path))
+            {
+                Process.Start(path);
+                Close();
+            }
+        }
         #endregion
+        #region 通知
+        public void InvokeNotice(NotificationInfo info)
+        {
+            NoticeDialog1.NotificationInfo = info;
+            NoticeDialog1.Visibility = Visibility.Visible;
+        }
+        private void NoticeDialog_Closed(object sender, RoutedEventArgs e)
+        {
+            NoticeDialog1.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+        private void NoticeDialog_ChooseToNotification(object sender, EventArgs e)
+        {
+            ImgNotice.IsChecked = true;
+            ImgSelectedItem_Tapped(ImgNotice, null);
+            NoticeDialog1.Visibility = Visibility.Collapsed;
+        }
+        private void NoticeDialog_Choose(object sender, NotificationInfo e)
+        {
+            if (e.ButtonEvent == "Update")
+            {
+                ToUpdate();
+            }
+            NoticeDialog1.Visibility = Visibility.Collapsed;
+        }
     }
 }

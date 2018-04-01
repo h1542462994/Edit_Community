@@ -37,14 +37,10 @@
     <ApplicationIcon>edit.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTLibrary">
-      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="HTLibrary.XmlSerializers">
-      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -63,6 +59,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ControlBase.cs" />
+    <Compile Include="SoftWareService.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="TriggerButton.xaml.cs">
+      <DependentUpon>TriggerButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\HTStudioService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +82,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TriggerButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -98,6 +109,35 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Web References\HTStudioService\CompositeType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\HTStudioService\DownloadResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\HTStudioService\DownloadTask.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\HTStudioService\ExtendedPath.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\HTStudioService\HTStudioService.wsdl" />
+    <None Include="Web References\HTStudioService\HTStudioService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\HTStudioService\HTStudioService0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\HTStudioService\HTStudioService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\HTStudioService\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\HTStudioService\UpdateType.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -110,6 +150,28 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="edit.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:52623/HTStudioService.svc">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\HTStudioService\</RelPath>
+      <UpdateFromURL>http://localhost:52623/HTStudioService.svc</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Edit_CommunityUpdater_HTStudioService_HTStudioService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\HTStudioService\HTStudioService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

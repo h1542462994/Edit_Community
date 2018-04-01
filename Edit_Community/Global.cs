@@ -570,7 +570,7 @@ namespace Edit_Community
             CheckisOpenProperty = uSettings.Register("CheckisOpen", true,true);
             CheckDataProperty = uSettings.Register("CheckData", new AutoCheckCollection() { new AutoCheck("ZWY") { Num = 100 } });
             IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", true, true);
-            UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 240.0);
+            UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 120.0);
             UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
@@ -712,6 +712,7 @@ namespace Edit_Community
         public static EditInfo[] EditInfos { get => editInfos; set => editInfos = value; }
         public static int EditIndex { get => editIndex; set => editIndex = value; }
         public static PageNavigationHelper PageNavigationHelper { get => pageNavigationHelper; set => pageNavigationHelper = value; }
+        public static NoticeHelper NoticeHelper { get; } = new NoticeHelper();
 
         public static EditType GetEditType(int arg)
         {
