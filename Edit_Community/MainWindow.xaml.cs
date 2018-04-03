@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using User;
+using User.HTStudioService;
 using User.SoftWare;
 using User.SoftWare.Service;
 using User.UI;
@@ -68,6 +69,11 @@ namespace Edit_Community
             Area.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
             Area.TimerInventory.Register(TimerDisplayName.Weather, new TimerQueueInfo(10, new EventHandler(Timer_Weather), false, true));
             Area.TimerInventory.Register(TimerDisplayName.Update, new TimerQueueInfo(10, new EventHandler(Timer_Update), false, true));
+            Area.TimerInventory.Register(TimerDisplayName.Notification, new TimerQueueInfo(10, new EventHandler(Timer_Notification), false, true));
+        }
+        private void Timer_Notification(object sender, EventArgs e)
+        {
+            Area.NoticeHelper.DownloadNoticeAsync();
         }
         private void Timer_Update(object sender, EventArgs e)
         {
@@ -179,6 +185,7 @@ namespace Edit_Community
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadNotice();
             Area.PageNavigationHelper.PageChanged += PageNavigationHelper_PageChanged;
             Area.PageNavigationHelper.Add(typeof(SettingsMainPage));
             Area.Local.Flush();
@@ -1592,11 +1599,10 @@ namespace Edit_Community
             }
             else
             {
-                if (e.UpdateType == User.HTStudioService.UpdateType.Download)
+                if (e.UpdateType == UpdateType.Download)
                 {
                     SoftWareService.DownloadUpdate();
                     Version = e.Version;
-                    ShowUpdateDialog();
                 }
                 else
                 {
@@ -1646,6 +1652,7 @@ namespace Edit_Community
                     QBAutoUpdate.IsOpened = true;
                     QBAutoUpdate.Description = "需重启";
                     QBAutoUpdate.ThemeColor = Color.FromRgb(235, 149, 20);
+                    ShowUpdateDialog();
                 });
 
             }
@@ -1660,26 +1667,6 @@ namespace Edit_Community
                 await Task.Run(() => SoftWareService.CheckUpdate());
                 Area.Local.UpdateLastTime = DateTime.Now;
             }
-        }
-        public bool CheckHasDownload()
-        {
-            try
-            {
-                if (File.Exists(SoftWareService.UpdateFolder + "UpdateInfo.txt"))
-                {
-                    string s = File.ReadAllText(SoftWareService.UpdateFolder + "UpdateInfo.txt");
-                    if (s == System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
-                    {
-                        Version = s;
-                        ShowUpdateDialog();
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
-            }
-            return false;
         }
         void ShowUpdateDialog()
         {
@@ -1711,17 +1698,6 @@ namespace Edit_Community
             NoticeDialog1.NotificationInfo = info;
             NoticeDialog1.Visibility = Visibility.Visible;
         }
-        private void NoticeDialog_Closed(object sender, RoutedEventArgs e)
-        {
-            NoticeDialog1.Visibility = Visibility.Collapsed;
-        }
-        #endregion
-        private void NoticeDialog_ChooseToNotification(object sender, EventArgs e)
-        {
-            ImgNotice.IsChecked = true;
-            ImgSelectedItem_Tapped(ImgNotice, null);
-            NoticeDialog1.Visibility = Visibility.Collapsed;
-        }
         private void NoticeDialog_Choose(object sender, NotificationInfo e)
         {
             if (e.ButtonEvent == "Update")
@@ -1730,5 +1706,72 @@ namespace Edit_Community
             }
             NoticeDialog1.Visibility = Visibility.Collapsed;
         }
+        private void NoticeDialog_ChooseToNotification(object sender, NotificationInfo e)
+        {
+            ImgNotice.IsChecked = true;
+            ImgSelectedItem_Tapped(ImgNotice, null);
+            NoticeDialog1.Visibility = Visibility.Collapsed;
+        }
+        private void NoticeDialog_Closed(object sender, NotificationInfo e)
+        {
+            NoticeDialog1.Visibility = Visibility.Collapsed;
+        }
+        public void LoadNotice()
+        {
+            StackPanelNotice.Children.Clear();
+            foreach (var item in Area.NoticeHelper.Notification.Reverse())
+            {
+                var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5,10,5), NotificationInfo = item};
+                noticedialog.Closed += NoticeDialog_Closed_1;
+                noticedialog.Choose += NoticeDialog_Choose_1;
+                StackPanelNotice.Children.Add(noticedialog);
+            }
+        }
+        private void NoticeDialog_Choose_1(object sender, NotificationInfo e)
+        {
+            NoticeDialog_Choose(sender, e);
+            Area.NoticeHelper.Remove(e);
+        }
+        private void NoticeDialog_Closed_1(object sender, NotificationInfo e)
+        {
+            Area.NoticeHelper.Remove(e);
+        }
+        private void TriggerButtonNoticeRemoveAll_Tapped(object sender, RoutedEventArgs e)
+        {
+            Area.NoticeHelper.Clear();
+        }
+        public void OnDownloadNotice(int count)
+        {
+            this.NoticeDialog1.NotificationInfo = new NotificationInfo { DateTime = DateTime.Now,Title= string.Format("{0}个推送通知",count),Button="",ButtonEvent="" };
+        }
+        private async void TriggerButtonSenderNotice_Tapped(object sender, RoutedEventArgs e)
+        {
+            if (TbxNotice1.Text!="")
+            {
+                NotificationInfo notificationInfo = new NotificationInfo {
+                    Title =TbxNotice1.Text,Button=TbxNotice2.Text,ButtonEvent=TbxNotice3.Text,Description=TbxNotice4.Text,DateTime=DateTime.Now,DateTimeSpecified=true};
+                TriggerButtonSenderNotice.IsOpened = false;
+                bool result = await Area.NoticeHelper.SendNoticeAsync(notificationInfo);
+                TriggerButtonSenderNotice.IsOpened = true;
+                if (result)
+                {
+                    TbxNotice1.Text = "";TbxNotice2.Text = "";TbxNotice3.Text = "";TbxNotice4.Text = "";
+                }
+            }
+        }
+        private void ApplyNotice_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (GridNoticeSend.Visibility == Visibility.Collapsed)
+            {
+                GridNoticeSend.Visibility = Visibility.Visible;
+                TriggerButtonSenderNotice.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                GridNoticeSend.Visibility = Visibility.Collapsed;
+                TriggerButtonSenderNotice.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
     }
 }

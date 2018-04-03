@@ -30,7 +30,8 @@ namespace Edit_Community
         HideMouse,
         Weather,
         BackgroundPic,
-        Update
+        Update,
+        Notification,
     }
     /// <summary>
     /// 对话框的友好名称.
@@ -531,6 +532,7 @@ namespace Edit_Community
         public readonly USettingsProperty<bool> IsAutoUpdateProperty;
         readonly USettingsProperty<double> UpdateTimestampProperty;
         readonly USettingsProperty<DateTime> UpdateLastTimeProperty;
+        readonly USettingsProperty<DateTime> NoticeLastTimeProperty;
         public Local()
         {
             IsFullScreenProperty = uSettings.Register("isFullScreen", false, true);
@@ -572,6 +574,7 @@ namespace Edit_Community
             IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", true, true);
             UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 120.0);
             UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
+            NoticeLastTimeProperty = uSettings.Register("NoticeLastTime", new DateTime());
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
         /// <summary>
@@ -620,6 +623,7 @@ namespace Edit_Community
         public bool IsAutoUpdate { get=>IsAutoUpdateProperty.Value; set=>IsAutoUpdateProperty.Value =value; }
         public double UpdateTiemstamp { get => UpdateTimestampProperty.Value; set => UpdateTimestampProperty.Value = value; }
         public DateTime UpdateLastTime { get => UpdateLastTimeProperty.Value; set => UpdateLastTimeProperty.Value = value; }
+        public DateTime NoticeLastTime { get => NoticeLastTimeProperty.Value; set => NoticeLastTimeProperty.Value = value; }
         public void Flush()
         {
             uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;

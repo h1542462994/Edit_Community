@@ -92,6 +92,8 @@ Edit_Community
 		+ `new` `extension` 加入自动更新功能初版本(HTStudioService).
 	+ *2018年4月1日* **1.3.5.1**
 		+ `new` `extension` 加入通知系统(当前仅限于更新服务).
+	+ *2018年4月3日* **1.3.5.3**
+		+ `new` `extension` 加入通知推送系统.
 # 开发人员
 + [117503445](https://github.com/117503445)提供天气服务的支持.
 + [h1542462994](https://github.com/h1542462944)主要的开发人员.

@@ -143,7 +143,7 @@
         <Grid x:Name="GridRightButton" Grid.Row="1" Grid.Column="3" Margin="0,0.333,0,-0.333" d:IsHidden="True" >
             <libr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
         </Grid>
-        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Visible" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -152,7 +152,7 @@
                     <TranslateTransform x:Name="GridEditMoreTranslate" X="0"/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            <Grid x:Name="GridSettings">
+            <Grid x:Name="GridSettings" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition />
@@ -196,8 +196,53 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Grid x:Name="GridNotice" Visibility="Collapsed">
+            <Grid x:Name="GridNotice" Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="StackPanelNotice">
 
+                    </StackPanel>
+                </ScrollViewer>
+                <Grid Grid.Row="1" x:Name="GridNoticeSend" Visibility="Collapsed" Height="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Label VerticalAlignment="Center" Content="标题" Foreground="White"/>
+                        <Label VerticalAlignment="Center" Grid.Row="1" Content="按钮描述" Foreground="White"/>
+                        <Label VerticalAlignment="Center" Grid.Row="2" Content="事件" Foreground="White"/>
+                        <TextBox x:Name="TbxNotice1" Grid.Column="1" Margin="0,5"/>
+                        <TextBox x:Name="TbxNotice2" Grid.Row="1" Grid.Column="1" Margin="0,5"/>
+                        <TextBox x:Name="TbxNotice3" Grid.Row="2" Grid.Column="1" Margin="0,5"/>
+                    </Grid>
+                    <TextBox x:Name="TbxNotice4" TextWrapping="Wrap" Grid.Column="1" Margin="5"/>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="64"/>
+                        <ColumnDefinition Width="64"/>
+                    </Grid.ColumnDefinitions>
+                    <Label HorizontalAlignment="Left" Content=" " MouseRightButtonUp="ApplyNotice_MouseRightButtonUp"/>
+                    <Label x:Name="LblNoticeError" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="服务无效" Foreground="OrangeRed" Visibility="Collapsed"/>
+                    <libr:TriggerButton x:Name="TriggerButtonSenderNotice" Grid.Column="2" InnerContent="发送" ControlStyle="Dark" Foreground="Yellow" Margin="2" Visibility="Collapsed" Tapped="TriggerButtonSenderNotice_Tapped"/>
+                    <libr:TriggerButton Grid.Column="3" InnerContent="全部清除" ControlStyle="Dark" Foreground="White"  Margin="2" Tapped="TriggerButtonNoticeRemoveAll_Tapped" />
+                </Grid>
             </Grid>
         </Grid>
         <Grid x:Name="GridMenuMoreLeft" Grid.Column="1" Grid.RowSpan="2" Background="Transparent" Visibility="Collapsed" MouseDown="GridMenuMoreLeft_MouseDown" MouseLeave="GridMenuMoreLeft_MouseLeave" MouseUp="GridMenuMoreLeft_MouseUp"/>
@@ -229,7 +274,7 @@
             <Grid x:Name="GridDialog"  >
                 <libr:ColorPicker x:Name="ColorPicker1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,200,0,0" Visibility="Hidden" ControlStyle="Dark" ChooseOkOrCancel="ColorPick_OkOrCancel_Click"/>
             </Grid>
-            <local:NoticeDialog x:Name="NoticeDialog1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Closed="NoticeDialog_Closed" ChooseToNotification="NoticeDialog_ChooseToNotification" Choose="NoticeDialog_Choose"/>
+            <local:NoticeDialog x:Name="NoticeDialog1" Width="300" VerticalAlignment="Bottom" HorizontalAlignment="Right" Visibility="Collapsed" Closed="NoticeDialog_Closed" ChooseToNotification="NoticeDialog_ChooseToNotification" ShowButton2="True" Choose="NoticeDialog_Choose"/>
         </Grid>
     </Grid>
 </Window>

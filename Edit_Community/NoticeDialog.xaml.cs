@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using User;
+using User.HTStudioService;
 using User.SoftWare.Service;
 
 namespace Edit_Community
@@ -50,13 +51,36 @@ namespace Edit_Community
             ((NoticeDialog)d).OnNotificationInfoChanged();
         }
 
-        public event RoutedEventHandler Closed;
-        public event EventHandler ChooseToNotification;
+        public bool ShowButton2
+        {
+            get { return (bool)GetValue(ShowButton2Property); }
+            set { SetValue(ShowButton2Property, value); }
+        }
+        public static readonly DependencyProperty ShowButton2Property =
+            DependencyProperty.Register("ShowButton2", typeof(bool), typeof(NoticeDialog), new PropertyMetadata(false,new PropertyChangedCallback(ShowButton2_Changed)));
+        void OnShowButton2Changed()
+        {
+            if (ShowButton2)
+            {
+                TriggerButton2.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TriggerButton2.Visibility = Visibility.Collapsed;
+            }
+        }
+        private static void ShowButton2_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((NoticeDialog)d).OnShowButton2Changed();
+        }
+
+        public event EventHandler<NotificationInfo> Closed;
+        public event EventHandler<NotificationInfo> ChooseToNotification;
         public event EventHandler<NotificationInfo> Choose;
 
         private void TriggerImage_Tapped(object sender, RoutedEventArgs e)
         {
-            Closed?.Invoke(this, e);
+            Closed?.Invoke(this, NotificationInfo);
         }
         private void TriggerButton1_Tapped(object sender, RoutedEventArgs e)
         {
@@ -64,7 +88,7 @@ namespace Edit_Community
         }
         private void TriggerButton2_Tapped(object sender, RoutedEventArgs e)
         {
-            ChooseToNotification?.Invoke(this, new EventArgs());
+            ChooseToNotification?.Invoke(this, NotificationInfo);
         }
     }
 }
