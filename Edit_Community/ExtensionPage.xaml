@@ -57,6 +57,18 @@
                 <libr:TriggerButton Grid.Column="2" InnerContent="立即刷新" ControlStyle="Dark" Foreground="White" Margin="0,8"/>
                 <libr:TriggerButton Grid.Column="3" InnerContent="详细设置" ControlStyle="Dark" Foreground="White" Margin="10,8"/>
             </Grid>
+            <Grid Height="40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="Orange" FontSize="16" Content="透明特性"/>
+                <libr:TriggerSwitch x:Name="TsTransprency" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Tapped="TsTransprency_Tapped"/>
+                <Label x:Name="LblTranspancy_F" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Content="关"/>
+                <Label x:Name="LblTranspancy" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Yellow" Visibility="Collapsed" Content="重启生效"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </Page>

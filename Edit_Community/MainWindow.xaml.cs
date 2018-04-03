@@ -58,6 +58,7 @@ namespace Edit_Community
         public int RtxFocusIndex { get => rtxFocusIndex; set => rtxFocusIndex = value; }
         public bool NeedReturnFocus { get => needReturnFocus; set => needReturnFocus = value; }
         public bool IsGridbackMousedown { get => isGridbackMousedown; set => isGridbackMousedown = value; }
+        public bool _AllowsTransprency { get; set; }
         #endregion
         #region 计时器模块
         bool isWeatherFirstLoaded = false;
@@ -118,8 +119,13 @@ namespace Edit_Community
         public MainWindow()
         {
             InitializeComponent();
-            //检查是否更新.
-
+            //透明特性
+            _AllowsTransprency = Area.Local.AllowTranspancy;
+            AllowsTransparency = _AllowsTransprency;
+            if (_AllowsTransprency)
+            {
+                WindowStyle = WindowStyle.None;
+            }
 
             Area.MainWindow = this;
             //Area.WhiteBoardWindow = new WhiteBoardWindow();
@@ -252,7 +258,6 @@ namespace Edit_Community
             }
             else if (key == Area.Local.IsFullScreenProperty)
             {
-                ImgFullScreen.IsChecked = (bool)e.NewValue;
                 FullScreenChanged((bool)e.NewValue);
             }
             else if (key == Area.Local.EditBackgroundColorProperty)
@@ -485,17 +490,48 @@ namespace Edit_Community
         /// </summary>
         public void FullScreenChanged(bool isfullscreen)
         {
-            if (isfullscreen)
+            if (!_AllowsTransprency)
             {
-                if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
+                ImgFullScreen.IsChecked = isfullscreen;
+                if (isfullscreen)
                 {
-                    Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
-                    Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                    if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
+                    {
+                        Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                        Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                    }
+                    WindowStyle = WindowStyle.None;
+                    ResizeMode = ResizeMode.NoResize;
+                    Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
+                    WindowState = WindowState.Normal;
+                    Left = 0;
+                    Top = 0;
+                    Width = ScreenSize.Width;
+                    Height = ScreenSize.Height;
+                    ImgEditBrush.Visibility = Visibility.Visible;
+                    QBBrush.Visibility = Visibility.Visible;
                 }
+                else
+                {
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+                    ResizeMode = ResizeMode.CanResize;
+                    if (Area.Local.IsMaxShow)
+                    {
+                        WindowState = WindowState.Maximized;
+                    }
+                    Left = Area.Local.AppLocation.X * ScreenSize.Width;
+                    Top = Area.Local.AppLocation.Y * ScreenSize.Height;
+                    Width = Area.Local.AppSize.Width * ScreenSize.Width;
+                    Height = Area.Local.AppSize.Height * ScreenSize.Height;
+                    ImgEditBrush.Visibility = Visibility.Collapsed;
+                    QBBrush.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                ImgFullScreen.IsChecked = true;
                 WindowStyle = WindowStyle.None;
                 ResizeMode = ResizeMode.NoResize;
-                Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
-                WindowState = WindowState.Normal;
                 Left = 0;
                 Top = 0;
                 Width = ScreenSize.Width;
@@ -503,21 +539,7 @@ namespace Edit_Community
                 ImgEditBrush.Visibility = Visibility.Visible;
                 QBBrush.Visibility = Visibility.Visible;
             }
-            else
-            {
-                WindowStyle = WindowStyle.SingleBorderWindow;
-                ResizeMode = ResizeMode.CanResize;
-                if (Area.Local.IsMaxShow)
-                {
-                    WindowState = WindowState.Maximized;
-                }
-                Left = Area.Local.AppLocation.X * ScreenSize.Width;
-                Top = Area.Local.AppLocation.Y * ScreenSize.Height;
-                Width = Area.Local.AppSize.Width * ScreenSize.Width;
-                Height = Area.Local.AppSize.Height * ScreenSize.Height;
-                ImgEditBrush.Visibility = Visibility.Collapsed;
-                QBBrush.Visibility = Visibility.Collapsed;
-            }
+
 
         }
         private void ImgEditMove_Tapped(object sender, RoutedEventArgs e)
@@ -540,8 +562,15 @@ namespace Edit_Community
         }
         private void ImgFullScreen_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
-            Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+            if (!_AllowsTransprency)
+            {
+                Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+                Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+            }
+            else
+            {
+                WindowState = WindowState.Minimized;
+            }
         }
         private void ImgEditBrush_Tapped(object sender, RoutedEventArgs e)
         {
@@ -816,6 +845,7 @@ namespace Edit_Community
         #region 背景布局
         public void OnBackgrondPic(int mode, bool firstload = false, bool isnext = true)
         {
+            QBBackgroundMode.ThemeColor = ControlBase.ThemeColorDefault;
             if (mode == 0)
             {
                 OnBackgroundPicLoad(null);
@@ -828,6 +858,7 @@ namespace Edit_Community
                 }
                 catch (Exception)
                 {
+                    QBBackgroundMode.ThemeColor = Colors.OrangeRed;
                     Console.WriteLine("BackgroundFailed:1");
                 }
             }
@@ -872,6 +903,7 @@ namespace Edit_Community
                     }
                     catch (Exception)
                     {
+                        QBBackgroundMode.ThemeColor = Colors.OrangeRed;
                         Console.WriteLine("BackgroundFailed:2");
                     }
                 }
@@ -1721,7 +1753,7 @@ namespace Edit_Community
             StackPanelNotice.Children.Clear();
             foreach (var item in Area.NoticeHelper.Notification.Reverse())
             {
-                var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5,10,5), NotificationInfo = item};
+                var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5, 10, 5), NotificationInfo = item };
                 noticedialog.Closed += NoticeDialog_Closed_1;
                 noticedialog.Choose += NoticeDialog_Choose_1;
                 StackPanelNotice.Children.Add(noticedialog);
@@ -1742,20 +1774,27 @@ namespace Edit_Community
         }
         public void OnDownloadNotice(int count)
         {
-            this.NoticeDialog1.NotificationInfo = new NotificationInfo { DateTime = DateTime.Now,Title= string.Format("{0}个推送通知",count),Button="",ButtonEvent="" };
+            this.NoticeDialog1.NotificationInfo = new NotificationInfo { DateTime = DateTime.Now, Title = string.Format("{0}个推送通知", count), Button = "", ButtonEvent = "" };
         }
         private async void TriggerButtonSenderNotice_Tapped(object sender, RoutedEventArgs e)
         {
-            if (TbxNotice1.Text!="")
+            if (TbxNotice1.Text != "")
             {
-                NotificationInfo notificationInfo = new NotificationInfo {
-                    Title =TbxNotice1.Text,Button=TbxNotice2.Text,ButtonEvent=TbxNotice3.Text,Description=TbxNotice4.Text,DateTime=DateTime.Now,DateTimeSpecified=true};
+                NotificationInfo notificationInfo = new NotificationInfo
+                {
+                    Title = TbxNotice1.Text,
+                    Button = TbxNotice2.Text,
+                    ButtonEvent = TbxNotice3.Text,
+                    Description = TbxNotice4.Text,
+                    DateTime = DateTime.Now,
+                    DateTimeSpecified = true
+                };
                 TriggerButtonSenderNotice.IsOpened = false;
                 bool result = await Area.NoticeHelper.SendNoticeAsync(notificationInfo);
                 TriggerButtonSenderNotice.IsOpened = true;
                 if (result)
                 {
-                    TbxNotice1.Text = "";TbxNotice2.Text = "";TbxNotice3.Text = "";TbxNotice4.Text = "";
+                    TbxNotice1.Text = ""; TbxNotice2.Text = ""; TbxNotice3.Text = ""; TbxNotice4.Text = "";
                 }
             }
         }
