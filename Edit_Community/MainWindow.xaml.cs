@@ -58,11 +58,14 @@ namespace Edit_Community
         public int RtxFocusIndex { get => rtxFocusIndex; set => rtxFocusIndex = value; }
         public bool NeedReturnFocus { get => needReturnFocus; set => needReturnFocus = value; }
         public bool IsGridbackMousedown { get => isGridbackMousedown; set => isGridbackMousedown = value; }
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
         public bool _AllowTransprancy { get; set; }
 =======
         public bool _AllowsTransprency { get; set; }
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
+=======
+>>>>>>> parent of b5d3d42... 1.3.5.4
         #endregion
         #region 计时器模块
         bool isWeatherFirstLoaded = false;
@@ -123,6 +126,7 @@ namespace Edit_Community
         public MainWindow()
         {
             InitializeComponent();
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
             _AllowTransprancy = Area.Local.AllowTransparency;
             if (_AllowTransprancy == true)
@@ -138,6 +142,10 @@ namespace Edit_Community
             {
                 WindowStyle = WindowStyle.None;
             }
+=======
+            //检查是否更新.
+
+>>>>>>> parent of b5d3d42... 1.3.5.4
 
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
             Area.MainWindow = this;
@@ -271,6 +279,7 @@ namespace Edit_Community
             }
             else if (key == Area.Local.IsFullScreenProperty)
             {
+                ImgFullScreen.IsChecked = (bool)e.NewValue;
                 FullScreenChanged((bool)e.NewValue);
             }
             else if (key == Area.Local.EditBackgroundColorProperty)
@@ -503,15 +512,19 @@ namespace Edit_Community
         /// </summary>
         public void FullScreenChanged(bool isfullscreen)
         {
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
             if (!_AllowTransprancy)
 =======
             if (!_AllowsTransprency)
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
+=======
+            if (isfullscreen)
+>>>>>>> parent of b5d3d42... 1.3.5.4
             {
-                ImgFullScreen.IsChecked = isfullscreen;
-                if (isfullscreen)
+                if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
                 {
+<<<<<<< HEAD
                     if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
                     {
                         Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
@@ -568,9 +581,16 @@ namespace Edit_Community
                 ImgFullScreen.IsChecked = true;
 <<<<<<< HEAD:MainWindow.xaml.cs
 =======
+=======
+                    Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                    Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                }
+>>>>>>> parent of b5d3d42... 1.3.5.4
                 WindowStyle = WindowStyle.None;
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
                 ResizeMode = ResizeMode.NoResize;
+                Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
+                WindowState = WindowState.Normal;
                 Left = 0;
                 Top = 0;
                 Width = ScreenSize.Width;
@@ -578,9 +598,27 @@ namespace Edit_Community
                 ImgEditBrush.Visibility = Visibility.Visible;
                 QBBrush.Visibility = Visibility.Visible;
             }
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
 =======
 
+=======
+            else
+            {
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                ResizeMode = ResizeMode.CanResize;
+                if (Area.Local.IsMaxShow)
+                {
+                    WindowState = WindowState.Maximized;
+                }
+                Left = Area.Local.AppLocation.X * ScreenSize.Width;
+                Top = Area.Local.AppLocation.Y * ScreenSize.Height;
+                Width = Area.Local.AppSize.Width * ScreenSize.Width;
+                Height = Area.Local.AppSize.Height * ScreenSize.Height;
+                ImgEditBrush.Visibility = Visibility.Collapsed;
+                QBBrush.Visibility = Visibility.Collapsed;
+            }
+>>>>>>> parent of b5d3d42... 1.3.5.4
 
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
         }
@@ -604,6 +642,7 @@ namespace Edit_Community
         }
         private void ImgFullScreen_Tapped(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
             if (!_AllowTransprancy)
 =======
@@ -617,6 +656,10 @@ namespace Edit_Community
             {
                 WindowState = WindowState.Minimized;
             }
+=======
+            Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+            Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+>>>>>>> parent of b5d3d42... 1.3.5.4
         }
         private void ImgEditBrush_Tapped(object sender, RoutedEventArgs e)
         {
@@ -891,7 +934,6 @@ namespace Edit_Community
         #region 背景布局
         public void OnBackgrondPic(int mode, bool firstload = false, bool isnext = true)
         {
-            QBBackgroundMode.ThemeColor = ControlBase.ThemeColorDefault;
             if (mode == 0)
             {
                 OnBackgroundPicLoad(null);
@@ -904,7 +946,6 @@ namespace Edit_Community
                 }
                 catch (Exception)
                 {
-                    QBBackgroundMode.ThemeColor = Colors.OrangeRed;
                     Console.WriteLine("BackgroundFailed:1");
                 }
             }
@@ -949,7 +990,6 @@ namespace Edit_Community
                     }
                     catch (Exception)
                     {
-                        QBBackgroundMode.ThemeColor = Colors.OrangeRed;
                         Console.WriteLine("BackgroundFailed:2");
                     }
                 }
@@ -1799,7 +1839,7 @@ namespace Edit_Community
             StackPanelNotice.Children.Clear();
             foreach (var item in Area.NoticeHelper.Notification.Reverse())
             {
-                var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5, 10, 5), NotificationInfo = item };
+                var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5,10,5), NotificationInfo = item};
                 noticedialog.Closed += NoticeDialog_Closed_1;
                 noticedialog.Choose += NoticeDialog_Choose_1;
                 StackPanelNotice.Children.Add(noticedialog);
@@ -1820,27 +1860,20 @@ namespace Edit_Community
         }
         public void OnDownloadNotice(int count)
         {
-            this.NoticeDialog1.NotificationInfo = new NotificationInfo { DateTime = DateTime.Now, Title = string.Format("{0}个推送通知", count), Button = "", ButtonEvent = "" };
+            this.NoticeDialog1.NotificationInfo = new NotificationInfo { DateTime = DateTime.Now,Title= string.Format("{0}个推送通知",count),Button="",ButtonEvent="" };
         }
         private async void TriggerButtonSenderNotice_Tapped(object sender, RoutedEventArgs e)
         {
-            if (TbxNotice1.Text != "")
+            if (TbxNotice1.Text!="")
             {
-                NotificationInfo notificationInfo = new NotificationInfo
-                {
-                    Title = TbxNotice1.Text,
-                    Button = TbxNotice2.Text,
-                    ButtonEvent = TbxNotice3.Text,
-                    Description = TbxNotice4.Text,
-                    DateTime = DateTime.Now,
-                    DateTimeSpecified = true
-                };
+                NotificationInfo notificationInfo = new NotificationInfo {
+                    Title =TbxNotice1.Text,Button=TbxNotice2.Text,ButtonEvent=TbxNotice3.Text,Description=TbxNotice4.Text,DateTime=DateTime.Now,DateTimeSpecified=true};
                 TriggerButtonSenderNotice.IsOpened = false;
                 bool result = await Area.NoticeHelper.SendNoticeAsync(notificationInfo);
                 TriggerButtonSenderNotice.IsOpened = true;
                 if (result)
                 {
-                    TbxNotice1.Text = ""; TbxNotice2.Text = ""; TbxNotice3.Text = ""; TbxNotice4.Text = "";
+                    TbxNotice1.Text = "";TbxNotice2.Text = "";TbxNotice3.Text = "";TbxNotice4.Text = "";
                 }
             }
         }

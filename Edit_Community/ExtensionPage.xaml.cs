@@ -33,15 +33,6 @@ namespace Edit_Community
             LblEditMode.Content = Area.MainWindow.QBEditMod.Description;
             TSWeather.IsChecked = Area.MainWindow.QBWeather.IsChecked;
             LblWeather.Content = Area.MainWindow.QBWeather.Description;
-            TsTransprency.IsChecked = Area.Local.AllowTranspancy;
-            if (TsTransprency.IsChecked)
-            {
-                LblTranspancy_F.Content = "关";
-            }
-            else
-            {
-                LblTranspancy_F.Content = "开";
-            }
         }
         private void UImageMenu_Tapped(object sender, RoutedEventArgs e)
         {
@@ -86,26 +77,6 @@ namespace Edit_Community
         public void SetAutoCheck()
         {
             TSAutoCheck.InvokeCheck(Area.MainWindow.QBAutoCheck.IsChecked);
-        }
-        private void TsTransprency_Tapped(object sender, RoutedEventArgs e)
-        {
-            Area.Local.AllowTranspancy = TsTransprency.IsChecked;
-            if (TsTransprency.IsChecked)
-            {
-                LblTranspancy_F.Content = "关";
-            }
-            else
-            {
-                LblTranspancy_F.Content = "开";
-            }
-            if (TsTransprency.IsChecked == Area.MainWindow._AllowsTransprency)
-            {
-                LblTranspancy.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                LblTranspancy.Visibility = Visibility.Visible;
-            }
         }
         #endregion
     }
