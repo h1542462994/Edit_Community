@@ -74,6 +74,7 @@ namespace Edit_Community
         public int RtxFocusIndex { get => rtxFocusIndex; set => rtxFocusIndex = value; }
         public bool NeedReturnFocus { get => needReturnFocus; set => needReturnFocus = value; }
         public bool IsGridbackMousedown { get => isGridbackMousedown; set => isGridbackMousedown = value; }
+        public bool _AllowTransprancy { get; set; }
         #endregion
         #region 计时器模块
         bool isWeatherFirstLoaded = false;
@@ -124,6 +125,12 @@ namespace Edit_Community
         public MainWindow()
         {
             InitializeComponent();
+            _AllowTransprancy = Area.Local.AllowTransparency;
+            if (_AllowTransprancy == true)
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.AllowsTransparency = true;
+            }
             Area.MainWindow = this;
             //Area.WhiteBoardWindow = new WhiteBoardWindow();
             this.Title = "Edit Community " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -193,7 +200,7 @@ namespace Edit_Community
             AutoCheckText.Target = Rtx4;
             AutoCheckText.AutoCheckCollection = Area.Local.CheckData;
             RegisterTimer();
-            OnBackgrondPic(Area.Local.BackgroundMode, true,false);
+            OnBackgrondPic(Area.Local.BackgroundMode, true, false);
             if (Area.Local.CheckisOpen)
             {
                 OnAutoCheck();
@@ -249,7 +256,6 @@ namespace Edit_Community
             }
             else if (key == Area.Local.IsFullScreenProperty)
             {
-                ImgFullScreen.IsChecked = (bool)e.NewValue;
                 FullScreenChanged((bool)e.NewValue);
             }
             else if (key == Area.Local.EditBackgroundColorProperty)
@@ -338,7 +344,7 @@ namespace Edit_Community
             {
                 if ((bool)e.NewValue)
                 {
-                    if (Area.Edit==null || Area.Edit.CreateTime.Date == DateTime.Today)
+                    if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
                     {
                         QBWeather.Description = "开";
                         QBWeather.ThemeColor = ControlBase.ThemeColorDefault;
@@ -346,7 +352,7 @@ namespace Edit_Community
                     else
                     {
                         QBWeather.Description = ">今天";
-                        QBWeather.ThemeColor = Color.FromRgb(235,149,20);
+                        QBWeather.ThemeColor = Color.FromRgb(235, 149, 20);
                     }
                 }
                 else
@@ -461,17 +467,47 @@ namespace Edit_Community
         /// </summary>
         public void FullScreenChanged(bool isfullscreen)
         {
-            if (isfullscreen)
+            if (!_AllowTransprancy)
             {
-                if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
+                ImgFullScreen.IsChecked = isfullscreen;
+                if (isfullscreen)
                 {
-                    Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
-                    Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                    if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
+                    {
+                        Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                        Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                    }
+                    WindowStyle = WindowStyle.None;
+                    ResizeMode = ResizeMode.NoResize;
+                    Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
+                    WindowState = WindowState.Normal;
+                    Left = 0;
+                    Top = 0;
+                    Width = ScreenSize.Width;
+                    Height = ScreenSize.Height;
+                    ImgEditBrush.Visibility = Visibility.Visible;
+                    QBBrush.Visibility = Visibility.Visible;
                 }
-                WindowStyle = WindowStyle.None;
+                else
+                {
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+                    ResizeMode = ResizeMode.CanResize;
+                    if (Area.Local.IsMaxShow)
+                    {
+                        WindowState = WindowState.Maximized;
+                    }
+                    Left = Area.Local.AppLocation.X * ScreenSize.Width;
+                    Top = Area.Local.AppLocation.Y * ScreenSize.Height;
+                    Width = Area.Local.AppSize.Width * ScreenSize.Width;
+                    Height = Area.Local.AppSize.Height * ScreenSize.Height;
+                    ImgEditBrush.Visibility = Visibility.Collapsed;
+                    QBBrush.Visibility = Visibility.Collapsed;
+                }
+            }
+            else
+            {
+                ImgFullScreen.IsChecked = true;
                 ResizeMode = ResizeMode.NoResize;
-                Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
-                WindowState = WindowState.Normal;
                 Left = 0;
                 Top = 0;
                 Width = ScreenSize.Width;
@@ -479,22 +515,6 @@ namespace Edit_Community
                 ImgEditBrush.Visibility = Visibility.Visible;
                 QBBrush.Visibility = Visibility.Visible;
             }
-            else
-            {
-                WindowStyle = WindowStyle.SingleBorderWindow;
-                ResizeMode = ResizeMode.CanResize;
-                if (Area.Local.IsMaxShow)
-                {
-                    WindowState = WindowState.Maximized;
-                }
-                Left = Area.Local.AppLocation.X * ScreenSize.Width;
-                Top = Area.Local.AppLocation.Y * ScreenSize.Height;
-                Width = Area.Local.AppSize.Width * ScreenSize.Width;
-                Height = Area.Local.AppSize.Height * ScreenSize.Height;
-                ImgEditBrush.Visibility = Visibility.Collapsed;
-                QBBrush.Visibility = Visibility.Collapsed;
-            }
-            
         }
         private void ImgEditMove_Tapped(object sender, RoutedEventArgs e)
         {
@@ -516,8 +536,15 @@ namespace Edit_Community
         }
         private void ImgFullScreen_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
-            Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+            if (!_AllowTransprancy)
+            {
+                Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+                Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+            }
+            else
+            {
+                WindowState = WindowState.Minimized;
+            }
         }
         private void ImgEditBrush_Tapped(object sender, RoutedEventArgs e)
         {
@@ -760,11 +787,11 @@ namespace Edit_Community
         }
         private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
         {
-            OnBackgrondPic(Area.Local.BackgroundMode,true,true);
+            OnBackgrondPic(Area.Local.BackgroundMode, true, true);
         }
         private void GridMenuMoreLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton .Left)
+            if (e.ChangedButton == MouseButton.Left)
             {
                 isMenuMouseLeftDown = true;
             }
@@ -786,7 +813,7 @@ namespace Edit_Community
         }
         #endregion
         #region 背景布局
-        public void OnBackgrondPic(int mode, bool firstload = false,bool isnext = true)
+        public void OnBackgrondPic(int mode, bool firstload = false, bool isnext = true)
         {
             if (mode == 0)
             {
@@ -807,9 +834,9 @@ namespace Edit_Community
             {
                 bool isOk = true;
                 TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
-                TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime ;
+                TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
                 double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
-                QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51),percent);
+                QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
                 if (!firstload)
                 {
                     if (currentTimeSpan < defaultTimeSpan)
@@ -839,7 +866,7 @@ namespace Edit_Community
                         {
                             Area.Local.BackgroundPicCurrentindex = 0;
                         }
-                        QBBackgroundNext.Description = string.Format("{0}/{1}", Area.Local.BackgroundPicCurrentindex +1, infos.Count);
+                        QBBackgroundNext.Description = string.Format("{0}/{1}", Area.Local.BackgroundPicCurrentindex + 1, infos.Count);
                         OnBackgroundPicLoad(new BitmapImage(new Uri(infos[Area.Local.BackgroundPicCurrentindex].FullName)));
                     }
                     catch (Exception)
