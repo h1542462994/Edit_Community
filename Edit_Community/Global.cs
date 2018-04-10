@@ -537,8 +537,11 @@ namespace Edit_Community
         readonly USettingsProperty<DateTime> UpdateLastTimeProperty;
         readonly USettingsProperty<DateTime> NoticeLastTimeProperty;
 <<<<<<< HEAD
+<<<<<<< HEAD
         readonly USettingsProperty<bool> AllowTranspancyProperty;
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/Global.cs
+=======
+>>>>>>> parent of b5d3d42... 1.3.5.4
 =======
 >>>>>>> parent of b5d3d42... 1.3.5.4
         public Local()
@@ -587,8 +590,11 @@ namespace Edit_Community
             UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
             NoticeLastTimeProperty = uSettings.Register("NoticeLastTime", new DateTime());
 <<<<<<< HEAD
+<<<<<<< HEAD
             AllowTranspancyProperty = uSettings.Register("AllowTranspancy", false);
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/Global.cs
+=======
+>>>>>>> parent of b5d3d42... 1.3.5.4
 =======
 >>>>>>> parent of b5d3d42... 1.3.5.4
         }
@@ -644,8 +650,11 @@ namespace Edit_Community
         public DateTime UpdateLastTime { get => UpdateLastTimeProperty.Value; set => UpdateLastTimeProperty.Value = value; }
         public DateTime NoticeLastTime { get => NoticeLastTimeProperty.Value; set => NoticeLastTimeProperty.Value = value; }
 <<<<<<< HEAD
+<<<<<<< HEAD
         public bool AllowTranspancy { get => AllowTranspancyProperty.Value; set => AllowTranspancyProperty.Value = value; }
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/Global.cs
+=======
+>>>>>>> parent of b5d3d42... 1.3.5.4
 =======
 >>>>>>> parent of b5d3d42... 1.3.5.4
         public void Flush()

@@ -59,11 +59,14 @@ namespace Edit_Community
         public bool NeedReturnFocus { get => needReturnFocus; set => needReturnFocus = value; }
         public bool IsGridbackMousedown { get => isGridbackMousedown; set => isGridbackMousedown = value; }
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
         public bool _AllowTransprancy { get; set; }
 =======
         public bool _AllowsTransprency { get; set; }
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
+=======
+>>>>>>> parent of b5d3d42... 1.3.5.4
 =======
 >>>>>>> parent of b5d3d42... 1.3.5.4
         #endregion
@@ -127,6 +130,7 @@ namespace Edit_Community
         {
             InitializeComponent();
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
             _AllowTransprancy = Area.Local.AllowTransparency;
             if (_AllowTransprancy == true)
@@ -144,6 +148,10 @@ namespace Edit_Community
             }
 =======
             //检查是否更新.
+=======
+            //检查是否更新.
+
+>>>>>>> parent of b5d3d42... 1.3.5.4
 
 >>>>>>> parent of b5d3d42... 1.3.5.4
 
@@ -513,6 +521,7 @@ namespace Edit_Community
         public void FullScreenChanged(bool isfullscreen)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
             if (!_AllowTransprancy)
 =======
@@ -586,6 +595,15 @@ namespace Edit_Community
                     Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
                 }
 >>>>>>> parent of b5d3d42... 1.3.5.4
+=======
+            if (isfullscreen)
+            {
+                if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
+                {
+                    Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                    Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                }
+>>>>>>> parent of b5d3d42... 1.3.5.4
                 WindowStyle = WindowStyle.None;
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
                 ResizeMode = ResizeMode.NoResize;
@@ -599,10 +617,13 @@ namespace Edit_Community
                 QBBrush.Visibility = Visibility.Visible;
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
 =======
 
 =======
+=======
+>>>>>>> parent of b5d3d42... 1.3.5.4
             else
             {
                 WindowStyle = WindowStyle.SingleBorderWindow;
@@ -618,6 +639,9 @@ namespace Edit_Community
                 ImgEditBrush.Visibility = Visibility.Collapsed;
                 QBBrush.Visibility = Visibility.Collapsed;
             }
+<<<<<<< HEAD
+>>>>>>> parent of b5d3d42... 1.3.5.4
+=======
 >>>>>>> parent of b5d3d42... 1.3.5.4
 
 >>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/MainWindow.xaml.cs
@@ -643,6 +667,7 @@ namespace Edit_Community
         private void ImgFullScreen_Tapped(object sender, RoutedEventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< HEAD:MainWindow.xaml.cs
             if (!_AllowTransprancy)
 =======
@@ -656,6 +681,10 @@ namespace Edit_Community
             {
                 WindowState = WindowState.Minimized;
             }
+=======
+            Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+            Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+>>>>>>> parent of b5d3d42... 1.3.5.4
 =======
             Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
             Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
