@@ -5,11 +5,11 @@ Edit_Community
 # 软件介绍
 这是一款**作业展示器**软件,能够实现在班级教室电脑展示当天的功能.
 + 主要功能
-	+ 将当天的作业显示在6个**RichTextBox**中.![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Picture/main.jpg)
-	+ 支持编辑文本的字号,字体,加粗,倾斜,颜色.**只需要选中文字并松开左键即可** ![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Picture/editbox.jpg)
+	+ 将当天的作业显示在6个**RichTextBox**中.![screenshot](https://github.com/h1542462944/Edit_Community/tree/master/Edit_Community/Picture/main.jpg)
+	+ 支持编辑文本的字号,字体,加粗,倾斜,颜色.**只需要选中文字并松开左键即可** ![screenshot](https://github.com/h1542462944/Edit_Community/tree/master/Edit_Community/Picture/editbox.jpg)
 		+ 如需修改预设字体颜色,只要右键颜色即可,将会跳出`ColorDialog`
 	+ 通过左键单击左下角区域来切换当前显示的文件夹.
-		+ 如果要编辑模板,可以按如图所示操作![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Picture/settings1.jpg)
+		+ 如果要编辑模板,可以按如图所示操作![screenshot](https://github.com/h1542462944/Edit_Community/tree/master/Edit_Community/Picture/settings1.jpg)
 	+ 背景:支持修改`背景颜色`和`显示的图片`.只需在`设置`>`个性化`的相关栏目进行设置.
 	+ 天气:支持天气的显示,
 + 扩展功能
@@ -25,6 +25,12 @@ Edit_Community
 # 注意事项
 + 代码下载:该软件引用HTLibrary库,点击跳转
 [htlibrary https://github.com/h1542462944/HTLibrary](https://github.com/h1542462944/HTLibrary)
++ 软件更新需要HTStudioService服务.
+[HTStudioService](https://github.com/h1542462944/HTStudioService)
++ 自动更新部署.
+	1. 将Edit_CommunityUpdater放在Edit_Community\SoftWareCache\Updater文件夹内.
+	2. 启动HTStudioService服务(需要部署到iis,或者本机).
+	3. 重新生成HTLibrary,Edit_Community,Edit_CommunityUpdater(如果必要的话).
 # 历史
 + *2017年8年12日 - 2017年9月29日* **117503445**发布[HomeWorker](https://github.com/117503445/HomeWorker)版本
 + *2017年10月1日 - 2017年12月6日* **h1542462994**发布[Edit](https://github.com/h1542462994/Edit)版本
@@ -68,7 +74,7 @@ Edit_Community
 	+ *2018年1月26日* **1.2.0.1**
 		+ `new` `extension` 加入天气预报功能.
 		+ `new` `window` 加入**F11**全屏快捷键.
-+ Unversil Update
++ Unversil Update **2018年3月11日 - 未知**
 	+ *2018年3月11日* **1.3.0.1**
 		+ `new` `edit` 加入调整字体的功能.
 	+ *2018年3月15日* **1.3.2.0**
@@ -82,6 +88,14 @@ Edit_Community
 		+ `new` `main` 加入文件路径自定义的功能 *仅限Release模式*
 	+ *2018年3月21日* **1.3.4.3**
 		+ `new` `extension` 天气预报回归.
+	+ *2018年3月31日* **1.3.5.0**
+		+ `new` `extension` 加入自动更新功能初版本(HTStudioService).
+	+ *2018年4月1日* **1.3.5.1**
+		+ `new` `extension` 加入通知系统(当前仅限于更新服务).
+	+ *2018年4月3日* **1.3.5.3**
+		+ `new` `extension` 加入通知推送系统.
+	+ *2018年4月3日* **1.3.5.4**
+		+ `new` `window`加入透明特性.
 # 开发人员
 + [117503445](https://github.com/117503445)提供天气服务的支持.
 + [h1542462994](https://github.com/h1542462944)主要的开发人员.

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://localhost:52623/HTStudioService.svc?wsdl" filename="HTStudioService.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://localhost:52623/HTStudioService.svc?xsd=xsd2" filename="HTStudioService.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://localhost:52623/HTStudioService.svc?xsd=xsd0" filename="HTStudioService0.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://localhost:52623/HTStudioService.svc?xsd=xsd1" filename="HTStudioService1.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://localhost:52623/HTStudioService.svc?disco" filename="HTStudioService.disco" />
+  </Results>
+</DiscoveryClientResultsFile>

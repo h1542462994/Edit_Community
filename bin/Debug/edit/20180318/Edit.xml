@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--这是设置1.0.3.0版本的本地文件,可以实现改变字段值自动保存的功能,支持保存数组.-->
+<Edit filetype="settings" version="1.0.3.0">
+  <createTime type="System.DateTime">2018/3/18 12:25:46</createTime>
+</Edit>

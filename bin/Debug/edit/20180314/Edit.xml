@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--这是设置1.0.2.0版本的本地文件,可以实现改变字段值自动保存的功能,支持保存数组.-->
+<Edit filetype="settings" version="1.0.2.0">
+  <editfiletype type="System.Int32">1</editfiletype>
+  <createTime type="System.DateTime">2018/3/14 6:23:49</createTime>
+  <rowDefi1 type="System.Double">0.352732434350603</rowDefi1>
+  <rowElp1 type="System.Double">0.548334845147078</rowElp1>
+  <columnElp1 type="System.Double">0.374749498997996</columnElp1>
+  <columnElp0 type="System.Double">0.597586941092974</columnElp0>
+  <columnDefi type="System.Double[]">
+    <add type="System.Double">0.32843137254902</add>
+    <add type="System.Double">0.356284449263576</add>
+  </columnDefi>
+</Edit>
