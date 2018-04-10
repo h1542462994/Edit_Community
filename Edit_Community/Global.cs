@@ -529,21 +529,11 @@ namespace Edit_Community
         public readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
         public readonly USettingsProperty<bool> CheckisOpenProperty;
         public readonly USettingsProperty<AutoCheckCollection> CheckDataProperty;
-<<<<<<< HEAD:Global.cs
-        readonly USettingsProperty<bool> AllowTransparencyProperty;
-=======
         public readonly USettingsProperty<bool> IsAutoUpdateProperty;
         readonly USettingsProperty<double> UpdateTimestampProperty;
         readonly USettingsProperty<DateTime> UpdateLastTimeProperty;
         readonly USettingsProperty<DateTime> NoticeLastTimeProperty;
-<<<<<<< HEAD
-<<<<<<< HEAD
         readonly USettingsProperty<bool> AllowTranspancyProperty;
->>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/Global.cs
-=======
->>>>>>> parent of b5d3d42... 1.3.5.4
-=======
->>>>>>> parent of b5d3d42... 1.3.5.4
         public Local()
         {
             IsFullScreenProperty = uSettings.Register("isFullScreen", false, true);
@@ -582,21 +572,11 @@ namespace Edit_Community
             WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
             CheckisOpenProperty = uSettings.Register("CheckisOpen", true,true);
             CheckDataProperty = uSettings.Register("CheckData", new AutoCheckCollection() { new AutoCheck("ZWY") { Num = 100 } });
-<<<<<<< HEAD:Global.cs
-            AllowTransparencyProperty = uSettings.Register("AllowTransparency", true);
-=======
             IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", true, true);
             UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 120.0);
             UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
             NoticeLastTimeProperty = uSettings.Register("NoticeLastTime", new DateTime());
-<<<<<<< HEAD
-<<<<<<< HEAD
             AllowTranspancyProperty = uSettings.Register("AllowTranspancy", false);
->>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/Global.cs
-=======
->>>>>>> parent of b5d3d42... 1.3.5.4
-=======
->>>>>>> parent of b5d3d42... 1.3.5.4
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
         /// <summary>
@@ -642,21 +622,11 @@ namespace Edit_Community
         public DateTime WeatherLastTime { get => WeatherLastTimeProperty.Value; set => WeatherLastTimeProperty.Value = value; }
         public bool CheckisOpen { get => CheckisOpenProperty.Value; set => CheckisOpenProperty.Value = value; }
         public AutoCheckCollection CheckData { get => CheckDataProperty.Value; set => CheckDataProperty.Value = value; }
-<<<<<<< HEAD:Global.cs
-        public bool AllowTransparency { get => AllowTransparencyProperty.Value; set => AllowTransparencyProperty.Value = value; }
-=======
         public bool IsAutoUpdate { get=>IsAutoUpdateProperty.Value; set=>IsAutoUpdateProperty.Value =value; }
         public double UpdateTiemstamp { get => UpdateTimestampProperty.Value; set => UpdateTimestampProperty.Value = value; }
         public DateTime UpdateLastTime { get => UpdateLastTimeProperty.Value; set => UpdateLastTimeProperty.Value = value; }
         public DateTime NoticeLastTime { get => NoticeLastTimeProperty.Value; set => NoticeLastTimeProperty.Value = value; }
-<<<<<<< HEAD
-<<<<<<< HEAD
         public bool AllowTranspancy { get => AllowTranspancyProperty.Value; set => AllowTranspancyProperty.Value = value; }
->>>>>>> 1f718072015f076f3c3e45e007013506a5a99b95:Edit_Community/Global.cs
-=======
->>>>>>> parent of b5d3d42... 1.3.5.4
-=======
->>>>>>> parent of b5d3d42... 1.3.5.4
         public void Flush()
         {
             uSettings.USettingsChanged += Area.MainWindow.Local_PropertyChanged;
