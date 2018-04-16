@@ -273,7 +273,7 @@ namespace Edit_Community
             }
             else if (key == Area.Local.IsEditBrushOpenProperty)
             {
-                if (Area.Local.IsFullScreen)
+                if (Area.Local.IsFullScreen || _AllowsTransprency)//why is || ?
                 {
                     this.ImgEditBrush.IsChecked = (bool)e.NewValue;
                     if ((bool)e.NewValue)

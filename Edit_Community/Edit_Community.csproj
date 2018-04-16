@@ -38,12 +38,10 @@
     <ApplicationIcon>edit.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HTLibrary, Version=1.3.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="HTLibrary">
       <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="HTLibrary.XmlSerializers, Version=1.3.0.4, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="HTLibrary.XmlSerializers">
       <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -87,7 +85,7 @@
     <Compile Include="SettingsMainPage.xaml.cs">
       <DependentUpon>SettingsMainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartUp.cs" />
+    <Compile Include="AppData.cs" />
     <Compile Include="ThemePage.xaml.cs">
       <DependentUpon>ThemePage.xaml</DependentUpon>
     </Compile>
@@ -196,22 +194,22 @@
     <Resource Include="Assets\flag0.png" />
     <Resource Include="Assets\flag1.png" />
     <Resource Include="Assets\close.png" />
-    <Content Include="mod\0.rtf">
+    <Content Include="LocalCache\mod\0.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="mod\1.rtf">
+    <Content Include="LocalCache\mod\1.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="mod\2.rtf">
+    <Content Include="LocalCache\mod\2.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="mod\3.rtf">
+    <Content Include="LocalCache\mod\3.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="mod\4.rtf">
+    <Content Include="LocalCache\mod\4.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="mod\5.rtf">
+    <Content Include="LocalCache\mod\5.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\Settings.settings">

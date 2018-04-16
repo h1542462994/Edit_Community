@@ -18,7 +18,7 @@ namespace Edit_Community
         {
             Area.MainWindow.LoadNotice();
         }
-        public Notification Notification { get; } = new Notification(StartUp.LocalFolder, "Notification");
+        public Notification Notification { get; } = new Notification(AppData.LocalFolder, "Notification");
         public void Add(NotificationInfo info)
         {
             Notification.Add(info);

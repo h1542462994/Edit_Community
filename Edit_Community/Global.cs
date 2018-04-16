@@ -63,7 +63,7 @@ namespace Edit_Community
         string editTempFolder;
         private EditTemp(string folder)
         {
-            editTempFolder = Area.EditFolder + folder + @"\";
+            editTempFolder = AppData.EditFolder + folder + @"\";
             uSettings = new USettings(editTempFolder, "Edit");
             CreateTimeProperty = uSettings.Register("createTime", new DateTime());
             TitleProperty = uSettings.Register("title", "");
@@ -90,7 +90,7 @@ namespace Edit_Community
         /// <returns></returns>
         public static EditInfo[] GetEditInfoArray()
         {
-            DirectoryInfo Folder = new DirectoryInfo(Area.EditFolder);
+            DirectoryInfo Folder = new DirectoryInfo(AppData.EditFolder);
             List<EditInfo> editinfos = new List<EditInfo>();
             foreach (DirectoryInfo editfolder in Folder.GetDirectories())
             {
@@ -98,7 +98,7 @@ namespace Edit_Community
                 string pathrtftemp = "";
                 for (int i = 0; i < 6; i++)
                 {
-                    pathrtftemp = Area.EditFolder + editfolder + @"\" + i + ".rtf";
+                    pathrtftemp = AppData.EditFolder + editfolder + @"\" + i + ".rtf";
                     if (!File.Exists(pathrtftemp))
                     {
                         isRtfExist = false;
@@ -178,7 +178,7 @@ namespace Edit_Community
     /// </summary>
     public sealed class Edit
     {
-        public USettings uSettings = new USettings(Area.EditBranchFolder, "Edit");
+        public USettings uSettings = new USettings(AppData.EditBranchFolder, "Edit");
         public USettingsProperty<double[]> ColumnDefiProperty;
         public USettingsProperty<double> RowDefi0Property;
         public USettingsProperty<double> RowDefi1Property;
@@ -194,7 +194,7 @@ namespace Edit_Community
 
         private Edit()
         {
-            ColumnDefiProperty = uSettings.Register("columnDefi", new double[] { 0.33, 0.33 }, true);
+            ColumnDefiProperty = uSettings.Register("columnDefi", new double[] { 0.0, 0.5 }, true);
             RowDefi0Property = uSettings.Register("rowDefi0", 0.5, true);
             RowDefi1Property = uSettings.Register("rowDefi1", 0.5, true);
             RowDefi2Property = uSettings.Register("rowDefi2", 0.5, true);
@@ -230,7 +230,7 @@ namespace Edit_Community
         private int EditFileType { get => EditFileTypeProperty.Value; set => EditFileTypeProperty.Value = value; }
         public static Edit SelectMod()
         {
-            Area.EditBranchFolder = Area.ModFolder;
+            AppData.EditBranchFolder = AppData.ModFolder;
             return new Edit
             {
                 EditFileType = 0
@@ -265,9 +265,9 @@ namespace Edit_Community
         /// <param name="date"></param>
         public static void Load(DateTime date)
         {
-            Area.EditBranchFolder = Area.GetEditBranchFolder(date);
+            AppData.EditBranchFolder = AppData.GetEditBranchFolder(date);
             Area.Edit = new Edit();
-            if (!File.Exists(Area.EditBranchFolder + "Edit.xml"))
+            if (!File.Exists(AppData.EditBranchFolder + "Edit.xml"))
             {
                 Area.Edit.EditFileType = 1;
             }
@@ -300,11 +300,11 @@ namespace Edit_Community
         public static void Load(string folder)
         {
             DirectoryInfo info = new DirectoryInfo(folder);
-            if (info.Parent.FullName + @"\" == Area.EditFolder)
+            if (info.Parent.FullName + @"\" == AppData.EditFolder)
             {
 
             }
-            else if (info.Parent.FullName + @"\" == Area.ModFolder)
+            else if (info.Parent.FullName + @"\" == AppData.ModFolder)
             {
                 LoadMod();
                 return;
@@ -313,9 +313,9 @@ namespace Edit_Community
             {
                 throw new ArgumentException("folder路径无效.");
             }
-            Area.EditBranchFolder = folder;
+            AppData.EditBranchFolder = folder;
             Area.Edit = new Edit();
-            if (!File.Exists(Area.EditBranchFolder + "Edit.xml"))
+            if (!File.Exists(AppData.EditBranchFolder + "Edit.xml"))
             {
                 Area.Edit.EditFileType = 1;
             }
@@ -330,7 +330,7 @@ namespace Edit_Community
             {
                 if (Area.Edit.CreateTime == new DateTime())
                 {
-                    Area.Edit._createTime = Directory.GetCreationTime(Area.EditBranchFolder);
+                    Area.Edit._createTime = Directory.GetCreationTime(AppData.EditBranchFolder);
                 }
             }
             Area.Edit.Flush();
@@ -342,7 +342,7 @@ namespace Edit_Community
         }
         public static void LoadMod()
         {
-            Area.EditBranchFolder = Area.ModFolder;
+            AppData.EditBranchFolder = AppData.ModFolder;
             Area.Edit = new Edit()
             {
                 EditFileType = 0,
@@ -383,7 +383,7 @@ namespace Edit_Community
             Area.EditInfos = EditTemp.GetEditInfoArray();
             for (int i = 0; i < Area.EditInfos.Length; i++)
             {
-                if (Area.EditBranchFolder == Area.EditInfos[i].Folder)
+                if (AppData.EditBranchFolder == Area.EditInfos[i].Folder)
                 {
                     Area.EditIndex = i;
                     break;
@@ -431,12 +431,12 @@ namespace Edit_Community
             try
             {
                 string filename = index.ToString() + ".rtf";
-                if (!File.Exists(Area.EditBranchFolder + filename))
+                if (!File.Exists(AppData.EditBranchFolder + filename))
                 {
-                    File.Copy(Area.ModFolder + filename, Area.EditBranchFolder + filename, true);
+                    File.Copy(AppData.ModFolder + filename, AppData.EditBranchFolder + filename, true);
                 }
                 TextRange t = new TextRange(Area.MainWindow.RTbx[index].Document.ContentStart, Area.MainWindow.RTbx[index].Document.ContentEnd);
-                using (FileStream file = new FileStream(Area.EditBranchFolder + filename, FileMode.Open))
+                using (FileStream file = new FileStream(AppData.EditBranchFolder + filename, FileMode.Open))
                 {
                     t.Load(file, DataFormats.Rtf);
                 }
@@ -457,7 +457,7 @@ namespace Edit_Community
             {
                 string filename = index.ToString() + ".rtf";
                 TextRange t = new TextRange(Area.MainWindow.RTbx[index].Document.ContentStart, Area.MainWindow.RTbx[index].Document.ContentEnd);
-                FileStream file = new FileStream(Area.EditBranchFolder + filename, FileMode.Create);
+                FileStream file = new FileStream(AppData.EditBranchFolder + filename, FileMode.Create);
                 t.Save(file, DataFormats.Rtf);
                 file.Close();
             }
@@ -466,7 +466,7 @@ namespace Edit_Community
         {
             try
             {
-                string path = Area.EditBranchFolder + "Brush.dat";
+                string path = AppData.EditBranchFolder + "Brush.dat";
                 FileStream fs = new FileStream(path, FileMode.Create);
                 value.Save(fs);
             }
@@ -476,7 +476,7 @@ namespace Edit_Community
         }
         public static void ReadBrush()
         {
-            string path = Area.EditBranchFolder + "Brush.dat";
+            string path = AppData.EditBranchFolder + "Brush.dat";
             if (File.Exists(path))
             {
                 try
@@ -500,35 +500,35 @@ namespace Edit_Community
     /// </summary>
     public sealed class Local
     {
-        public USettings uSettings = new USettings(StartUp.LocalFolder, "Settings");
+        public USettings uSettings = new USettings(AppData.LocalFolder, "Settings");
         public readonly USettingsProperty<bool> IsFullScreenProperty;
-        public readonly USettingsProperty<Size> AppSizeProperty;
-        public readonly USettingsProperty<Point> AppLocationProperty;
-        public readonly USettingsProperty<bool> IsMaxShowProperty;
+        readonly USettingsProperty<Size> AppSizeProperty;
+        readonly USettingsProperty<Point> AppLocationProperty;
+        readonly USettingsProperty<bool> IsMaxShowProperty;
         public readonly USettingsProperty<Color> EditBackgroundColorProperty;
-        public readonly USettingsProperty<Color> EditBackgroundColorOldproperty;
-        public readonly USettingsProperty<double> ColumnDefiMinProperty;
-        public readonly USettingsProperty<double> RowDefiMinProperty;
+        readonly USettingsProperty<Color> EditBackgroundColorOldproperty;
+        readonly USettingsProperty<double> ColumnDefiMinProperty;
+        readonly USettingsProperty<double> RowDefiMinProperty;
         public readonly USettingsProperty<Color[]> EditColorProperty;
         public readonly USettingsProperty<Color[]> EditBackgroundColorHistoryProperty;
-        public readonly USettingsProperty<int> ExitEditIntervalProperty;
+        readonly USettingsProperty<int> ExitEditIntervalProperty;
         public readonly USettingsProperty<Color[]> EditColorHistoryProperty;
         public readonly USettingsProperty<bool> IsEditBrushOpenProperty;
         public readonly USettingsProperty<bool> IsRtxHiddenProperty;
         public readonly USettingsProperty<int> InkColorIndexProperty;
         public readonly USettingsProperty<double> InkPenWidthProperty;
         public readonly USettingsProperty<int> BackgroundModeProperty;
-        public readonly USettingsProperty<string> BackgroundPicPathProperty;
-        public readonly USettingsProperty<string> BackgroundPicFolderProperty;
-        public readonly USettingsProperty<double> BackgroundPicTimestampProperty;
-        public readonly USettingsProperty<DateTime> BackgroundPicLastTimeProperty;
-        public readonly USettingsProperty<int> BackgroundPicCurrentindexProperty;
+        readonly USettingsProperty<string> BackgroundPicPathProperty;
+        readonly USettingsProperty<string> BackgroundPicFolderProperty;
+        readonly USettingsProperty<double> BackgroundPicTimestampProperty;
+        readonly USettingsProperty<DateTime> BackgroundPicLastTimeProperty;
+        readonly USettingsProperty<int> BackgroundPicCurrentindexProperty;
         public readonly USettingsProperty<bool> WeatherisOpenProperty;
         public readonly USettingsProperty<string> WeathercityProperty;
-        public readonly USettingsProperty<double> WeatherTimestampProperty;
-        public readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
+        readonly USettingsProperty<double> WeatherTimestampProperty;
+        readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
         public readonly USettingsProperty<bool> CheckisOpenProperty;
-        public readonly USettingsProperty<AutoCheckCollection> CheckDataProperty;
+        readonly USettingsProperty<AutoCheckCollection> CheckDataProperty;
         public readonly USettingsProperty<bool> IsAutoUpdateProperty;
         readonly USettingsProperty<double> UpdateTimestampProperty;
         readonly USettingsProperty<DateTime> UpdateLastTimeProperty;
@@ -542,8 +542,8 @@ namespace Edit_Community
             IsMaxShowProperty = uSettings.Register("isMaxShow", false);
             EditBackgroundColorProperty = uSettings.Register("editBackgroundColor", Color.FromRgb(20, 32, 0), true);
             EditBackgroundColorOldproperty = uSettings.Register("editBackgroundColorOld", Color.FromRgb(20, 32, 0));
-            ColumnDefiMinProperty = uSettings.Register("columnDefiMin", 0.04);
-            RowDefiMinProperty = uSettings.Register("rowDefiMin", 0.04);
+            ColumnDefiMinProperty = uSettings.Register("columnDefiMin", 0.0);
+            RowDefiMinProperty = uSettings.Register("rowDefiMin", 0.0);
             EditColorProperty = uSettings.Register("editcolor", new Color[]{
                 Color.FromRgb(255,172,17),
                 Color.FromRgb(253,99,40),
@@ -608,8 +608,6 @@ namespace Edit_Community
         public Color[] EditcolorHistory { get => EditColorHistoryProperty.Value; set => EditColorHistoryProperty.Value = value; }
         public bool IsEditBrushOpen { get => IsEditBrushOpenProperty.Value; set => IsEditBrushOpenProperty.Value = value; }
         public bool IsRtxHidden { get => IsRtxHiddenProperty.Value; set => IsRtxHiddenProperty.Value = value; }
-        public int InkColorIndex { get => InkColorIndexProperty.Value; set => InkColorIndexProperty.Value = value; }
-        public double InkPenwidth { get => InkPenWidthProperty.Value; set => InkPenWidthProperty.Value = value; }
         public int BackgroundMode { get => BackgroundModeProperty.Value; set => BackgroundModeProperty.Value = value; }
         public string BackgroundPicPath { get => BackgroundPicPathProperty.Value; set => BackgroundPicPathProperty.Value = value; }
         public string BackgroundPicFolder { get => BackgroundPicFolderProperty.Value; set => BackgroundPicFolderProperty.Value = value; }
@@ -642,7 +640,6 @@ namespace Edit_Community
         static Local local = new Local();
         static PageNavigationHelper pageNavigationHelper = new PageNavigationHelper();
         static Edit edit;
-        static string editbranchfolder;
         static TimerInventory<TimerDisplayName> timerInventory = new TimerInventory<TimerDisplayName>();
         static DialogInventory<DialogDisplayName> dialogInventory = new DialogInventory<DialogDisplayName>();
         public static readonly SolidColorBrush CheckedBrush = new SolidColorBrush(Color.FromArgb(120, 60, 144, 144));
@@ -653,52 +650,6 @@ namespace Edit_Community
         /// 本地文件夹路径.
         /// </summary>
         //public static string LocalFolder => AppDomain.CurrentDomain.BaseDirectory;
-        /// <summary>
-        /// 模板路径.
-        /// </summary>
-        public static string ModFolder
-        {
-            get
-            {
-                string path = StartUp.LocalFolder + @"mod\";
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                return path;
-            }
-        }
-        /// <summary>
-        /// 作业显示器数据总路径.
-        /// </summary>
-        public static string EditFolder
-        {
-            get
-            {
-                string path = StartUp.LocalFolder + @"edit\";
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                return path;
-            }
-        }
-        /// <summary>
-        /// 获取某一天作业的路径.
-        /// </summary>
-        public static string GetEditBranchFolder(DateTime date)
-        {
-            string path = EditFolder + date.GetDateString() + @"\";
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            return path;
-        }
-        /// <summary>
-        /// 正在操作的作业的路径.
-        /// </summary>
-        public static string EditBranchFolder { get => editbranchfolder; set => editbranchfolder = value; }
         /// <summary>
         /// MainWindow的引用
         /// </summary>
