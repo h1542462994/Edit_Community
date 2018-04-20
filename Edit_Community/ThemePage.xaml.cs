@@ -215,7 +215,7 @@ namespace Edit_Community
             TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
             TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
             double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
-            Area.MainWindow. QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
+            Area.MainWindow. QBBackgroundNext.ThemeBrush  = UserBrushes.GetLinearGradiantBrush(UserBrushes.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
         }
         public void CheckPic()
         {

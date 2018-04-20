@@ -179,7 +179,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel >
-                        <libr:QuickButton x:Name="QBBackgroundNext" ControlStyle="Transparent" Height="55" Visibility="Visible" ImageSource="Assets/down.png" Title="下一张" Description="8/22" CanAutoCheck="False" Tapped="QBBackgroundNext_Tapped"  Margin="2"/>
+                        <libr:QuickButton x:Name="QBBackgroundNext" Height="55" ControlStyle="Dark" Visibility="Visible" ImageSource="Assets/down.png" Title="下一张" Description="8/22" CanAutoCheck="False" Tapped="QBBackgroundNext_Tapped"  IsChecked="True"  Margin="2"/>
                         <libr:QuickButton x:Name="QBEditMod" Height="55" ControlStyle="Dark"  ImageSource="Assets/4.png" Title="编辑模板" Tapped="QBEditMod_Tapped" Margin="2" />
                     </StackPanel>
                     <StackPanel Grid.Column="1">

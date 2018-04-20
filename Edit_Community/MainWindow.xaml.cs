@@ -78,7 +78,10 @@ namespace Edit_Community
         }
         private void Timer_Update(object sender, EventArgs e)
         {
-            OnUpdateAsync(false);
+            if (Area.Local.IsAutoUpdate)
+            {
+                OnUpdateAsync(false);
+            }
         }
         private void Timer_Weather(object sender, EventArgs e)
         {
@@ -349,12 +352,12 @@ namespace Edit_Community
                     if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
                     {
                         QBWeather.Description = "开";
-                        QBWeather.ThemeColor = ControlBase.ThemeColorDefault;
+                        QBWeather.ThemeBrush = UserBrushes.ThemeBrushDefault;
                     }
                     else
                     {
                         QBWeather.Description = ">今天";
-                        QBWeather.ThemeColor = Color.FromRgb(235, 149, 20);
+                        QBWeather.ThemeBrush = new SolidColorBrush( Color.FromRgb(235, 149, 20));
                     }
                 }
                 else
@@ -370,12 +373,12 @@ namespace Edit_Community
                     if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
                     {
                         QBAutoCheck.Description = "开";
-                        QBAutoCheck.ThemeColor = ControlBase.ThemeColorDefault;
+                        QBAutoCheck.ThemeBrush = UserBrushes.ThemeBrushDefault;
                     }
                     else
                     {
                         QBAutoCheck.Description = ">今天";
-                        QBAutoCheck.ThemeColor = Color.FromRgb(235, 149, 20);
+                        QBAutoCheck.ThemeBrush = UserBrushes.WarningBrush;
                     }
                 }
                 else
@@ -392,12 +395,12 @@ namespace Edit_Community
                     if (!UpdateDownloaded)
                     {
                         QBAutoUpdate.Description = "开";
-                        QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                        QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
                     }
                     else
                     {
                         QBAutoUpdate.Description = "需重启";
-                        QBAutoUpdate.ThemeColor = Color.FromRgb(235, 149, 20);
+                        QBAutoUpdate.ThemeBrush = UserBrushes.WarningBrush;
                     }
                 }
                 else
@@ -845,7 +848,7 @@ namespace Edit_Community
         #region 背景布局
         public void OnBackgrondPic(int mode, bool firstload = false, bool isnext = true)
         {
-            QBBackgroundMode.ThemeColor = ControlBase.ThemeColorDefault;
+            QBBackgroundMode.ThemeBrush = UserBrushes.ThemeBrushDefault;
             if (mode == 0)
             {
                 OnBackgroundPicLoad(null);
@@ -858,7 +861,7 @@ namespace Edit_Community
                 }
                 catch (Exception)
                 {
-                    QBBackgroundMode.ThemeColor = Colors.OrangeRed;
+                    QBBackgroundMode.ThemeBrush = new SolidColorBrush(Colors.Orange);
                     Console.WriteLine("BackgroundFailed:1");
                 }
             }
@@ -868,7 +871,7 @@ namespace Edit_Community
                 TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
                 TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
                 double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
-                QBBackgroundNext.Background = ControlBase.GetLinearGradiantBrush(ControlBase.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
+                QBBackgroundNext.ThemeBrush = UserBrushes.GetLinearGradiantBrush(UserBrushes.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
                 if (!firstload)
                 {
                     if (currentTimeSpan < defaultTimeSpan)
@@ -903,7 +906,7 @@ namespace Edit_Community
                     }
                     catch (Exception)
                     {
-                        QBBackgroundMode.ThemeColor = Colors.OrangeRed;
+                        QBBackgroundMode.ThemeBrush = new SolidColorBrush(Colors.Orange);
                         Console.WriteLine("BackgroundFailed:2");
                     }
                 }
@@ -1573,12 +1576,12 @@ namespace Edit_Community
                 if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
                 {
                     QBWeather.Description = "开";
-                    QBWeather.ThemeColor = ControlBase.ThemeColorDefault;
+                    QBWeather.ThemeBrush = UserBrushes.ThemeBrushDefault;
                 }
                 else
                 {
                     QBWeather.Description = ">今天";
-                    QBWeather.ThemeColor = Color.FromRgb(235, 149, 20);
+                    QBWeather.ThemeBrush = UserBrushes.WarningBrush;
                 }
             }
         }
@@ -1603,12 +1606,12 @@ namespace Edit_Community
                 if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
                 {
                     QBAutoCheck.Description = "开";
-                    QBAutoCheck.ThemeColor = ControlBase.ThemeColorDefault;
+                    QBAutoCheck.ThemeBrush = UserBrushes.ThemeBrushDefault;
                 }
                 else
                 {
                     QBAutoCheck.Description = ">今天";
-                    QBAutoCheck.ThemeColor = Color.FromRgb(235, 149, 20);
+                    QBAutoCheck.ThemeBrush = UserBrushes.WarningBrush;
                 }
             }
         }
@@ -1626,7 +1629,7 @@ namespace Edit_Community
                 {
                     QBAutoUpdate.IsOpened = true;
                     QBAutoUpdate.Description = "错误";
-                    QBAutoUpdate.ThemeColor = Colors.OrangeRed;
+                    QBAutoUpdate.ThemeBrush = new SolidColorBrush(Colors.Orange);
                 });
             }
             else
@@ -1642,7 +1645,7 @@ namespace Edit_Community
                     {
                         QBAutoUpdate.IsOpened = true;
                         QBAutoUpdate.Description = "最新";
-                        QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                        QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
                     });
                 }
             }
@@ -1663,7 +1666,7 @@ namespace Edit_Community
                 {
                     QBAutoUpdate.IsOpened = true;
                     QBAutoUpdate.Description = "错误";
-                    QBAutoUpdate.ThemeColor = Colors.OrangeRed;
+                    QBAutoUpdate.ThemeBrush = new SolidColorBrush(Colors.Orange);
                 });
 
             }
@@ -1673,7 +1676,7 @@ namespace Edit_Community
                 {
                     QBAutoUpdate.IsOpened = false;
                     QBAutoUpdate.Description = string.Format("{0}%", e.Percent);
-                    QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                    QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
                 });
 
             }
@@ -1683,7 +1686,7 @@ namespace Edit_Community
                 {
                     QBAutoUpdate.IsOpened = true;
                     QBAutoUpdate.Description = "需重启";
-                    QBAutoUpdate.ThemeColor = Color.FromRgb(235, 149, 20);
+                    QBAutoUpdate.ThemeBrush = new SolidColorBrush( Color.FromRgb(235, 149, 20));
                     ShowUpdateDialog();
                 });
 
@@ -1695,7 +1698,7 @@ namespace Edit_Community
             {
                 QBAutoUpdate.IsOpened = false;
                 QBAutoUpdate.Description = "检查中";
-                QBAutoUpdate.ThemeColor = ControlBase.ThemeColorDefault;
+                QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
                 await Task.Run(() => SoftWareService.CheckUpdate());
                 Area.Local.UpdateLastTime = DateTime.Now;
             }
@@ -1716,7 +1719,7 @@ namespace Edit_Community
         }
         void ToUpdate()
         {
-            string path = SoftWareService.Folder + @"Updater\Edit_CommunityUpdater.exe";
+            string path = SoftWareService.ServiceCache + @"Updater\Edit_CommunityUpdater.exe";
             if (File.Exists(path))
             {
                 Process.Start(path);
