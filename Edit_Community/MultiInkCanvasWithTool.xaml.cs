@@ -375,6 +375,7 @@ namespace Edit_Community
         private void EditICs_TouchUp(object sender, TouchEventArgs e)
         {
             Stroke_MouseUp();
+            this.Cursor = null;
         }
         private void EditICs_TouchEnter(object sender, TouchEventArgs e)
         {
@@ -385,6 +386,14 @@ namespace Edit_Community
             if (InkMenuSelectIndex == 3 && e.LeftButton == MouseButtonState.Pressed)
             {
                 Stroke_MouseMove(e.GetPosition(EditICs));
+            }
+        }
+        private void EditICs_TouchMove(object sender, TouchEventArgs e)
+        {
+            this.Cursor = Cursors.None;
+            if (InkMenuSelectIndex == 3)
+            {
+                Stroke_MouseMove(e.GetTouchPoint(EditICs).Position);
             }
         }
 
@@ -404,13 +413,6 @@ namespace Edit_Community
             ImgEraser.Visibility = Visibility.Collapsed;
         }
 
-        private void EditICs_TouchMove(object sender, TouchEventArgs e)
-        {
-            if (InkMenuSelectIndex == 3)
-            {
-                Stroke_MouseMove(e.GetTouchPoint(EditICs).Position);
-            }
-        }
     }
     public delegate void SaveBrushEventHander(StrokeCollection value);
 }

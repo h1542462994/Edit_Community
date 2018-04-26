@@ -100,6 +100,7 @@ Edit_Community
 		+ `new` `brush`增加橡皮.
 	+ *2018年4月27日* **1.3.5.8**
 		+ `new` `extension`天气更新策略调整.
+		+ `improve` `brush`橡皮功能改善，画笔时触屏下移除鼠标.
 # 开发人员
 + [117503445](https://github.com/117503445)提供天气服务的支持.
 + [h1542462994](https://github.com/h1542462944)主要的开发人员.

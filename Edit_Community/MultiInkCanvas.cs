@@ -206,6 +206,7 @@ namespace Edit_Community
             {
                 ShowEraserBdr(e.GetTouchPoint(this).Position);
             }
+            e.Handled = false;
         }
 
         protected override void OnTouchUp(TouchEventArgs e)
