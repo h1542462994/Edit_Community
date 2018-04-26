@@ -28,8 +28,8 @@ namespace Edit_Community
         {
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
-            Width = 30,
-            Height = 30,
+            Width = 40,
+            Height = 60,
             Background = Brushes.White,
             BorderThickness = new Thickness(2),
             BorderBrush = Brushes.Black
@@ -340,7 +340,7 @@ namespace Edit_Community
             {
                 Stroke stroke = this.InkCanvas.Strokes[i];
                 Size strokesize = new Size(this.InkCanvas.DefaultDrawingAttributes.Width, this.InkCanvas.DefaultDrawingAttributes.Height);
-                StrokeCollection sc = stroke.GetEraseResult(new Rect(position.X - strokesize.Width /2, position.Y - strokesize.Height /2, strokesize.Width, strokesize.Height));
+                StrokeCollection sc = stroke.GetEraseResult(new Rect(position.X - 20, position.Y - 30, 40, 60));
                 this.InkCanvas.Strokes.Replace(stroke, sc);
             }
         }

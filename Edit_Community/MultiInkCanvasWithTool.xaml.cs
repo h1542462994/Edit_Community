@@ -281,25 +281,6 @@ namespace Edit_Community
             }
         }
 
-        private void EditICs_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            GridEditInkMenuBox1.Visibility = Visibility.Hidden;
-            GridEditInkMenuBox3.Visibility = Visibility.Hidden;
-        }
-        private void EditICs_PreviewMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            SaveBrushCallBack?.Invoke(this.EditICs.InkCanvas.Strokes);
-        }
-        private void EditICs_TouchUp(object sender, TouchEventArgs e)
-        {
-            SaveBrushCallBack?.Invoke(this.EditICs.InkCanvas.Strokes);
-
-        }
-        private void EditICs_TouchEnter(object sender, TouchEventArgs e)
-        {
-            GridEditInkMenuBox1.Visibility = Visibility.Hidden;
-            GridEditInkMenuBox3.Visibility = Visibility.Hidden;
-        }
         private void BorderInkSize_MouseMove(object sender, MouseEventArgs e)
         {
             if (isPenwidthSlideMouseDown)
@@ -348,7 +329,7 @@ namespace Edit_Community
         }
         public void LoadPropertys()
         {
-            if (inkColorIndexProperty !=null)
+            if (inkColorIndexProperty != null)
                 InkColorIndex = inkColorIndexProperty.Value;
             if (penwidthProperty != null)
                 Penwidth = penwidthProperty.Value;
@@ -380,6 +361,54 @@ namespace Edit_Community
                     point.X = 180;
                 }
                 BdEM.Margin = new Thickness(point.X - 35, 0, 0, 0);
+            }
+        }
+
+        private void EditICs_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Stroke_MouseDown();
+        }
+        private void EditICs_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Stroke_MouseUp();
+        }
+        private void EditICs_TouchUp(object sender, TouchEventArgs e)
+        {
+            Stroke_MouseUp();
+        }
+        private void EditICs_TouchEnter(object sender, TouchEventArgs e)
+        {
+            Stroke_MouseDown();
+        }
+        private void EditICs_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (InkMenuSelectIndex == 3 && e.LeftButton == MouseButtonState.Pressed)
+            {
+                Stroke_MouseMove(e.GetPosition(EditICs));
+            }
+        }
+
+        void Stroke_MouseDown()
+        {
+            GridEditInkMenuBox1.Visibility = Visibility.Hidden;
+            GridEditInkMenuBox3.Visibility = Visibility.Hidden;
+        }
+        void Stroke_MouseMove(Point point)
+        {
+            ImgEraser.Visibility = Visibility.Visible;
+            ImgEraser.Margin = new Thickness(point.X - 20, point.Y -30, 0, 0);
+        }
+        void Stroke_MouseUp()
+        {
+            SaveBrushCallBack?.Invoke(this.EditICs.InkCanvas.Strokes);
+            ImgEraser.Visibility = Visibility.Collapsed;
+        }
+
+        private void EditICs_TouchMove(object sender, TouchEventArgs e)
+        {
+            if (InkMenuSelectIndex == 3)
+            {
+                Stroke_MouseMove(e.GetTouchPoint(EditICs).Position);
             }
         }
     }

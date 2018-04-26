@@ -8,8 +8,9 @@
              mc:Ignorable="d" MouseLeave="UserControl_MouseLeave" MouseUp="UserControl_MouseUp" MouseMove="UserControl_MouseMove" >
     <Grid>
         <Grid x:Name="GridVisual" Background="Transparent" Visibility="Visible"/>
-        <local:MultiTouchCanvas x:Name="EditICs" Background="{x:Null}" PreviewMouseDown="EditICs_PreviewMouseDown" PreviewMouseUp="EditICs_PreviewMouseUp" TouchUp="EditICs_TouchUp" TouchEnter="EditICs_TouchEnter" />
+        <local:MultiTouchCanvas x:Name="EditICs" Background="{x:Null}" PreviewMouseDown="EditICs_PreviewMouseDown" PreviewMouseUp="EditICs_PreviewMouseUp" TouchUp="EditICs_TouchUp" TouchEnter="EditICs_TouchEnter" PreviewMouseMove="EditICs_PreviewMouseMove" TouchMove="EditICs_TouchMove" />
         <Grid x:Name="GridBack" Visibility="Hidden" Background="Transparent"/>
+        <Image x:Name="ImgEraser" Width="40" Opacity="0.7" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Source="Assets/Block.png" Visibility="Collapsed" />
         <Grid x:Name="GridEditInkMenu">
             <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="160" Height="40">
                 <Grid.ColumnDefinitions>

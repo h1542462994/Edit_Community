@@ -39,10 +39,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HTLibrary">
-      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
+      <HintPath>..\..\..\Project_cht\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
     </Reference>
     <Reference Include="HTLibrary.XmlSerializers">
-      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
+      <HintPath>..\..\..\Project_cht\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -194,6 +194,7 @@
     <Resource Include="Assets\flag0.png" />
     <Resource Include="Assets\flag1.png" />
     <Resource Include="Assets\close.png" />
+    <Resource Include="Assets\Block.png" />
     <Content Include="LocalCache\mod\0.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -239,10 +240,6 @@
     <Resource Include="Assets\settings1.png" />
     <Resource Include="Assets\star0.png" />
     <Resource Include="Assets\star1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\block0.png" />
-    <Resource Include="Assets\block1.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\search0.png" />

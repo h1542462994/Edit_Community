@@ -23,7 +23,7 @@ using User.SoftWare.Service;
 using User.UI;
 
 namespace Edit_Community
-{
+{ 
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
@@ -61,7 +61,6 @@ namespace Edit_Community
         public bool _AllowsTransprency { get; set; }
         #endregion
         #region 计时器模块
-        bool isWeatherFirstLoaded = false;
         private void RegisterTimer()
         {
             Area.TimerInventory.Register(TimerDisplayName.ExitEdit, new TimerQueueInfo(Area.Local.ExitEditInterval, new EventHandler(Timer_ExitEdit), false, true));
@@ -87,15 +86,7 @@ namespace Edit_Community
         {
             if (Area.Local.WeatherisOpen)
             {
-                if (isWeatherFirstLoaded)
-                {
-                    OnWeatherAsync(false);
-                }
-                else
-                {
-                    OnWeatherAsync(true);
-                    isWeatherFirstLoaded = true;
-                }
+                OnWeatherAsync();
             }
         }
         private void Timer_BackgroundPic(object sender, EventArgs e)
