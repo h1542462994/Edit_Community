@@ -26,7 +26,7 @@ namespace Edit_Community
         }
         private void UImageMenu_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.PageNavigationHelper.Add(typeof(SettingsMainPage));
+            AppData.PageNavigationHelper.Add(typeof(SettingsMainPage));
         }
     }
 }

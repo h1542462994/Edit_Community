@@ -16,14 +16,14 @@ namespace Edit_Community
         }
         private void Notification_Changed(object sender, object e)
         {
-            Area.MainWindow.LoadNotice();
+            AppData.MainWindow.LoadNotice();
         }
         public Notification Notification { get; } = new Notification(AppData.LocalFolder, "Notification");
         public void Add(NotificationInfo info)
         {
             Notification.Add(info);
             Notification_Changed(null, null);
-            Area.MainWindow.InvokeNotice(info);
+            AppData.MainWindow.InvokeNotice(info);
         }
         public void Remove(NotificationInfo info)
         {
@@ -34,31 +34,31 @@ namespace Edit_Community
         {
             await Task.Run(() =>
             {
-                if (Notification.DownloadNew("Edit_Community", Area.Local.NoticeLastTime, out int count))
+                if (Notification.DownloadNew("Edit_Community", AppData.Local.NoticeLastTime, out int count))
                 {
-                    Area.MainWindow.Dispatcher.Invoke(() =>
+                    AppData.MainWindow.Dispatcher.Invoke(() =>
                     {
                         if (count >= 2)
                         {
-                            Area.MainWindow.OnDownloadNotice(count);
+                            AppData.MainWindow.OnDownloadNotice(count);
                         }
                         else if (count == 1)
                         {
-                            Area.MainWindow.InvokeNotice(Notification.Last());
+                            AppData.MainWindow.InvokeNotice(Notification.Last());
                         }
                         if (count!=0)
                         {
                             Notification_Changed(null, null);
                         }
-                        Area.MainWindow.LblNoticeError.Visibility = System.Windows.Visibility.Collapsed;
+                        AppData.MainWindow.LblNoticeError.Visibility = System.Windows.Visibility.Collapsed;
                     });
-                    Area.Local.NoticeLastTime = DateTime.Now;
+                    AppData.Local.NoticeLastTime = DateTime.Now;
                 }
                 else
                 {
-                    Area.MainWindow.Dispatcher.Invoke(() =>
+                    AppData.MainWindow.Dispatcher.Invoke(() =>
                     {
-                        Area.MainWindow.LblNoticeError.Visibility = System.Windows.Visibility.Visible;
+                        AppData.MainWindow.LblNoticeError.Visibility = System.Windows.Visibility.Visible;
                     });
                 }
             });

@@ -63,35 +63,35 @@ namespace Edit_Community
         #region 计时器模块
         private void RegisterTimer()
         {
-            Area.TimerInventory.Register(TimerDisplayName.ExitEdit, new TimerQueueInfo(Area.Local.ExitEditInterval, new EventHandler(Timer_ExitEdit), false, true));
-            Area.TimerInventory.Register(TimerDisplayName.HideImg, new TimerQueueInfo(6, new EventHandler(Timer_HideImg), false, true));
-            Area.TimerInventory.Register(TimerDisplayName.HideMouse, new TimerQueueInfo(6, new EventHandler(Timer_HideMouse), false, true));
-            Area.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
-            Area.TimerInventory.Register(TimerDisplayName.Weather, new TimerQueueInfo(10, new EventHandler(Timer_Weather), false, true));
-            Area.TimerInventory.Register(TimerDisplayName.Update, new TimerQueueInfo(10, new EventHandler(Timer_Update), false, true));
-            Area.TimerInventory.Register(TimerDisplayName.Notification, new TimerQueueInfo(10, new EventHandler(Timer_Notification), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.ExitEdit, new TimerQueueInfo(AppData.Local.ExitEditInterval, new EventHandler(Timer_ExitEdit), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.HideImg, new TimerQueueInfo(6, new EventHandler(Timer_HideImg), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.HideMouse, new TimerQueueInfo(6, new EventHandler(Timer_HideMouse), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.Weather, new TimerQueueInfo(10, new EventHandler(Timer_Weather), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.Update, new TimerQueueInfo(10, new EventHandler(Timer_Update), false, true));
+            AppData.TimerInventory.Register(TimerDisplayName.Notification, new TimerQueueInfo(10, new EventHandler(Timer_Notification), false, true));
         }
         private void Timer_Notification(object sender, EventArgs e)
         {
-            Area.NoticeHelper.DownloadNoticeAsync();
+            AppData.NoticeHelper.DownloadNoticeAsync();
         }
         private void Timer_Update(object sender, EventArgs e)
         {
-            if (Area.Local.IsAutoUpdate)
+            if (AppData.Local.IsAutoUpdate)
             {
                 OnUpdateAsync(false);
             }
         }
         private void Timer_Weather(object sender, EventArgs e)
         {
-            if (Area.Local.WeatherisOpen)
+            if (AppData.Local.WeatherisOpen)
             {
                 OnWeatherAsync();
             }
         }
         private void Timer_BackgroundPic(object sender, EventArgs e)
         {
-            int mode = Area.Local.BackgroundMode;
+            int mode = AppData.Local.BackgroundMode;
             OnBackgrondPic(mode);
             Console.WriteLine("Timer=> BackgroundPic");
         }
@@ -105,7 +105,7 @@ namespace Edit_Community
         }
         private void Timer_ExitEdit(object sender, EventArgs e)
         {
-            Console.WriteLine("=> Timer_ExitEdit" + Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime);
+            Console.WriteLine("=> Timer_ExitEdit" + AppData.TimerInventory[TimerDisplayName.ExitEdit].TickTime);
             ExitEdit();
         }
         #endregion
@@ -114,14 +114,14 @@ namespace Edit_Community
         {
             InitializeComponent();
             //透明特性
-            _AllowsTransprency = Area.Local.AllowTranspancy;
+            _AllowsTransprency = AppData.Local.AllowTranspancy;
             AllowsTransparency = _AllowsTransprency;
             if (_AllowsTransprency)
             {
                 WindowStyle = WindowStyle.None;
             }
 
-            Area.MainWindow = this;
+            AppData.MainWindow = this;
             //Area.WhiteBoardWindow = new WhiteBoardWindow();
             this.Title = "Edit Community " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             for (int i = 0; i < RTbx.Length; i++)
@@ -166,11 +166,12 @@ namespace Edit_Community
                 InputMethod.SetPreferredImeState(RTbx[i], InputMethodState.DoNotCare);
                 InputLanguageManager.SetInputLanguage(RTbx[i], CultureInfo.GetCultureInfo("zh-CN"));
             }
-
-            gridBinding = new Dictionary<User.UI.TriggerImage, Grid>()
+            FrameEditView.Content = new EditViewPage();
+            gridBinding = new Dictionary<TriggerImage, Grid>()
             {
-                { ImgEditSettings,GridSettings},
-                {ImgNotice,GridNotice } ,
+                {ImgEditSettings,GridSettings},
+                {ImgNotice,GridNotice},
+                {ImgView,GridEditView }
             };
             foreach (var item in gridBinding.Keys)
             {
@@ -179,41 +180,42 @@ namespace Edit_Community
             SoftWareService.ChannelFreshed += SoftWareService_ChannelFreshed;
             SoftWareService.CheckUpdateCompleted += SoftWareService_CheckUpdateCompleted;
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
-            this.EditICs.SetPropertys(Area.Local.InkColorIndexProperty, Area.Local.InkPenWidthProperty);
+            this.EditICs.SetPropertys(AppData.Local.InkColorIndexProperty, AppData.Local.InkPenWidthProperty);
             this.EditICs.LoadPropertys();
             Loaded += MainWindow_Loaded;
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             LoadNotice();
-            Area.PageNavigationHelper.PageChanged += PageNavigationHelper_PageChanged;
-            Area.PageNavigationHelper.Add(typeof(SettingsMainPage));
-            Area.Local.Flush();
+            AppData.PageNavigationHelper.PageChanged += PageNavigationHelper_PageChanged;
+            AppData.PageNavigationHelper.Add(typeof(SettingsMainPage));
+            AppData.Local.Flush();
             Edit.Load(DateTime.Now);
             Edit.GetInfos();
             Edit.SetInfos();
+            ((EditViewPage)FrameEditView.Content).Load();
             WeatherText.Target = Rtx4;
             AutoCheckText.Target = Rtx4;
-            AutoCheckText.AutoCheckCollection = Area.Local.CheckData;
+            AutoCheckText.AutoCheckCollection = AppData.Local.CheckData;
             RegisterTimer();
-            OnBackgrondPic(Area.Local.BackgroundMode, true, false);
-            if (Area.Local.CheckisOpen)
+            OnBackgrondPic(AppData.Local.BackgroundMode, true, false);
+            if (AppData.Local.CheckisOpen)
             {
                 OnAutoCheck();
             }
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            if (Area.Local.IsFullScreen == false)
+            if (AppData.Local.IsFullScreen == false)
             {
-                Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
-                Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
-                Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
+                AppData.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                AppData.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                AppData.Local.IsMaxShow = WindowState == WindowState.Maximized;
             }
         }
         public void Local_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
         {
-            if (key == Area.Local.EditColorProperty)
+            if (key == AppData.Local.EditColorProperty)
             {
                 Console.WriteLine("isEditColor => ???");
                 Color[] arg = (Color[])e.NewValue;
@@ -232,7 +234,7 @@ namespace Edit_Community
                     }
                 }
             }
-            else if (key == Area.Local.EditColorHistoryProperty)
+            else if (key == AppData.Local.EditColorHistoryProperty)
             {
                 Console.WriteLine("iseditcolorHistory => ???");
                 Color[] arg = (Color[])e.NewValue;
@@ -250,11 +252,11 @@ namespace Edit_Community
                     }
                 }
             }
-            else if (key == Area.Local.IsFullScreenProperty)
+            else if (key == AppData.Local.IsFullScreenProperty)
             {
                 FullScreenChanged((bool)e.NewValue);
             }
-            else if (key == Area.Local.EditBackgroundColorProperty)
+            else if (key == AppData.Local.EditBackgroundColorProperty)
             {
                 Color arg = (Color)e.NewValue;
                 //BdrEditBackground.Background = new SolidColorBrush(arg);
@@ -265,9 +267,9 @@ namespace Edit_Community
                     RTbx[i].Background = new SolidColorBrush((Color)e.NewValue);
                 }
             }
-            else if (key == Area.Local.IsEditBrushOpenProperty)
+            else if (key == AppData.Local.IsEditBrushOpenProperty)
             {
-                if (Area.Local.IsFullScreen || _AllowsTransprency)//why is || ?
+                if (AppData.Local.IsFullScreen || _AllowsTransprency)//why is || ?
                 {
                     this.ImgEditBrush.IsChecked = (bool)e.NewValue;
                     if ((bool)e.NewValue)
@@ -293,7 +295,7 @@ namespace Edit_Community
                     this.QBBrush.Description = "隐藏";
                 }
             }
-            else if (key == Area.Local.IsRtxHiddenProperty)
+            else if (key == AppData.Local.IsRtxHiddenProperty)
             {
                 if ((bool)e.NewValue)
                 {
@@ -310,7 +312,7 @@ namespace Edit_Community
                     QBHideText.IsChecked = false;
                 }
             }
-            else if (key == Area.Local.BackgroundModeProperty)
+            else if (key == AppData.Local.BackgroundModeProperty)
             {
                 int mode = (int)e.NewValue;
                 if (mode == 0)
@@ -332,15 +334,15 @@ namespace Edit_Community
                     QBBackgroundNext.Visibility = Visibility.Visible;
                 }
             }
-            else if (key == Area.Local.WeathercityProperty)
+            else if (key == AppData.Local.WeathercityProperty)
             {
                 WeatherText.City = (string)e.NewValue;
             }
-            else if (key == Area.Local.WeatherisOpenProperty)
+            else if (key == AppData.Local.WeatherisOpenProperty)
             {
                 if ((bool)e.NewValue)
                 {
-                    if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                    if (AppData.Edit == null || AppData.Edit.CreateTime.Date == DateTime.Today)
                     {
                         QBWeather.Description = "开";
                         QBWeather.ThemeBrush = UserBrushes.ThemeBrushDefault;
@@ -357,11 +359,11 @@ namespace Edit_Community
                 }
                 QBWeather.IsChecked = (bool)e.NewValue;
             }
-            else if (key == Area.Local.CheckisOpenProperty)
+            else if (key == AppData.Local.CheckisOpenProperty)
             {
                 if ((bool)e.NewValue)
                 {
-                    if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                    if (AppData.Edit == null || AppData.Edit.CreateTime.Date == DateTime.Today)
                     {
                         QBAutoCheck.Description = "开";
                         QBAutoCheck.ThemeBrush = UserBrushes.ThemeBrushDefault;
@@ -378,7 +380,7 @@ namespace Edit_Community
                 }
                 QBAutoCheck.IsChecked = (bool)e.NewValue;
             }
-            else if (key == Area.Local.IsAutoUpdateProperty)
+            else if (key == AppData.Local.IsAutoUpdateProperty)
             {
                 QBAutoUpdate.IsChecked = (bool)e.NewValue;
                 if ((bool)e.NewValue)
@@ -402,7 +404,7 @@ namespace Edit_Community
         }
         public void Edit_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
         {
-            if (key == Area.Edit.ColumnDefiProperty)
+            if (key == AppData.Edit.ColumnDefiProperty)
             {
                 double[] arg = (double[])e.NewValue;
                 ColumnDefi0.Width = new GridLength(arg[0], GridUnitType.Star);
@@ -410,41 +412,41 @@ namespace Edit_Community
                 ColumnDefi2.Width = new GridLength(1 - arg[0] - arg[1], GridUnitType.Star);
                 SetElpLocationAll();
             }
-            else if (key == Area.Edit.RowDefi0Property)
+            else if (key == AppData.Edit.RowDefi0Property)
             {
                 double arg = (double)e.NewValue;
                 RowDefiU0.Height = new GridLength(arg, GridUnitType.Star);
                 RowDefiD0.Height = new GridLength(1 - arg, GridUnitType.Star);
             }
-            else if (key == Area.Edit.RowDefi1Property)
+            else if (key == AppData.Edit.RowDefi1Property)
             {
                 double arg = (double)e.NewValue;
                 RowDefiU1.Height = new GridLength(arg, GridUnitType.Star);
                 RowDefiD1.Height = new GridLength(1 - arg, GridUnitType.Star);
             }
-            else if (key == Area.Edit.RowDefi2Property)
+            else if (key == AppData.Edit.RowDefi2Property)
             {
                 double arg = (double)e.NewValue;
                 RowDefiU2.Height = new GridLength(arg, GridUnitType.Star);
                 RowDefiD2.Height = new GridLength(1 - arg, GridUnitType.Star);
             }
-            else if (key == Area.Edit.ColumnElp0Property)
+            else if (key == AppData.Edit.ColumnElp0Property)
             {
                 SetElpLocation(0, (double)e.NewValue);
             }
-            else if (key == Area.Edit.ColumnElp1Property)
+            else if (key == AppData.Edit.ColumnElp1Property)
             {
                 SetElpLocation(1, (double)e.NewValue);
             }
-            else if (key == Area.Edit.RowElo0Property)
+            else if (key == AppData.Edit.RowElo0Property)
             {
                 SetElpLocation(2, (double)e.NewValue);
             }
-            else if (key == Area.Edit.RowElp1Property)
+            else if (key == AppData.Edit.RowElp1Property)
             {
                 SetElpLocation(3, (double)e.NewValue);
             }
-            else if (key == Area.Edit.RowElp2Property)
+            else if (key == AppData.Edit.RowElp2Property)
             {
                 SetElpLocation(4, (double)e.NewValue);
             }
@@ -491,12 +493,12 @@ namespace Edit_Community
                 {
                     if (IsWindowLoaded && WindowState == WindowState.Normal)//记录位置和大小.
                     {
-                        Area.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
-                        Area.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
+                        AppData.Local.AppSize = new Size(Width / ScreenSize.Width, Height / ScreenSize.Height);
+                        AppData.Local.AppLocation = new Point(Left / ScreenSize.Width, Top / ScreenSize.Height);
                     }
                     WindowStyle = WindowStyle.None;
                     ResizeMode = ResizeMode.NoResize;
-                    Area.Local.IsMaxShow = WindowState == WindowState.Maximized;
+                    AppData.Local.IsMaxShow = WindowState == WindowState.Maximized;
                     WindowState = WindowState.Normal;
                     Left = 0;
                     Top = 0;
@@ -509,14 +511,14 @@ namespace Edit_Community
                 {
                     WindowStyle = WindowStyle.SingleBorderWindow;
                     ResizeMode = ResizeMode.CanResize;
-                    if (Area.Local.IsMaxShow)
+                    if (AppData.Local.IsMaxShow)
                     {
                         WindowState = WindowState.Maximized;
                     }
-                    Left = Area.Local.AppLocation.X * ScreenSize.Width;
-                    Top = Area.Local.AppLocation.Y * ScreenSize.Height;
-                    Width = Area.Local.AppSize.Width * ScreenSize.Width;
-                    Height = Area.Local.AppSize.Height * ScreenSize.Height;
+                    Left = AppData.Local.AppLocation.X * ScreenSize.Width;
+                    Top = AppData.Local.AppLocation.Y * ScreenSize.Height;
+                    Width = AppData.Local.AppSize.Width * ScreenSize.Width;
+                    Height = AppData.Local.AppSize.Height * ScreenSize.Height;
                     ImgEditBrush.Visibility = Visibility.Collapsed;
                     QBBrush.Visibility = Visibility.Collapsed;
                 }
@@ -558,8 +560,8 @@ namespace Edit_Community
         {
             if (!_AllowsTransprency)
             {
-                Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
-                Area.Local.IsEditBrushOpen = Area.Local.IsEditBrushOpen;
+                AppData.Local.IsFullScreen = !AppData.Local.IsFullScreen;
+                AppData.Local.IsEditBrushOpen = AppData.Local.IsEditBrushOpen;
             }
             else
             {
@@ -568,14 +570,14 @@ namespace Edit_Community
         }
         private void ImgEditBrush_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
+            AppData.Local.IsEditBrushOpen = !AppData.Local.IsEditBrushOpen;
         }
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SetElpLocationAll();
             if (IsWindowLoaded)
             {
-                Area.DialogInventory.Move();
+                AppData.DialogInventory.Move();
             }
         }
         private void Window_MouseMove(object sender, MouseEventArgs e)
@@ -586,7 +588,7 @@ namespace Edit_Community
                 Point point = e.GetPosition(GridMain);
                 if (point.X < 0.2 * ActualWidth || point.X > 0.8 * ActualWidth)
                 {
-                    Area.TimerInventory[TimerDisplayName.HideImg].TickTime = 1;
+                    AppData.TimerInventory[TimerDisplayName.HideImg].TickTime = 1;
                     ShowImg();
                 }
                 ShowMouse();
@@ -625,7 +627,7 @@ namespace Edit_Community
         {
             if (e.Key == Key.F11)
             {
-                Area.Local.IsFullScreen = !Area.Local.IsFullScreen;
+                AppData.Local.IsFullScreen = !AppData.Local.IsFullScreen;
             }
         }
         private void ShowImg()
@@ -650,7 +652,7 @@ namespace Edit_Community
             {
                 RTbx[i].BorderThickness = new Thickness(1);
             }
-            if (Area.Edit.EditType != EditType.Mod)
+            if (AppData.Edit.EditType != EditItemType.Reserved)
             {
                 ElpC1.Visibility = Visibility.Visible;
                 ElpC2.Visibility = Visibility.Visible;
@@ -670,7 +672,7 @@ namespace Edit_Community
             }
 
 
-            Area.DialogInventory.Hide(DialogDisplayName.GridEditBox);
+            AppData.DialogInventory.Hide(DialogDisplayName.GridEditBox);
             for (int i = 0; i < RTbx.Length; i++)
             {
                 RTbx[i].BorderThickness = new Thickness(0);
@@ -683,14 +685,14 @@ namespace Edit_Community
         }
         private void HideMouse()
         {
-            Area.TimerInventory[TimerDisplayName.HideMouse].IsStarted = false;
+            AppData.TimerInventory[TimerDisplayName.HideMouse].IsStarted = false;
             //
             Mouse.OverrideCursor = Cursors.None;
         }
         private void ShowMouse()
         {
-            Area.TimerInventory[TimerDisplayName.HideMouse].IsStarted = true;
-            Area.TimerInventory[TimerDisplayName.HideMouse].TickTime = 1;
+            AppData.TimerInventory[TimerDisplayName.HideMouse].IsStarted = true;
+            AppData.TimerInventory[TimerDisplayName.HideMouse].TickTime = 1;
             //
             Mouse.OverrideCursor = null;
         }
@@ -720,7 +722,7 @@ namespace Edit_Community
         }
         private void ImgSettingsBack_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.PageNavigationHelper.Back();
+            AppData.PageNavigationHelper.Back();
         }
         private void PageNavigationHelper_PageChanged(object sender, PageNavigationEventargs e)
         {
@@ -756,7 +758,7 @@ namespace Edit_Community
         }
         internal void QBHideText_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.IsRtxHidden = !Area.Local.IsRtxHidden;
+            AppData.Local.IsRtxHidden = !AppData.Local.IsRtxHidden;
             if (FrameSettings.Content is ExtensionPage page)
             {
                 page.SetText();
@@ -764,10 +766,10 @@ namespace Edit_Community
         }
         private void QBBackgroundMode_Tapped(object sender, RoutedEventArgs e)
         {
-            int mode = Area.Local.BackgroundMode;
+            int mode = AppData.Local.BackgroundMode;
             mode++;
             if (mode > 2) mode = 0;
-            Area.Local.BackgroundMode = mode;
+            AppData.Local.BackgroundMode = mode;
             if (FrameSettings.Content is ThemePage page)
             {
                 page.ComboBox1.SelectedIndex = mode;
@@ -779,12 +781,12 @@ namespace Edit_Community
         }
         private void QBBrush_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.IsEditBrushOpen = !Area.Local.IsEditBrushOpen;
+            AppData.Local.IsEditBrushOpen = !AppData.Local.IsEditBrushOpen;
         }
         internal void QBWeather_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.WeatherisOpen = !Area.Local.WeatherisOpen;
-            if (Area.Local.WeatherisOpen)
+            AppData.Local.WeatherisOpen = !AppData.Local.WeatherisOpen;
+            if (AppData.Local.WeatherisOpen)
             {
                 OnWeatherAsync(true);
             }
@@ -795,8 +797,8 @@ namespace Edit_Community
         }
         internal void QBAutoCheck_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.CheckisOpen = !Area.Local.CheckisOpen;
-            if (Area.Local.CheckisOpen)
+            AppData.Local.CheckisOpen = !AppData.Local.CheckisOpen;
+            if (AppData.Local.CheckisOpen)
             {
                 OnAutoCheck();
             }
@@ -807,11 +809,11 @@ namespace Edit_Community
         }
         private void QBAutoUpdate_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.IsAutoUpdate = !Area.Local.IsAutoUpdate;
+            AppData.Local.IsAutoUpdate = !AppData.Local.IsAutoUpdate;
         }
         private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
         {
-            OnBackgrondPic(Area.Local.BackgroundMode, true, true);
+            OnBackgrondPic(AppData.Local.BackgroundMode, true, true);
         }
         private void GridMenuMoreLeft_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -848,7 +850,7 @@ namespace Edit_Community
             {
                 try
                 {
-                    OnBackgroundPicLoad(new BitmapImage(new Uri(Area.Local.BackgroundPicPath)));
+                    OnBackgroundPicLoad(new BitmapImage(new Uri(AppData.Local.BackgroundPicPath)));
                 }
                 catch (Exception)
                 {
@@ -859,8 +861,8 @@ namespace Edit_Community
             else if (mode == 2)
             {
                 bool isOk = true;
-                TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
-                TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
+                TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(AppData.Local.BackgroundPicTimestamp);
+                TimeSpan currentTimeSpan = DateTime.Now - AppData.Local.BackgroundPicLastTime;
                 double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
                 QBBackgroundNext.ThemeBrush = UserBrushes.GetLinearGradiantBrush(UserBrushes.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
                 if (!firstload)
@@ -874,7 +876,7 @@ namespace Edit_Community
                 {
                     try
                     {
-                        DirectoryInfo Folder = new DirectoryInfo(Area.Local.BackgroundPicFolder);
+                        DirectoryInfo Folder = new DirectoryInfo(AppData.Local.BackgroundPicFolder);
                         List<FileInfo> infos = new List<FileInfo>();
                         foreach (FileInfo file in Folder.GetFiles())
                         {
@@ -885,15 +887,15 @@ namespace Edit_Community
                         }
                         if (isnext)
                         {
-                            Area.Local.BackgroundPicCurrentindex++;
-                            Area.Local.BackgroundPicLastTime = DateTime.Now;
+                            AppData.Local.BackgroundPicCurrentindex++;
+                            AppData.Local.BackgroundPicLastTime = DateTime.Now;
                         }
-                        if (Area.Local.BackgroundPicCurrentindex >= infos.Count)
+                        if (AppData.Local.BackgroundPicCurrentindex >= infos.Count)
                         {
-                            Area.Local.BackgroundPicCurrentindex = 0;
+                            AppData.Local.BackgroundPicCurrentindex = 0;
                         }
-                        QBBackgroundNext.Description = string.Format("{0}/{1}", Area.Local.BackgroundPicCurrentindex + 1, infos.Count);
-                        OnBackgroundPicLoad(new BitmapImage(new Uri(infos[Area.Local.BackgroundPicCurrentindex].FullName)));
+                        QBBackgroundNext.Description = string.Format("{0}/{1}", AppData.Local.BackgroundPicCurrentindex + 1, infos.Count);
+                        OnBackgroundPicLoad(new BitmapImage(new Uri(infos[AppData.Local.BackgroundPicCurrentindex].FullName)));
                     }
                     catch (Exception)
                     {
@@ -968,7 +970,7 @@ namespace Edit_Community
         private void Elp_SetValue(Point mousepoint)
         {
             double[] v = new double[2];
-            double[] colmundefi = Area.Edit.ColumnDefi;
+            double[] colmundefi = AppData.Edit.ColumnDefi;
             double num = colmundefi[0] + colmundefi[1];
             if (mouseElpDownOnobject == ElpC1 || mouseElpDownOnobject == ElpC2)
             {
@@ -976,45 +978,45 @@ namespace Edit_Community
                 if (mouseElpDownOnobject == ElpC1)
                 {
                     v[0] = Tools.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
-                         , Area.Local.ColumnDefiMin
-                         , num - Area.Local.ColumnDefiMin);
-                    Area.Edit.ColumnDefi = new double[] { v[0], num - v[0] };
-                    Area.Edit.ColumnElp0 = v[1];
+                         , AppData.Local.ColumnDefiMin
+                         , num - AppData.Local.ColumnDefiMin);
+                    AppData.Edit.ColumnDefi = new double[] { v[0], num - v[0] };
+                    AppData.Edit.ColumnElp0 = v[1];
                     //ElpC1.Margin = new Thickness(-elpWidth, -elpWidth + v[1] * GridMain.ActualHeight, 0, 0);
                 }
                 else
                 {
                     v[0] = Tools.Checkdouble(mousepoint.X / this.GridMain.ActualWidth
-                        , colmundefi[0] + Area.Local.ColumnDefiMin
-                        , 1 - Area.Local.ColumnDefiMin);
-                    Area.Edit.ColumnDefi = new double[] { colmundefi[0], v[0] - colmundefi[0] };
-                    Area.Edit.ColumnElp1 = v[1];
+                        , colmundefi[0] + AppData.Local.ColumnDefiMin
+                        , 1 - AppData.Local.ColumnDefiMin);
+                    AppData.Edit.ColumnDefi = new double[] { colmundefi[0], v[0] - colmundefi[0] };
+                    AppData.Edit.ColumnElp1 = v[1];
                     //ElpC2.Margin = new Thickness(-elpWidth, -elpWidth + v[1] * GridMain.ActualHeight, 0, 0);
                 }
             }
             else if (mouseElpDownOnobject == ElpR1 || mouseElpDownOnobject == ElpR2 || mouseElpDownOnobject == ElpR3)
             {
-                v[1] = Tools.Checkdouble(mousepoint.Y / GridMain.ActualHeight, Area.Local.RowDefiMin, 1 - Area.Local.RowDefiMin);
+                v[1] = Tools.Checkdouble(mousepoint.Y / GridMain.ActualHeight, AppData.Local.RowDefiMin, 1 - AppData.Local.RowDefiMin);
                 if (mouseElpDownOnobject == ElpR1)
                 {
                     v[0] = Tools.Checkdouble(mousepoint.X / (GridMain.ActualWidth * colmundefi[0]), elpdefimin, 1 - elpdefimin);
                     //ElpR1.Margin =  new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[0], -elpWidth, 0, 0);
-                    Area.Edit.RowDefi0 = v[1];
-                    Area.Edit.RowElp0 = v[0];
+                    AppData.Edit.RowDefi0 = v[1];
+                    AppData.Edit.RowElp0 = v[0];
                 }
                 else if (mouseElpDownOnobject == ElpR2)
                 {
                     v[0] = Tools.Checkdouble((mousepoint.X - GridMain.ActualWidth * colmundefi[0]) / (GridMain.ActualWidth * colmundefi[1]), elpdefimin, 1 - elpdefimin);
                     //ElpR2.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * colmundefi[1], -elpWidth, 0, 0);
-                    Area.Edit.RowDefi1 = v[1];
-                    Area.Edit.RowElp1 = v[0];
+                    AppData.Edit.RowDefi1 = v[1];
+                    AppData.Edit.RowElp1 = v[0];
                 }
                 else
                 {
                     v[0] = Tools.Checkdouble((mousepoint.X - GridMain.ActualWidth * num) / (GridMain.ActualWidth * (1 - num)), elpdefimin, 1 - elpdefimin);
                     //ElpR3.Margin = new Thickness(-elpWidth + v[0] * GridMain.ActualWidth * (1- num), -elpWidth, 0, 0);
-                    Area.Edit.RowDefi2 = v[1];
-                    Area.Edit.RowElp2 = v[0];
+                    AppData.Edit.RowDefi2 = v[1];
+                    AppData.Edit.RowElp2 = v[0];
                 }
             }
         }
@@ -1022,11 +1024,11 @@ namespace Edit_Community
         {
             if (IsWindowLoaded)
             {
-                SetElpLocation(0, Area.Edit.ColumnElp0);
-                SetElpLocation(1, Area.Edit.ColumnElp1);
-                SetElpLocation(2, Area.Edit.RowElp0);
-                SetElpLocation(3, Area.Edit.RowElp1);
-                SetElpLocation(4, Area.Edit.RowElp2);
+                SetElpLocation(0, AppData.Edit.ColumnElp0);
+                SetElpLocation(1, AppData.Edit.ColumnElp1);
+                SetElpLocation(2, AppData.Edit.RowElp0);
+                SetElpLocation(3, AppData.Edit.RowElp1);
+                SetElpLocation(4, AppData.Edit.RowElp2);
             }
         }
         private void Rtx_SelectionChanged(object sender, RoutedEventArgs e)
@@ -1039,17 +1041,17 @@ namespace Edit_Community
             {
                 if (Rtx_GetSectionIndex() != -1 && Mouse.LeftButton == MouseButtonState.Released && Mouse.RightButton == MouseButtonState.Released)
                 {
-                    if (!Area.DialogInventory.Exists(DialogDisplayName.GridEditBox))
+                    if (!AppData.DialogInventory.Exists(DialogDisplayName.GridEditBox))
                     {
                         Rtx_GetSectionValue();
-                        Area.DialogInventory.Show(DialogDisplayName.GridEditBox, new DialogAutoInfo(GridMain, GridEditBox, DialogAuto.Star, Mouse.GetPosition(GridMain), DialogType.Shadow, 30));
-                        Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
-                        Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+                        AppData.DialogInventory.Show(DialogDisplayName.GridEditBox, new DialogAutoInfo(GridMain, GridEditBox, DialogAuto.Star, Mouse.GetPosition(GridMain), DialogType.Shadow, 30));
+                        AppData.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+                        AppData.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
                     }
                 }
                 else if (Rtx_GetSectionIndex() == -1 || Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
                 {
-                    Area.DialogInventory.Hide(DialogDisplayName.GridEditBox);
+                    AppData.DialogInventory.Hide(DialogDisplayName.GridEditBox);
                 }
             }
         }
@@ -1065,15 +1067,15 @@ namespace Edit_Community
             }
             else if (index == 2)
             {
-                ElpR1.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * Area.Edit.ColumnDefi[0], -elpWidth, 0, 0);
+                ElpR1.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * AppData.Edit.ColumnDefi[0], -elpWidth, 0, 0);
             }
             else if (index == 3)
             {
-                ElpR2.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * Area.Edit.ColumnDefi[1], -elpWidth, 0, 0);
+                ElpR2.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * AppData.Edit.ColumnDefi[1], -elpWidth, 0, 0);
             }
             else if (index == 4)
             {
-                ElpR3.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * (1 - Area.Edit.ColumnDefi[0] - Area.Edit.ColumnDefi[1]), -elpWidth, 0, 0);
+                ElpR3.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * (1 - AppData.Edit.ColumnDefi[0] - AppData.Edit.ColumnDefi[1]), -elpWidth, 0, 0);
             }
         }
 
@@ -1087,8 +1089,8 @@ namespace Edit_Community
         {
             if (IsEditLoaded)
             {
-                Area.TimerInventory[TimerDisplayName.ExitEdit].IsStarted = true;
-                Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+                AppData.TimerInventory[TimerDisplayName.ExitEdit].IsStarted = true;
+                AppData.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
             }
             for (int i = 0; i < RTbx.Length; i++)
             {
@@ -1103,8 +1105,8 @@ namespace Edit_Community
         {
             Console.WriteLine("Rtx_GotFocus");
             InEdit();
-            Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
-            Area.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+            AppData.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
+            AppData.TimerInventory[TimerDisplayName.ExitEdit].TickTime = 1;
             for (int i = 0; i < RTbx.Length; i++)
             {
                 if (sender.Equals(RTbx[i]))
@@ -1287,17 +1289,17 @@ namespace Edit_Community
                 {
                     for (int i = 0; i < LblC.Length; i++)
                     {
-                        if (sender.Equals(LblC[i]) && i < Area.Local.Editcolor.Length)
+                        if (sender.Equals(LblC[i]) && i < AppData.Local.Editcolor.Length)
                         {
-                            Rtx_SetSelctionValue("foreground", Area.Local.Editcolor[i]);
+                            Rtx_SetSelctionValue("foreground", AppData.Local.Editcolor[i]);
                             return;
                         }
                     }
                     for (int i = 0; i < LblH.Length; i++)
                     {
-                        if (sender.Equals(LblH[i]) && i < Area.Local.EditcolorHistory.Length)
+                        if (sender.Equals(LblH[i]) && i < AppData.Local.EditcolorHistory.Length)
                         {
-                            Rtx_SetSelctionValue("foreground", Area.Local.EditcolorHistory[i]);
+                            Rtx_SetSelctionValue("foreground", AppData.Local.EditcolorHistory[i]);
                             return;
                         }
                     }
@@ -1308,9 +1310,9 @@ namespace Edit_Community
                     {
                         if (sender.Equals(LblC[i]))
                         {
-                            if (i < Area.Local.Editcolor.Length)
+                            if (i < AppData.Local.Editcolor.Length)
                             {
-                                ShowColorPicker(e, Area.Local.Editcolor[i], ColorPickTask.GridEditBox, i);
+                                ShowColorPicker(e, AppData.Local.Editcolor[i], ColorPickTask.GridEditBox, i);
                             }
                             else
                             {
@@ -1347,36 +1349,36 @@ namespace Edit_Community
                 this.fontItalic = fontItalic;
                 if (fontSize != 0)
                 {
-                    Area.MainWindow.SlideFontSize_SetValue(fontSize);
+                    AppData.MainWindow.SlideFontSize_SetValue(fontSize);
                 }
                 else
                 {
-                    Area.MainWindow.SlideFontSize_SetValue(-1);
+                    AppData.MainWindow.SlideFontSize_SetValue(-1);
                 }
                 if (fontBold == false)
                 {
-                    Area.MainWindow.LblEditF0.Background = Brushes.Transparent;
+                    AppData.MainWindow.LblEditF0.Background = Brushes.Transparent;
                 }
                 else
                 {
-                    Area.MainWindow.LblEditF0.Background = Area.CheckedBrush;
+                    AppData.MainWindow.LblEditF0.Background = AppData.CheckedBrush;
                 }
                 if (fontItalic == false)
                 {
-                    Area.MainWindow.LblEditF1.Background = Brushes.Transparent;
+                    AppData.MainWindow.LblEditF1.Background = Brushes.Transparent;
                 }
                 else
                 {
-                    Area.MainWindow.LblEditF1.Background = Area.CheckedBrush;
+                    AppData.MainWindow.LblEditF1.Background = AppData.CheckedBrush;
                 }
-                Area.MainWindow.UComboBox1.IsDropDownOpen = false;
+                AppData.MainWindow.UComboBox1.IsDropDownOpen = false;
                 if (fontFamily == "" || fontFamily == null)
                 {
-                    Area.MainWindow.UComboBox1.Text = "[未识别]";
+                    AppData.MainWindow.UComboBox1.Text = "[未识别]";
                 }
                 else
                 {
-                    Area.MainWindow.UComboBox1.Text = fontFamily;
+                    AppData.MainWindow.UComboBox1.Text = fontFamily;
                 }
             }
 
@@ -1387,7 +1389,7 @@ namespace Edit_Community
                 {
                     if (value >= fontsizemin && value <= fontsizemax)
                     {
-                        Area.MainWindow.Rtx_SetSelctionValue("fontsize", value);
+                        AppData.MainWindow.Rtx_SetSelctionValue("fontsize", value);
                         fontSize = value;
                     }
                 }
@@ -1397,7 +1399,7 @@ namespace Edit_Community
                 get => fontFamily; set
                 {
                     fontFamily = value;
-                    Area.MainWindow.Rtx_SetSelctionValue("fontfamily", value);
+                    AppData.MainWindow.Rtx_SetSelctionValue("fontfamily", value);
                 }
             }
             public bool Fontbold
@@ -1407,13 +1409,13 @@ namespace Edit_Community
                     fontBold = value;
                     if (value == false)
                     {
-                        Area.MainWindow.LblEditF0.Background = Brushes.Transparent;
+                        AppData.MainWindow.LblEditF0.Background = Brushes.Transparent;
                     }
                     else
                     {
-                        Area.MainWindow.LblEditF0.Background = Area.CheckedBrush;
+                        AppData.MainWindow.LblEditF0.Background = AppData.CheckedBrush;
                     }
-                    Area.MainWindow.Rtx_SetSelctionValue("fontbold", value);
+                    AppData.MainWindow.Rtx_SetSelctionValue("fontbold", value);
                 }
             }
             public bool Fontitalic
@@ -1423,13 +1425,13 @@ namespace Edit_Community
                     fontItalic = value;
                     if (value == false)
                     {
-                        Area.MainWindow.LblEditF1.Background = Brushes.Transparent;
+                        AppData.MainWindow.LblEditF1.Background = Brushes.Transparent;
                     }
                     else
                     {
-                        Area.MainWindow.LblEditF1.Background = Area.CheckedBrush;
+                        AppData.MainWindow.LblEditF1.Background = AppData.CheckedBrush;
                     }
-                    Area.MainWindow.Rtx_SetSelctionValue("fontitalic", value);
+                    AppData.MainWindow.Rtx_SetSelctionValue("fontitalic", value);
                 }
             }
             public void Print()
@@ -1457,23 +1459,23 @@ namespace Edit_Community
         }
         private void ApplyEditColorHistory(Color color)
         {
-            for (int i = 0; i < Area.Local.Editcolor.Length; i++)
+            for (int i = 0; i < AppData.Local.Editcolor.Length; i++)
             {
-                if (Area.Local.Editcolor[i] == color)
+                if (AppData.Local.Editcolor[i] == color)
                 {
                     return;
                 }
             }
             List<Color> colorlist = new List<Color>() { color };
-            for (int i = 0; i < Area.Local.EditcolorHistory.Length; i++)
+            for (int i = 0; i < AppData.Local.EditcolorHistory.Length; i++)
             {
-                if (Area.Local.EditcolorHistory[i] != color)
+                if (AppData.Local.EditcolorHistory[i] != color)
                 {
-                    colorlist.Add(Area.Local.EditcolorHistory[i]);
+                    colorlist.Add(AppData.Local.EditcolorHistory[i]);
                 }
             }
             int num = colorlist.Count > 4 ? 4 : colorlist.Count;
-            Area.Local.EditcolorHistory = colorlist.Take(num).ToArray();
+            AppData.Local.EditcolorHistory = colorlist.Take(num).ToArray();
         }
         #endregion
         #region ColorDialog交互
@@ -1501,7 +1503,7 @@ namespace Edit_Community
         private void ShowColorPicker(MouseButtonEventArgs e, Color color, ColorPickTask colorPickTask, int colorpicktaskindex = 0, DialogAuto dialogAuto = DialogAuto.Star, bool caneditalpha = false)
         {
             ColorPicker1.Value = new ColorP(color);
-            Area.DialogInventory.Show(DialogDisplayName.Dialog,
+            AppData.DialogInventory.Show(DialogDisplayName.Dialog,
                    new DialogAutoInfo(GridDialog, ColorPicker1,
                    dialogAuto, e.GetPosition(GridMain), DialogType.Shadow, 30
                    , new Size(200, 230)));
@@ -1514,7 +1516,7 @@ namespace Edit_Community
         {
             if (colorPickTask == ColorPickTask.GridEditBox)
             {
-                Color[] arg = Area.Local.Editcolor;
+                Color[] arg = AppData.Local.Editcolor;
                 if (colorpicktaskindex < arg.Length)
                 {
                     arg[colorpicktaskindex] = e.NewValue.GetColor();
@@ -1531,13 +1533,13 @@ namespace Edit_Community
                 }
 
 
-                Area.Local.Editcolor = arg;
+                AppData.Local.Editcolor = arg;
             }
             HideDialog();
         }
         private void HideDialog()
         {
-            Area.DialogInventory.Hide(DialogDisplayName.Dialog);
+            AppData.DialogInventory.Hide(DialogDisplayName.Dialog);
             GridDialogBack.Visibility = Visibility.Hidden;
         }
         #endregion
@@ -1545,26 +1547,27 @@ namespace Edit_Community
         public WeatherText WeatherText = new WeatherText("杭州");
         public async void OnWeatherAsync(bool isFirst = false)
         {
-            if ((isFirst || DateTime.Now - Area.Local.WeatherLastTime > TimeSpan.FromMinutes(Area.Local.WeatherTimestamp)) && Area.Edit.CreateTime.Date == DateTime.Today)
+            if ((isFirst || DateTime.Now - AppData.Local.WeatherLastTime > TimeSpan.FromMinutes(AppData.Local.WeatherTimestamp)) && AppData.Edit.CreateTime.Date == DateTime.Today)
             {
                 try
                 {
                     await WeatherText.LoadWeatherAsync();
                     WeatherText.Next();
+                   
                 }
                 catch (Exception)
                 {
                     Console.WriteLine("Weather.Error");
                 }
-                Area.Local.WeatherLastTime = DateTime.Now;
+                AppData.Local.WeatherLastTime = DateTime.Now;
             }
         }
         void FreshQBWeather()
         {
             //附加.
-            if (Area.Local.WeatherisOpen)
+            if (AppData.Local.WeatherisOpen)
             {
-                if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                if (AppData.Edit == null || AppData.Edit.CreateTime.Date == DateTime.Today)
                 {
                     QBWeather.Description = "开";
                     QBWeather.ThemeBrush = UserBrushes.ThemeBrushDefault;
@@ -1592,9 +1595,9 @@ namespace Edit_Community
         }
         void FreshQBAutoCheck()
         {
-            if (Area.Local.CheckisOpen)
+            if (AppData.Local.CheckisOpen)
             {
-                if (Area.Edit == null || Area.Edit.CreateTime.Date == DateTime.Today)
+                if (AppData.Edit == null || AppData.Edit.CreateTime.Date == DateTime.Today)
                 {
                     QBAutoCheck.Description = "开";
                     QBAutoCheck.ThemeBrush = UserBrushes.ThemeBrushDefault;
@@ -1685,20 +1688,20 @@ namespace Edit_Community
         }
         public async void OnUpdateAsync(bool isFirst = false)
         {
-            if ((isFirst) || DateTime.Now - Area.Local.UpdateLastTime > TimeSpan.FromMinutes(Area.Local.UpdateTiemstamp))
+            if ((isFirst) || DateTime.Now - AppData.Local.UpdateLastTime > TimeSpan.FromMinutes(AppData.Local.UpdateTiemstamp))
             {
                 QBAutoUpdate.IsOpened = false;
                 QBAutoUpdate.Description = "检查中";
                 QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
                 await Task.Run(() => SoftWareService.CheckUpdate());
-                Area.Local.UpdateLastTime = DateTime.Now;
+                AppData.Local.UpdateLastTime = DateTime.Now;
             }
         }
         void ShowUpdateDialog()
         {
             Dispatcher.Invoke(() =>
             {
-                Area.NoticeHelper.Add(new NotificationInfo
+                AppData.NoticeHelper.Add(new NotificationInfo
                 {
                     DateTime = DateTime.Now,
                     Title = "已下载更新",
@@ -1745,7 +1748,7 @@ namespace Edit_Community
         public void LoadNotice()
         {
             StackPanelNotice.Children.Clear();
-            foreach (var item in Area.NoticeHelper.Notification.Reverse())
+            foreach (var item in AppData.NoticeHelper.Notification.Reverse())
             {
                 var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5, 10, 5), NotificationInfo = item };
                 noticedialog.Closed += NoticeDialog_Closed_1;
@@ -1756,15 +1759,15 @@ namespace Edit_Community
         private void NoticeDialog_Choose_1(object sender, NotificationInfo e)
         {
             NoticeDialog_Choose(sender, e);
-            Area.NoticeHelper.Remove(e);
+            AppData.NoticeHelper.Remove(e);
         }
         private void NoticeDialog_Closed_1(object sender, NotificationInfo e)
         {
-            Area.NoticeHelper.Remove(e);
+            AppData.NoticeHelper.Remove(e);
         }
         private void TriggerButtonNoticeRemoveAll_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.NoticeHelper.Clear();
+            AppData.NoticeHelper.Clear();
         }
         public void OnDownloadNotice(int count)
         {
@@ -1784,7 +1787,7 @@ namespace Edit_Community
                     DateTimeSpecified = true
                 };
                 TriggerButtonSenderNotice.IsOpened = false;
-                bool result = await Area.NoticeHelper.SendNoticeAsync(notificationInfo);
+                bool result = await AppData.NoticeHelper.SendNoticeAsync(notificationInfo);
                 TriggerButtonSenderNotice.IsOpened = true;
                 if (result)
                 {

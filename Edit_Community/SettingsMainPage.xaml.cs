@@ -29,19 +29,19 @@ namespace Edit_Community
         {
             if (sender.Equals(UImgTheme))
             {
-                Area.PageNavigationHelper.Add(typeof(ThemePage));
+                AppData.PageNavigationHelper.Add(typeof(ThemePage));
             }
             else if (sender.Equals(UImgExtension))
             {
-                Area.PageNavigationHelper.Add(typeof(ExtensionPage));
+                AppData.PageNavigationHelper.Add(typeof(ExtensionPage));
             }
             else if (sender.Equals(UImgHelp))
             {
-                Area.PageNavigationHelper.Add(typeof(HelpPage));
+                AppData.PageNavigationHelper.Add(typeof(HelpPage));
             }
             else if (sender.Equals(UImgDeveloper))
             {
-                Area.PageNavigationHelper.Add(typeof(DeveloperPage));
+                AppData.PageNavigationHelper.Add(typeof(DeveloperPage));
             }
         }
     }

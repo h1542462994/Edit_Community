@@ -12,7 +12,7 @@ namespace Edit_Community
     /// <summary>
     /// 数据.
     /// </summary>
-    public static class AppData
+    public static partial class AppData
     {
         static USettings uSettings = new USettings(AppDomain.CurrentDomain.BaseDirectory, "StartUp");
         static USettingsProperty<bool> IsCurrentDomainProperty = uSettings.Register("IsCurrentDomain", true);

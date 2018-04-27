@@ -27,13 +27,13 @@ namespace Edit_Community
         }
         private void ExtensionPage_Loaded(object sender, RoutedEventArgs e)
         {
-            TSText.IsChecked = Area.MainWindow.QBHideText.IsChecked;
-            LblText.Content = Area.MainWindow.QBHideText.Description;
-            TSEditMode.IsChecked = Area.MainWindow.QBEditMod.IsChecked;
-            LblEditMode.Content = Area.MainWindow.QBEditMod.Description;
-            TSWeather.IsChecked = Area.MainWindow.QBWeather.IsChecked;
-            LblWeather.Content = Area.MainWindow.QBWeather.Description;
-            TsTransprency.IsChecked = Area.Local.AllowTranspancy;
+            TSText.IsChecked = AppData.MainWindow.QBHideText.IsChecked;
+            LblText.Content = AppData.MainWindow.QBHideText.Description;
+            TSEditMode.IsChecked = AppData.MainWindow.QBEditMod.IsChecked;
+            LblEditMode.Content = AppData.MainWindow.QBEditMod.Description;
+            TSWeather.IsChecked = AppData.MainWindow.QBWeather.IsChecked;
+            LblWeather.Content = AppData.MainWindow.QBWeather.Description;
+            TsTransprency.IsChecked = AppData.Local.AllowTranspancy;
             if (TsTransprency.IsChecked)
             {
                 LblTranspancy_F.Content = "关";
@@ -45,51 +45,51 @@ namespace Edit_Community
         }
         private void UImageMenu_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.PageNavigationHelper.Add(typeof(SettingsMainPage));
+            AppData.PageNavigationHelper.Add(typeof(SettingsMainPage));
         }
         #region 交互
         private void TSText_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.MainWindow.QBHideText.IsChecked = TSText.IsChecked;
-            Area.MainWindow.QBHideText_Tapped(null, new RoutedEventArgs());
+            AppData.MainWindow.QBHideText.IsChecked = TSText.IsChecked;
+            AppData.MainWindow.QBHideText_Tapped(null, new RoutedEventArgs());
         }
         public void SetText()
         {
-            TSText.InvokeCheck(Area.MainWindow.QBHideText.IsChecked);
-            LblText.Content = Area.MainWindow.QBHideText.Description;
+            TSText.InvokeCheck(AppData.MainWindow.QBHideText.IsChecked);
+            LblText.Content = AppData.MainWindow.QBHideText.Description;
         }
         private void TSEditMode_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.MainWindow.QBEditMod.IsChecked = TSEditMode.IsChecked;
-            Area.MainWindow.QBEditMod_Tapped(null, new RoutedEventArgs());
+            AppData.MainWindow.QBEditMod.IsChecked = TSEditMode.IsChecked;
+            AppData.MainWindow.QBEditMod_Tapped(null, new RoutedEventArgs());
         }
         public void SetEditMode()
         {
-            TSEditMode.InvokeCheck(Area.MainWindow.QBEditMod.IsChecked);
-            LblEditMode.Content = Area.MainWindow.QBEditMod.Description;
+            TSEditMode.InvokeCheck(AppData.MainWindow.QBEditMod.IsChecked);
+            LblEditMode.Content = AppData.MainWindow.QBEditMod.Description;
         }
         private void TSWeather_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.MainWindow.QBWeather.IsChecked = TSWeather.IsChecked;
-            Area.MainWindow.QBWeather_Tapped(null, new RoutedEventArgs());
+            AppData.MainWindow.QBWeather.IsChecked = TSWeather.IsChecked;
+            AppData.MainWindow.QBWeather_Tapped(null, new RoutedEventArgs());
         }
         public void SetWeather()
         {
-            TSWeather.InvokeCheck(Area.MainWindow.QBWeather.IsChecked);
-            LblWeather.Content = Area.MainWindow.QBWeather.Description;
+            TSWeather.InvokeCheck(AppData.MainWindow.QBWeather.IsChecked);
+            LblWeather.Content = AppData.MainWindow.QBWeather.Description;
         }
         private void TSAutoCheck_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.MainWindow.QBAutoCheck.IsChecked = TSAutoCheck.IsChecked;
-            Area.MainWindow.QBAutoCheck_Tapped(null, new RoutedEventArgs());
+            AppData.MainWindow.QBAutoCheck.IsChecked = TSAutoCheck.IsChecked;
+            AppData.MainWindow.QBAutoCheck_Tapped(null, new RoutedEventArgs());
         }
         public void SetAutoCheck()
         {
-            TSAutoCheck.InvokeCheck(Area.MainWindow.QBAutoCheck.IsChecked);
+            TSAutoCheck.InvokeCheck(AppData.MainWindow.QBAutoCheck.IsChecked);
         }
         private void TsTransprency_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.Local.AllowTranspancy = TsTransprency.IsChecked;
+            AppData.Local.AllowTranspancy = TsTransprency.IsChecked;
             if (TsTransprency.IsChecked)
             {
                 LblTranspancy_F.Content = "关";
@@ -98,7 +98,7 @@ namespace Edit_Community
             {
                 LblTranspancy_F.Content = "开";
             }
-            if (TsTransprency.IsChecked == Area.MainWindow._AllowsTransprency)
+            if (TsTransprency.IsChecked == AppData.MainWindow._AllowsTransprency)
             {
                 LblTranspancy.Visibility = Visibility.Collapsed;
             }

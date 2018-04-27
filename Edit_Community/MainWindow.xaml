@@ -143,7 +143,7 @@
         <Grid x:Name="GridRightButton" Grid.Row="1" Grid.Column="3" Margin="0,0.333,0,-0.333" d:IsHidden="True" >
             <libr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
         </Grid>
-        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Visible" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -196,7 +196,7 @@
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Grid x:Name="GridNotice" Visibility="Visible">
+            <Grid x:Name="GridNotice" Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
@@ -244,6 +244,9 @@
                     <libr:TriggerButton Grid.Column="3" InnerContent="全部清除" ControlStyle="Dark" Foreground="White"  Margin="2" Tapped="TriggerButtonNoticeRemoveAll_Tapped" />
                 </Grid>
             </Grid>
+            <Grid x:Name="GridEditView" Visibility="Visible">
+                <Frame x:Name="FrameEditView"/>
+            </Grid>
         </Grid>
         <Grid x:Name="GridMenuMoreLeft" Grid.Column="1" Grid.RowSpan="2" Background="Transparent" Visibility="Collapsed" MouseDown="GridMenuMoreLeft_MouseDown" MouseLeave="GridMenuMoreLeft_MouseLeave" MouseUp="GridMenuMoreLeft_MouseUp"/>
         <Grid x:Name="GridMenu"  Background="#B2000000" Margin="0,0,0,39.667" Grid.RowSpan="2" Visibility="Collapsed">
@@ -261,6 +264,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="TbxEditI" Grid.Row="6" Grid.RowSpan="2" Foreground="White" Text="2017/12/24  20/40"  FontSize="14" TextWrapping="Wrap" />
+                    <libr:TriggerImage Grid.Row="1" x:Name="ImgView" ImageSourceUnchecked="Assets/list0.png" ImageSourceChecked="Assets/list1.png"/>
                     <libr:TriggerImage Grid.Row="4" x:Name="ImgEditBrush" CanAutoCheck="False" ImageSourceUnchecked="Assets/brush0.png" ImageSourceChecked="Assets/brush1.png" Tapped="ImgEditBrush_Tapped"/>
                     <libr:TriggerImage Grid.Row="3" x:Name="ImgEditSettings" ImageSourceUnchecked="Assets/settings0.png" ImageSourceChecked="Assets/settings1.png" />
                     <libr:TriggerImage Grid.Row="2" x:Name="ImgNotice" ImageSourceUnchecked="Assets/flag0.png" ImageSourceChecked="Assets/flag1.png"/>

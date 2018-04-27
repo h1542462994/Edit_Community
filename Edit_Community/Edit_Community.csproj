@@ -65,8 +65,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Area.cs" />
     <Compile Include="DeveloperPage.xaml.cs">
       <DependentUpon>DeveloperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Edit.cs" />
+    <Compile Include="EditItemView.xaml.cs">
+      <DependentUpon>EditItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditViewPage.xaml.cs">
+      <DependentUpon>EditViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ExtensionPage.xaml.cs">
       <DependentUpon>ExtensionPage.xaml</DependentUpon>
@@ -74,6 +82,7 @@
     <Compile Include="HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Local.cs" />
     <Compile Include="MultiInkCanvas.cs" />
     <Compile Include="MultiInkCanvasWithTool.xaml.cs">
       <DependentUpon>MultiInkCanvasWithTool.xaml</DependentUpon>
@@ -96,6 +105,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ExtensionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,7 +129,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Global.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -195,6 +211,12 @@
     <Resource Include="Assets\flag1.png" />
     <Resource Include="Assets\close.png" />
     <Resource Include="Assets\Block.png" />
+    <Resource Include="Assets\delete.png" />
+    <Resource Include="Assets\send.png" />
+    <Resource Include="Assets\list0.png" />
+    <Resource Include="Assets\list1.png" />
+    <Resource Include="Assets\xdown.png" />
+    <Resource Include="Assets\xup.png" />
     <Content Include="LocalCache\mod\0.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

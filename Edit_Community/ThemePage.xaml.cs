@@ -42,25 +42,25 @@ namespace Edit_Community
             LoadElpsColor();
             SlideTimeLoad(true);
             CheckPic();
-            ElpBackground.Fill = new SolidColorBrush(Area.Local.EditBackgroundColor);
-            ColorPicker1.ValueOld = new ColorP(Area.Local.EditBackgroundColorOld);
-            ColorPicker1.Value = new ColorP(Area.Local.EditBackgroundColor);
+            ElpBackground.Fill = new SolidColorBrush(AppData.Local.EditBackgroundColor);
+            ColorPicker1.ValueOld = new ColorP(AppData.Local.EditBackgroundColorOld);
+            ColorPicker1.Value = new ColorP(AppData.Local.EditBackgroundColor);
         }
         private void UImageMenu_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.PageNavigationHelper.Add(typeof(SettingsMainPage));
+            AppData.PageNavigationHelper.Add(typeof(SettingsMainPage));
         }
         #region 背景颜色
         bool isElpLeftMouseDown;
         private void ColorPicker1_ChooseOkOrCancel(object sender, UPropertyChangedEventArgs<ColorP> e)
         {
-            Area.Local.EditBackgroundColorOld = e.OldValue.GetColor();
+            AppData.Local.EditBackgroundColorOld = e.OldValue.GetColor();
             ApplyEditBackgroundHistoryColor(e.NewValue.GetColor());
         }
         private void ColorPicker1_ValueChanged(object sender, UPropertyChangedEventArgs<ColorP> e)
         {
             ElpBackground.Fill = new SolidColorBrush(e.NewValue.GetColor());
-            Area.Local.EditBackgroundColor = e.NewValue.GetColor();
+            AppData.Local.EditBackgroundColor = e.NewValue.GetColor();
         }
         private void Elps_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -76,9 +76,9 @@ namespace Edit_Community
             {
                 for (int i = 0; i < Elps.Length; i++)
                 {
-                    if (sender == Elps[i] && i<Area.Local.EditBackgroundColorHistory.Length)
+                    if (sender == Elps[i] && i<AppData.Local.EditBackgroundColorHistory.Length)
                     {
-                        ColorPicker1.Value = new ColorP(Area.Local.EditBackgroundColorHistory[i]);
+                        ColorPicker1.Value = new ColorP(AppData.Local.EditBackgroundColorHistory[i]);
                         break;
                     }
                 }
@@ -86,35 +86,35 @@ namespace Edit_Community
         }
         void ApplyEditBackgroundHistoryColor(Color color)
         {
-            for (int i = 0; i < Area.Local.EditBackgroundColorHistory.Length; i++)
+            for (int i = 0; i < AppData.Local.EditBackgroundColorHistory.Length; i++)
             {
-                if (Area.Local.EditBackgroundColorHistory[i] == color)
+                if (AppData.Local.EditBackgroundColorHistory[i] == color)
                 {
                     return;
                 }
             }
             List<Color> colorlist = new List<Color>() { color };
-            for (int i = 0; i < Area.Local.EditBackgroundColorHistory.Length; i++)
+            for (int i = 0; i < AppData.Local.EditBackgroundColorHistory.Length; i++)
             {
-                if (Area.Local.EditBackgroundColorHistory[i] != color)
+                if (AppData.Local.EditBackgroundColorHistory[i] != color)
                 {
-                    colorlist.Add(Area.Local.EditBackgroundColorHistory[i]);
+                    colorlist.Add(AppData.Local.EditBackgroundColorHistory[i]);
                 }
             }
             int num = colorlist.Count > 5 ? 5 : colorlist.Count;
-            Area.Local.EditBackgroundColorHistory = colorlist.Take(num).ToArray();
+            AppData.Local.EditBackgroundColorHistory = colorlist.Take(num).ToArray();
 
             LoadElpsColor();
         }
         void LoadElpsColor()
         {
-            int length = Area.Local.EditBackgroundColorHistory.Length > 5 ? 5 :
-                Area.Local.EditBackgroundColorHistory.Length;
+            int length = AppData.Local.EditBackgroundColorHistory.Length > 5 ? 5 :
+                AppData.Local.EditBackgroundColorHistory.Length;
             for (int i = 0; i < 5; i++)
             {
                 if (i < length)
                 {
-                    Elps[i].Fill = new SolidColorBrush(Area.Local.EditBackgroundColorHistory[i]);
+                    Elps[i].Fill = new SolidColorBrush(AppData.Local.EditBackgroundColorHistory[i]);
                 }
                 else
                 {
@@ -126,7 +126,7 @@ namespace Edit_Community
         #region 背景图片
         void BackgroundPicLoad()
         {
-            if (Area.Local.BackgroundMode == 0)
+            if (AppData.Local.BackgroundMode == 0)
             {
                 Grid1.Visibility = Visibility.Collapsed;
                 GridSlideTime.Visibility = Visibility.Collapsed;
@@ -134,7 +134,7 @@ namespace Edit_Community
             else
             {
                 Grid1.Visibility = Visibility.Visible;
-                if (Area.Local.BackgroundMode == 1)
+                if (AppData.Local.BackgroundMode == 1)
                 {
                     BtnChoose.InnerContent = "选择图片";
                     BtnSlideNext.Visibility = Visibility.Collapsed;
@@ -149,21 +149,21 @@ namespace Edit_Community
             }
             if (!IsLoaded)
             {
-                ComboBox1.SelectedIndex = Area.Local.BackgroundMode;
+                ComboBox1.SelectedIndex = AppData.Local.BackgroundMode;
             }
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (IsLoaded)
             {
-                Area.Local.BackgroundMode = ComboBox1.SelectedIndex;
+                AppData.Local.BackgroundMode = ComboBox1.SelectedIndex;
                 BackgroundPicLoad();
-                Area.MainWindow.OnBackgrondPic(Area.Local.BackgroundMode, true, false);
+                AppData.MainWindow.OnBackgrondPic(AppData.Local.BackgroundMode, true, false);
             }
         }
         private void BtnChoose_Tapped(object sender, RoutedEventArgs e)
         {
-            if (Area.Local.BackgroundMode == 1)
+            if (AppData.Local.BackgroundMode == 1)
             {
                 var openFileDialog = new Microsoft.Win32.OpenFileDialog()
                 {
@@ -172,11 +172,11 @@ namespace Edit_Community
                 var result = openFileDialog.ShowDialog();
                 if (result == true)
                 {
-                    Area.Local.BackgroundPicPath = openFileDialog.FileName;
-                    Area.MainWindow.OnBackgrondPic(Area.Local.BackgroundMode);
+                    AppData.Local.BackgroundPicPath = openFileDialog.FileName;
+                    AppData.MainWindow.OnBackgrondPic(AppData.Local.BackgroundMode);
                 }
             }
-            else if (Area.Local.BackgroundMode == 2)
+            else if (AppData.Local.BackgroundMode == 2)
             {
                 var openFolderDialog = new System.Windows.Forms.FolderBrowserDialog()
                 {
@@ -185,43 +185,43 @@ namespace Edit_Community
                 var result = openFolderDialog.ShowDialog();
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    Area.Local.BackgroundPicFolder = openFolderDialog.SelectedPath;
-                    Area.MainWindow.OnBackgrondPic(Area.Local.BackgroundMode,isnext: false);
+                    AppData.Local.BackgroundPicFolder = openFolderDialog.SelectedPath;
+                    AppData.MainWindow.OnBackgrondPic(AppData.Local.BackgroundMode,isnext: false);
                 }
             }
         }
         private void BtnSlideNext_Tapped(object sender, RoutedEventArgs e)
         {
-            Area.MainWindow.OnBackgrondPic(Area.Local.BackgroundMode,true);
+            AppData.MainWindow.OnBackgrondPic(AppData.Local.BackgroundMode,true);
         }
 
         public void SlideTimeLoad(bool isFromSetting)
         {
             if (isFromSetting)
             {
-                SlideBarTime.SlideValue = Area.Local.BackgroundPicTimestamp;
+                SlideBarTime.SlideValue = AppData.Local.BackgroundPicTimestamp;
             }
             else
             {
-                Area.Local.BackgroundPicTimestamp = SlideBarTime.SlideValue;
+                AppData.Local.BackgroundPicTimestamp = SlideBarTime.SlideValue;
             }
-            double v = ((int)(Area.Local.BackgroundPicTimestamp * 10)) / 10.0;
+            double v = ((int)(AppData.Local.BackgroundPicTimestamp * 10)) / 10.0;
             LblTime.Content = v;
-            SlideBarTime.TickValue = (DateTime.Now - Area.Local.BackgroundPicLastTime).TotalMinutes;
+            SlideBarTime.TickValue = (DateTime.Now - AppData.Local.BackgroundPicLastTime).TotalMinutes;
         }
         private void SlideBarTime_SlideValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SlideTimeLoad(false);
-            TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(Area.Local.BackgroundPicTimestamp);
-            TimeSpan currentTimeSpan = DateTime.Now - Area.Local.BackgroundPicLastTime;
+            TimeSpan defaultTimeSpan = TimeSpan.FromMinutes(AppData.Local.BackgroundPicTimestamp);
+            TimeSpan currentTimeSpan = DateTime.Now - AppData.Local.BackgroundPicLastTime;
             double percent = currentTimeSpan.TotalMinutes / defaultTimeSpan.TotalMinutes;
-            Area.MainWindow. QBBackgroundNext.ThemeBrush  = UserBrushes.GetLinearGradiantBrush(UserBrushes.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
+            AppData.MainWindow. QBBackgroundNext.ThemeBrush  = UserBrushes.GetLinearGradiantBrush(UserBrushes.ThemeColorDefault, Color.FromArgb(204, 51, 51, 51), percent);
         }
         public void CheckPic()
         {
-            if (Area.Local.BackgroundMode == 1)
+            if (AppData.Local.BackgroundMode == 1)
             {
-                string path = Area.Local.BackgroundPicPath;
+                string path = AppData.Local.BackgroundPicPath;
                 if (!File.Exists(path) || !(path.Contains(".jpg" ) || path.Contains(".png")|| path.Contains(".bmp")))
                 {
                     PushText("图片路径无效", Colors.OrangeRed);
@@ -231,11 +231,11 @@ namespace Edit_Community
                     PushText("已加载图片", Colors.SpringGreen);
                 }
             }
-            if (Area.Local.BackgroundMode == 2)
+            if (AppData.Local.BackgroundMode == 2)
             {
-                if (Area.Local.BackgroundPicFolder!="" && Directory.Exists(Area.Local.BackgroundPicFolder))
+                if (AppData.Local.BackgroundPicFolder!="" && Directory.Exists(AppData.Local.BackgroundPicFolder))
                 {
-                    DirectoryInfo Folder = new DirectoryInfo(Area.Local.BackgroundPicFolder);
+                    DirectoryInfo Folder = new DirectoryInfo(AppData.Local.BackgroundPicFolder);
                     List<FileInfo> infos = new List<FileInfo>();
                     foreach (FileInfo file in Folder.GetFiles())
                     {
@@ -250,7 +250,7 @@ namespace Edit_Community
                     }
                     else
                     {
-                        PushText(string.Format("幻灯片:{0}/{1}", Area.Local.BackgroundPicCurrentindex + 1, infos.Count), Colors.SpringGreen);
+                        PushText(string.Format("幻灯片:{0}/{1}", AppData.Local.BackgroundPicCurrentindex + 1, infos.Count), Colors.SpringGreen);
                     }
                 }
                 else
