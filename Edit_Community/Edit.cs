@@ -49,20 +49,27 @@ namespace Edit_Community
         public USettingsProperty<string> TitleProperty;
         private USettingsProperty<int> EditFileTypeProperty;
         string editTempFolder;
-        private EditTemp(string folder)
+        public EditTemp(string folder, bool isRoot = false)
         {
-            if (folder != null)
+            if (!isRoot)
             {
-                editTempFolder = AppData.EditFolder + folder + @"\";
+                if (folder != null)
+                {
+                    editTempFolder = AppData.EditFolder + folder + @"\";
+                }
+                else
+                {
+                    editTempFolder = AppData.ModFolder;
+                }
             }
             else
             {
-                editTempFolder = AppData.ModFolder;
+                editTempFolder = folder;
             }
             uSettings = new USettings(editTempFolder, "Edit");
             CreateTimeProperty = uSettings.Register("createTime", new DateTime());
             TitleProperty = uSettings.Register("title", "");
-            EditFileTypeProperty = uSettings.Register("editfiletype", 1);
+            EditFileTypeProperty = uSettings.Register("editfiletype", 0);
         }
 
         /// <summary>

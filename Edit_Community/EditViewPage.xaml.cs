@@ -29,6 +29,7 @@ namespace Edit_Community
             StackPanel1.Children.Clear();
             for (int i = AppData.EditInfos.Length; i >= 0; i--)
             {
+                int j = AppData.EditInfos.Length - i;
                 EditItemView view = null;
                 if (i == AppData.EditInfos.Length)
                 {
@@ -38,7 +39,27 @@ namespace Edit_Community
                 {
                     view = new EditItemView() { EditInfo = AppData.EditInfos[i], VerticalAlignment = VerticalAlignment.Top, Margin = new Thickness(0, 5, 0, 5) };
                 }
+                view.Index = j;
+                view.LoadContent();
+                view.SlideTapped += View_SlideTapped;
                 StackPanel1.Children.Add(view);
+            }
+        }
+        private void View_SlideTapped(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in StackPanel1.Children)
+            {
+                if (item is EditItemView view)
+                {
+                    if (sender.Equals(item))
+                    {
+                        view.IsContentOpened = !view.IsContentOpened;
+                    }
+                    else
+                    {
+                        view.IsContentOpened = false;
+                    }
+                }
             }
         }
     }
