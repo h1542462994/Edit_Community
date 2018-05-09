@@ -5,11 +5,11 @@ Edit_Community
 # 软件介绍
 这是一款**作业展示器**软件,能够实现在班级教室电脑展示当天的功能.
 + 主要功能
-	+ 将当天的作业显示在6个**RichTextBox**中.![screenshot](https://github.com/h1542462944/Edit_Community/Edit_Community/tree/master/Edit_Community/Picture/main.jpg)
-	+ 支持编辑文本的字号,字体,加粗,倾斜,颜色.**只需要选中文字并松开左键即可** ![screenshot](https://github.com/h1542462944/Edit_Community/Edit_Community/tree/master/Edit_Community/Picture/editbox.jpg)
+	+ 将当天的作业显示在6个**RichTextBox**中.![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Edit_Community/Picture/main.jpg)
+	+ 支持编辑文本的字号,字体,加粗,倾斜,颜色.**只需要选中文字并松开左键即可** ![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Edit_Community/Picture/editbox.jpg)
 		+ 如需修改预设字体颜色,只要右键颜色即可,将会跳出`ColorDialog`
 	+ 通过左键单击左下角区域来切换当前显示的文件夹.
-		+ 如果要编辑模板,可以按如图所示操作![screenshot](https://github.com/h1542462944/Edit_Community/Edit_Community/tree/master/Edit_Community/Picture/settings1.jpg)
+		+ 如果要编辑模板,可以按如图所示操作![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Edit_Community/Picture/settings1.jpg)
 	+ 背景:支持修改`背景颜色`和`显示的图片`.只需在`设置`>`个性化`的相关栏目进行设置.
 	+ 天气:支持天气的显示,
 + 扩展功能
@@ -18,7 +18,9 @@ Edit_Community
 	<?xml version="1.0" encoding="utf-8"?>
 	<!--这是设置1.0.3.0版本的本地文件,可以实现改变字段值自动保存的功能,支持保存数组.-->
 	<StartUp filetype="settings" version="1.0.3.0">
+		<!--LocalCache文件夹所在路径-->
 		<RootFolder type="System.String">C:\User\App\Edit Community\LocalCache\</RootFolder>
+		<!--是否为当前路径,若为True则指定%Root%LocalCache/为缓存文件夹-->
 		<IsCurrentDomain type="System.Boolean">False</IsCurrentDomain>
 	</StartUp>
 	```		
@@ -34,7 +36,7 @@ Edit_Community
 # 历史
 + *2017年8年12日 - 2017年9月29日* **117503445**发布[HomeWorker](https://github.com/117503445/HomeWorker)版本
 + *2017年10月1日 - 2017年12月6日* **h1542462994**发布[Edit](https://github.com/h1542462994/Edit)版本
-+ *2017年12月7日 - * **h1542462994**发布[Edit_Community](https://github.com/h1542462944/Edit_Community)版本 </br>
++ *2017年12月7日 - 2018年5月15日* **h1542462994**发布[Edit_Community](https://github.com/h1542462944/Edit_Community)版本 </br>
 # 更新
 + StartUpdate **2017年12月27日 - 2018年1月1日**
 	+ *2017年12月27日* **1.0.0.0**
@@ -74,7 +76,7 @@ Edit_Community
 	+ *2018年1月26日* **1.2.0.1**
 		+ `new` `extension` 加入天气预报功能.
 		+ `new` `window` 加入**F11**全屏快捷键.
-+ Unversil Update **2018年3月11日 - 未知**
++ Unversil Update **2018年3月11日 - 2018年5月15日**
 	+ *2018年3月11日* **1.3.0.1**
 		+ `new` `edit` 加入调整字体的功能.
 	+ *2018年3月15日* **1.3.2.0**
