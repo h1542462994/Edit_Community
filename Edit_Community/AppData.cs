@@ -17,6 +17,7 @@ namespace Edit_Community
         static USettings uSettings = new USettings(AppDomain.CurrentDomain.BaseDirectory, "StartUp");
         static USettingsProperty<bool> IsCurrentDomainProperty = uSettings.Register("IsCurrentDomain", true);
         static USettingsProperty<string> RootFolderProperty = uSettings.Register("RootFolder", AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\");
+        private static string editBranchFolder;
 
         public static bool IsCurrentDomain { get => IsCurrentDomainProperty.Value; set => IsCurrentDomainProperty.Value = value; }
         public static string RootFolder { get => RootFolderProperty.Value; set => RootFolderProperty.Value = value; }
@@ -84,7 +85,14 @@ namespace Edit_Community
         /// <summary>
         /// 正在操作的作业的路径.
         /// </summary>
-        public static string EditBranchFolder { get; set; }
+        public static string EditBranchFolder
+        {
+            get => editBranchFolder; set
+            {
+                editBranchFolder = value;
+                EditViewPage.Select();
+            }
+        }
         static AppData()
         {
 #if !DEBUG

@@ -194,6 +194,7 @@ namespace Edit_Community
             Edit.GetInfos();
             Edit.SetInfos();
             ((EditViewPage)FrameEditView.Content).Load();
+            EditViewPage.Select();
             WeatherText.Target = Rtx4;
             AutoCheckText.Target = Rtx4;
             AutoCheckText.AutoCheckCollection = AppData.Local.CheckData;
@@ -480,7 +481,7 @@ namespace Edit_Community
                 isMenuShow = value;
             }
         }
-        Dictionary<User.UI.TriggerImage, Grid> gridBinding = new Dictionary<User.UI.TriggerImage, Grid>();
+        Dictionary<TriggerImage, Grid> gridBinding = new Dictionary<TriggerImage, Grid>();
         /// <summary>
         /// 全屏状态改变.
         /// </summary>
@@ -599,6 +600,7 @@ namespace Edit_Community
                 Console.WriteLine("=>(Down)Window MouseMove");
             }
         }
+
         private void ImgSelectedItem_Tapped(object sender, RoutedEventArgs e)
         {
             foreach (var item in gridBinding)
@@ -960,6 +962,13 @@ namespace Edit_Community
             }
             mouseElpDownOnobject = null;
         }
+        private void Window_MouseLeave(object sender, MouseEventArgs e)
+        {
+        }
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Elp_MouseUp(null, null);
+        }
         private void Elp_MouseLeave(object sender, MouseEventArgs e)
         {
             if (mouseElpOnobjectButton == MouseButton.Right)
@@ -1077,11 +1086,6 @@ namespace Edit_Community
             {
                 ElpR3.Margin = new Thickness(-elpWidth + value * GridMain.ActualWidth * (1 - AppData.Edit.ColumnDefi[0] - AppData.Edit.ColumnDefi[1]), -elpWidth, 0, 0);
             }
-        }
-
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-
         }
         #endregion
         #region RichTextBox操作

@@ -42,6 +42,7 @@ namespace Edit_Community
                 view.Index = j;
                 view.LoadContent();
                 view.SlideTapped += View_SlideTapped;
+                
                 StackPanel1.Children.Add(view);
             }
         }
@@ -61,6 +62,35 @@ namespace Edit_Community
                     }
                 }
             }
+        }
+
+        void Select(EditInfo info)
+        {
+            foreach (var item in StackPanel1.Children)
+            {
+                if (item is EditItemView view)
+                {
+                    if (view.EditInfo == info)
+                    {
+                        view.BorderThickness = new Thickness(2);
+                        view.BorderBrush = Brushes.Orange;
+
+                    }
+                    else
+                    {
+                        view.BorderThickness = new Thickness(0);
+                    }
+                }
+            }
+        }
+        public static void Select()
+        {
+            if (AppData.MainWindow.FrameEditView.Content is EditViewPage page)
+            {
+                EditInfo info = new EditInfo() { Folder = AppData.EditBranchFolder };
+                page.Select(info);
+            }
+       
         }
     }
 }

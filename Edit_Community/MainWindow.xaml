@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Edit_Community"
         xmlns:libr="clr-namespace:User.UI;assembly=HTLibrary"
         mc:Ignorable="d"
-        Title="Edit Community [1.0.0.0]" Height="699.5" Width="880"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp" Closed="Window_Closed">
+        Title="Edit Community [1.0.0.0]" Height="699.5" Width="880"  Background="#00000000" SizeChanged="Window_SizeChanged" MouseMove="Window_MouseMove" MouseLeave="Window_MouseLeave" KeyUp="Window_KeyUp" Closed="Window_Closed" MouseUp="Window_MouseUp">
     <Grid Background="Transparent" x:Name="GridMain">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -143,7 +143,7 @@
         <Grid x:Name="GridRightButton" Grid.Row="1" Grid.Column="3" Margin="0,0.333,0,-0.333" d:IsHidden="True" >
             <libr:TriggerImage  x:Name="ImgFullScreen" CanAutoCheck="False" ImageSourceUnchecked="Assets/fullscreen0.png" ImageSourceChecked="Assets/fullscreen1.png" Opacity="0.8" Tapped="ImgFullScreen_Tapped"/>
         </Grid>
-        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Visible" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="GridMenuMore" Background="#B2000000" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

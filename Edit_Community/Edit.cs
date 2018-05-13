@@ -48,25 +48,25 @@ namespace Edit_Community
         private USettingsProperty<DateTime> CreateTimeProperty;
         public USettingsProperty<string> TitleProperty;
         private USettingsProperty<int> EditFileTypeProperty;
-        string editTempFolder;
+
         public EditTemp(string folder, bool isRoot = false)
         {
             if (!isRoot)
             {
                 if (folder != null)
                 {
-                    editTempFolder = AppData.EditFolder + folder + @"\";
+                    EditTempFolder = AppData.EditFolder + folder + @"\";
                 }
                 else
                 {
-                    editTempFolder = AppData.ModFolder;
+                    EditTempFolder = AppData.ModFolder;
                 }
             }
             else
             {
-                editTempFolder = folder;
+                EditTempFolder = folder;
             }
-            uSettings = new USettings(editTempFolder, "Edit");
+            uSettings = new USettings(EditTempFolder, "Edit");
             CreateTimeProperty = uSettings.Register("createTime", new DateTime());
             TitleProperty = uSettings.Register("title", "");
             EditFileTypeProperty = uSettings.Register("editfiletype", 0);
@@ -84,7 +84,7 @@ namespace Edit_Community
         /// Edit的标题.
         /// </summary>
         public string Title { get => TitleProperty.Value; set => TitleProperty.Value = value; }
-        public string EditTempFolder => editTempFolder;
+        public string EditTempFolder { get; }
 
         /// <summary>
         /// 从edit文件夹中获取有效的信息集合.
@@ -140,45 +140,64 @@ namespace Edit_Community
     }
     public struct EditInfo : IComparable<EditInfo>
     {
-        string folder;
-        EditItemType editType;
-        string title;
-        DateTime createTime;
-
         public EditInfo(string folder, EditItemType editType, string title, DateTime createTime)
         {
-            this.folder = folder;
-            this.editType = editType;
-            this.title = title;
-            this.createTime = createTime;
+            this.Folder = folder;
+            this.EditType = editType;
+            this.Title = title;
+            this.CreateTime = createTime;
         }
 
         /// <summary>
         /// 文件夹名称.
         /// </summary>
-        public string Folder { get => folder; set => folder = value; }
+        public string Folder { get; set; }
         /// <summary>
         /// edit文件类别,储存在Edit.xml.
         /// </summary>
-        public EditItemType EditType { get => editType; set => editType = value; }
+        public EditItemType EditType { get; set; }
         /// <summary>
         /// 标题,储存在Edit.xml.
         /// </summary>
-        public string Title { get => title; set => title = value; }
+        public string Title { get; set; }
         /// <summary>
         /// 创建时间,储存在Edit.xml.
         /// </summary>
-        public DateTime CreateTime { get => createTime; set => createTime = value; }
+        public DateTime CreateTime { get; set; }
 
         public int CompareTo(EditInfo other)
         {
             return DateTime.Compare(CreateTime, other.CreateTime);
         }
 
+        public static bool operator ==(EditInfo left, EditInfo right)
+        {
+            return left.Folder == right.Folder;              
+        }
+        public static bool operator !=(EditInfo left, EditInfo right)
+        {
+            return left.Folder != right.Folder;
+        }
+
         public override string ToString()
         {
             return Folder + "\n" + EditType + "\n" +
                 Title + "\n" + CreateTime;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is EditInfo info)
+            {
+                return this == info;
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
+        public override int GetHashCode()
+        {
+            return Folder.GetHashCode();
         }
     }
     /// <summary>
@@ -236,14 +255,6 @@ namespace Edit_Community
         public DateTime CreateTime => CreateTimeProperty.Value;
         public string Title { get => TitleProperty.Value; set => TitleProperty.Value = value; }
         private int EditFileType { get => EditFileTypeProperty.Value; set => EditFileTypeProperty.Value = value; }
-        public static Edit SelectMod()
-        {
-            AppData.EditBranchFolder = AppData.ModFolder;
-            return new Edit
-            {
-                EditFileType = 0
-            };
-        }
         /// <summary>
         ///移动Editindex并加载.
         /// </summary>
@@ -275,10 +286,6 @@ namespace Edit_Community
         {
             AppData.EditBranchFolder = AppData.GetEditBranchFolder(date);
             AppData.Edit = new Edit();
-            if (!File.Exists(AppData.EditBranchFolder + "Edit.xml"))
-            {
-                AppData.Edit.EditFileType = 1;
-            }
             if (date.Date == DateTime.Now.Date)
             {
                 if (AppData.Edit.CreateTime == new DateTime())
@@ -358,7 +365,7 @@ namespace Edit_Community
             AppData.Edit.Flush();
             for (int i = 0; i < 6; i++)
             {
-                Edit.ReadRtfFile(i);
+                ReadRtfFile(i);
             }
             AppData.MainWindow.ElpC1.Visibility = Visibility.Hidden;
             AppData.MainWindow.ElpC2.Visibility = Visibility.Hidden;

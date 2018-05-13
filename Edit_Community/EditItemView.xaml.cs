@@ -13,13 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using User.UI;
 
 namespace Edit_Community
 {
     /// <summary>
     /// EditItemView.xaml 的交互逻辑
     /// </summary>
-    public partial class EditItemView : UserControl
+    public partial class EditItemView : UControl
     {
         public EditItemView()
         {
