@@ -81,9 +81,9 @@ namespace Edit_Community
             WeathercityProperty = uSettings.Register("Weathercity", "杭州", true);
             WeatherTimestampProperty = uSettings.Register("WeatherTimestamp", 120.0);
             WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
-            CheckisOpenProperty = uSettings.Register("CheckisOpen", true,true);
+            CheckisOpenProperty = uSettings.Register("CheckisOpen", false,true);
             CheckDataProperty = uSettings.Register("CheckData", new AutoCheckCollection() { new AutoCheck("ZWY") { Num = 100 } });
-            IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", true, true);
+            IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", false, true);
             UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 120.0);
             UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
             NoticeLastTimeProperty = uSettings.Register("NoticeLastTime", new DateTime());

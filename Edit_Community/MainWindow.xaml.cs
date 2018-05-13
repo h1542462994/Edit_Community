@@ -122,7 +122,6 @@ namespace Edit_Community
             }
 
             AppData.MainWindow = this;
-            //Area.WhiteBoardWindow = new WhiteBoardWindow();
             this.Title = "Edit Community " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             for (int i = 0; i < RTbx.Length; i++)
             {

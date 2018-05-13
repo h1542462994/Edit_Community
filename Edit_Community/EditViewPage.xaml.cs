@@ -42,8 +42,16 @@ namespace Edit_Community
                 view.Index = j;
                 view.LoadContent();
                 view.SlideTapped += View_SlideTapped;
-                
+                view.ContentTapped += View_ContentTapped;
                 StackPanel1.Children.Add(view);
+            }
+        }
+
+        private void View_ContentTapped(object sender, RoutedEventArgs e)
+        {
+            if (sender is EditItemView view)
+            {
+                Edit.Load(view.EditInfo.Folder);
             }
         }
         private void View_SlideTapped(object sender, RoutedEventArgs e)

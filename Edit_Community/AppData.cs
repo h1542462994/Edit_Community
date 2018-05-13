@@ -14,13 +14,14 @@ namespace Edit_Community
     /// </summary>
     public static partial class AppData
     {
-        static USettings uSettings = new USettings(AppDomain.CurrentDomain.BaseDirectory, "StartUp");
-        static USettingsProperty<bool> IsCurrentDomainProperty = uSettings.Register("IsCurrentDomain", true);
-        static USettingsProperty<string> RootFolderProperty = uSettings.Register("RootFolder", AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\");
         private static string editBranchFolder;
 
-        public static bool IsCurrentDomain { get => IsCurrentDomainProperty.Value; set => IsCurrentDomainProperty.Value = value; }
-        public static string RootFolder { get => RootFolderProperty.Value; set => RootFolderProperty.Value = value; }
+        //static USettings uSettings = new USettings(AppDomain.CurrentDomain.BaseDirectory, "StartUp");
+        //static USettingsProperty<bool> IsCurrentDomainProperty = uSettings.Register("IsCurrentDomain", true);
+        //static USettingsProperty<string> RootFolderProperty = uSettings.Register("RootFolder", AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\");
+
+        //public static bool IsCurrentDomain { get => IsCurrentDomainProperty.Value; set => IsCurrentDomainProperty.Value = value; }
+        //public static string RootFolder { get => RootFolderProperty.Value; set => RootFolderProperty.Value = value; }
         public static string LocalFolder
         {
             get
@@ -28,14 +29,15 @@ namespace Edit_Community
 #if DEBUG
                 return AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\";
 #else
-                if (IsCurrentDomain == true)
-                {
-                    return AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\";
-                }
-                else
-                {
-                    return RootFolder;
-                }
+                return AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\";
+                //if (IsCurrentDomain == true)
+                //{
+                //    return AppDomain.CurrentDomain.BaseDirectory + @"LocalCache\";
+                //}
+                //else
+                //{
+                //    return RootFolder;
+                //}
 #endif
 
             }
@@ -96,10 +98,10 @@ namespace Edit_Community
         static AppData()
         {
 #if !DEBUG
-            foreach (var item in uSettings.Properties)
-            {
-                item.Take();
-            }
+            //foreach (var item in uSettings.Properties)
+            //{
+            //    item.Take();
+            //}
 #endif
         }
     }

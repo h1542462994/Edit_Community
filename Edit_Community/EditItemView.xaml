@@ -27,7 +27,8 @@
             <TextBlock x:Name="TbxIndex" Grid.Column="1" Foreground="Orange" FontStretch="Expanded" Text="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBlock x:Name="TbxMark" Grid.Column="2" Foreground="White" FontSize="10" Text="日常" VerticalAlignment="Center" HorizontalAlignment="Center" />
             <TextBox x:Name="TbxTitle" Grid.Column="3" Background="Transparent"  BorderThickness="0" Margin="2" Foreground="White" Text="标题"/>
-            <libr:TriggerImage x:Name="TriggerImageSend" Grid.Column="4" CanAutoCheck="False" ImageSourceUnchecked="Assets/send.png" Margin="2"/>
+            <libr:TriggerImage x:Name="TriggerImageSend" Grid.Column="4" CanAutoCheck="False" ImageSourceUnchecked="Assets/send.png" Margin="2"
+                               Tapped="TriggerImageSend_Tapped"/>
             <libr:TriggerImage x:Name="TriggerImageDelete" Grid.Column="5" CanAutoCheck="False" ImageSourceUnchecked="Assets/delete.png" Margin="2"/>
         </Grid>
         <TextBlock x:Name="TbxContent"  Grid.Row="1" Margin="2" Background="Transparent" FontSize="10"  TextWrapping="Wrap" Foreground="White" Text="  123"/>

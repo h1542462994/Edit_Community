@@ -25,8 +25,6 @@ namespace Edit_Community
         public EditItemView()
         {
             InitializeComponent();
-
-
         }
         public EditInfo EditInfo
         {
@@ -158,10 +156,16 @@ namespace Edit_Community
         }
 
         public event RoutedEventHandler SlideTapped;
+        public event RoutedEventHandler ContentTapped;
 
         private void TriggerImageSlide_Tapped(object sender, RoutedEventArgs e)
         {
             SlideTapped?.Invoke(this, e);
+        }
+
+        private void TriggerImageSend_Tapped(object sender, RoutedEventArgs e)
+        {
+            ContentTapped?.Invoke(this, e);
         }
     }
 

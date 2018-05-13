@@ -319,13 +319,14 @@ namespace Edit_Community
             {
 
             }
-            else if (info.Parent.FullName + @"\" == AppData.ModFolder)
+            else if (info.FullName == AppData.ModFolder)
             {
                 LoadMod();
                 return;
             }
             else
             {
+                Console.WriteLine("Error folder:{0}",folder);
                 throw new ArgumentException("folder路径无效.");
             }
             AppData.EditBranchFolder = folder;
@@ -354,6 +355,7 @@ namespace Edit_Community
                 Edit.ReadRtfFile(i);
             }
             Edit.ReadBrush();
+            SetInfos();
         }
         public static void LoadMod()
         {
