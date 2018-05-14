@@ -188,11 +188,11 @@
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <libr:QuickButton x:Name="QBBackgroundMode" Height="55" ControlStyle="Dark"  ImageSource="Assets/pic.png" Title="背景图片" CanAutoCheck="False" Description="幻灯片"  Tapped="QBBackgroundMode_Tapped"  Margin="2" />
-                        <libr:QuickButton x:Name="QBAutoCheck" Height="55" ControlStyle="Dark" ImageSource="Assets/check.png" Title="签到" CanAutoCheck="False" Description="开" Margin="2" Tapped="QBAutoCheck_Tapped" />
+                        <libr:QuickButton x:Name="QBAutoCheck" Height="55" ControlStyle="Dark" ImageSource="Assets/check.png" Title="签到" CanAutoCheck="False" Description="开" Margin="2" Tapped="QBAutoCheck_Tapped" Visibility="Collapsed" />
                     </StackPanel>
                     <StackPanel Grid.Column="3">
                         <libr:QuickButton x:Name="QBBrush" Height="55" ControlStyle="Dark" ImageSource="Assets/brush.png" CanAutoCheck="False" Title="笔刷图层"  Description="隐藏"  Tapped="QBBrush_Tapped"  Margin="2" />
-                        <libr:QuickButton x:Name="QBAutoUpdate" Height="55" ControlStyle="Dark" ImageSource="Assets/update.png" CanAutoCheck="False" Title="自动更新" Description="开" IsChecked="True" Tapped="QBAutoUpdate_Tapped" Margin="2"/>
+                        <libr:QuickButton x:Name="QBAutoUpdate" Height="55" ControlStyle="Dark" ImageSource="Assets/update.png" CanAutoCheck="False" Title="自动更新" Description="开" IsChecked="True" Tapped="QBAutoUpdate_Tapped" Visibility="Collapsed" Margin="2"/>
                     </StackPanel>
                 </Grid>
             </Grid>
@@ -244,7 +244,7 @@
                     <libr:TriggerButton Grid.Column="3" InnerContent="全部清除" ControlStyle="Dark" Foreground="White"  Margin="2" Tapped="TriggerButtonNoticeRemoveAll_Tapped" />
                 </Grid>
             </Grid>
-            <Grid x:Name="GridEditView" Visibility="Visible">
+            <Grid x:Name="GridEditView" Visibility="Collapsed">
                 <Frame x:Name="FrameEditView"/>
             </Grid>
         </Grid>
@@ -264,10 +264,10 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="TbxEditI" Grid.Row="6" Grid.RowSpan="2" Foreground="White" Text="2017/12/24  20/40"  FontSize="14" TextWrapping="Wrap" />
-                    <libr:TriggerImage Grid.Row="1" x:Name="ImgView" ImageSourceUnchecked="Assets/list0.png" ImageSourceChecked="Assets/list1.png"/>
+                    <libr:TriggerImage Grid.Row="1" x:Name="ImgView" ImageSourceUnchecked="Assets/list0.png" ImageSourceChecked="Assets/list1.png" Visibility="Collapsed"/>
                     <libr:TriggerImage Grid.Row="4" x:Name="ImgEditBrush" CanAutoCheck="False" ImageSourceUnchecked="Assets/brush0.png" ImageSourceChecked="Assets/brush1.png" Tapped="ImgEditBrush_Tapped"/>
                     <libr:TriggerImage Grid.Row="3" x:Name="ImgEditSettings" ImageSourceUnchecked="Assets/settings0.png" ImageSourceChecked="Assets/settings1.png" />
-                    <libr:TriggerImage Grid.Row="2" x:Name="ImgNotice" ImageSourceUnchecked="Assets/flag0.png" ImageSourceChecked="Assets/flag1.png"/>
+                    <libr:TriggerImage Grid.Row="2" x:Name="ImgNotice" ImageSourceUnchecked="Assets/flag0.png" ImageSourceChecked="Assets/flag1.png" Visibility="Collapsed"/>
                     <libr:TriggerImage Grid.Row="5" x:Name="ImgBefore" CanAutoCheck="False" ImageSourceUnchecked="Assets/before.png" Tapped="ImgEditMove_Tapped"/>
                     <libr:TriggerImage Grid.Row="8" x:Name="ImgNext" CanAutoCheck="False" ImageSourceUnchecked="Assets/next.png" Tapped="ImgEditMove_Tapped"/>
                 </Grid>

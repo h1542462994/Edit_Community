@@ -169,8 +169,8 @@ namespace Edit_Community
             gridBinding = new Dictionary<TriggerImage, Grid>()
             {
                 {ImgEditSettings,GridSettings},
-                {ImgNotice,GridNotice},
-                {ImgView,GridEditView }
+                //{ImgNotice,GridNotice},
+                //{ImgView,GridEditView }
             };
             foreach (var item in gridBinding.Keys)
             {
@@ -192,8 +192,8 @@ namespace Edit_Community
             Edit.Load(DateTime.Now);
             Edit.GetInfos();
             Edit.SetInfos();
-            ((EditViewPage)FrameEditView.Content).Load();
-            EditViewPage.Select();
+            //((EditViewPage)FrameEditView.Content).Load();
+            //EditViewPage.Select();
             WeatherText.Target = Rtx4;
             AutoCheckText.Target = Rtx4;
             AutoCheckText.AutoCheckCollection = AppData.Local.CheckData;

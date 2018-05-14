@@ -92,7 +92,7 @@ namespace Edit_Community
             get => editBranchFolder; set
             {
                 editBranchFolder = value;
-                EditViewPage.Select();
+                //EditViewPage.Select();
             }
         }
         static AppData()
