@@ -107,7 +107,11 @@ Edit_Community
 		+ `improve` `window`修复调整窗格大小导致的问题.
 		+ `new` `extension`加入文档内容查看功能.
 	+ *2018年5月14日* **1.3.6.1**
-		+ `improve` `删除影响性能的所有功能`
+		+ `improve` 删除影响性能的所有功能
+	+ *2018年5月15日* **null**
+		+ `important` 正式结束Edit_Community的主流支持.(到高考为止)
 # 开发人员
 + [117503445](https://github.com/117503445)提供天气服务的支持.
 + [h1542462994](https://github.com/h1542462944)主要的开发人员.
+# 备注
++ 第一个使用本软件的用户:zyl
