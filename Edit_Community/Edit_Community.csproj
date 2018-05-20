@@ -66,31 +66,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Area.cs" />
-    <Compile Include="DeveloperPage.xaml.cs">
-      <DependentUpon>DeveloperPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Edit.cs" />
-    <Compile Include="EditItemView.xaml.cs">
-      <DependentUpon>EditItemView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="EditViewPage.xaml.cs">
-      <DependentUpon>EditViewPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ExtensionPage.xaml.cs">
       <DependentUpon>ExtensionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="HelpPage.xaml.cs">
-      <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Local.cs" />
     <Compile Include="MultiInkCanvas.cs" />
     <Compile Include="MultiInkCanvasWithTool.xaml.cs">
       <DependentUpon>MultiInkCanvasWithTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NoticeDialog.xaml.cs">
-      <DependentUpon>NoticeDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NoticeHelper.cs" />
     <Compile Include="SettingsMainPage.xaml.cs">
       <DependentUpon>SettingsMainPage.xaml</DependentUpon>
     </Compile>
@@ -101,23 +85,7 @@
     <Compile Include="UComboBox.xaml.cs">
       <DependentUpon>UComboBox.xaml</DependentUpon>
     </Compile>
-    <Page Include="DeveloperPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EditItemView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="EditViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ExtensionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="HelpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,10 +104,6 @@
     <Page Include="MultiInkCanvasWithTool.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="NoticeDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsMainPage.xaml">
       <SubType>Designer</SubType>

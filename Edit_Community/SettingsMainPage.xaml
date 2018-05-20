@@ -18,8 +18,6 @@
         <StackPanel Grid.Column ="1">
             <libr:UImageMenu x:Name="UImgTheme" Text="个性化" Height="40" ControlStyle="Light" ImageSource="Assets/theme.png" Tapped="UImageMenu_Tapped" Margin="0,10"/>
             <libr:UImageMenu x:Name="UImgExtension" Text="扩展功能" Height="40" ControlStyle="Light" ImageSource="Assets/3.png" Tapped="UImageMenu_Tapped" Margin="0,10"/>
-            <libr:UImageMenu x:Name="UImgHelp" Text="轻松使用" Height="40" ControlStyle="Light" ImageSource="Assets/2.png" Tapped="UImageMenu_Tapped" Margin="0,10" Visibility="Collapsed"/>
-            <libr:UImageMenu x:Name="UImgDeveloper" Text="开发者选项" Height="40" ControlStyle="Light" ImageSource="Assets/1.png" Tapped="UImageMenu_Tapped" Margin="0,10" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -35,14 +35,6 @@ namespace Edit_Community
             {
                 AppData.PageNavigationHelper.Add(typeof(ExtensionPage));
             }
-            else if (sender.Equals(UImgHelp))
-            {
-                AppData.PageNavigationHelper.Add(typeof(HelpPage));
-            }
-            else if (sender.Equals(UImgDeveloper))
-            {
-                AppData.PageNavigationHelper.Add(typeof(DeveloperPage));
-            }
         }
     }
 }

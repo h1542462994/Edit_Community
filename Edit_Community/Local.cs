@@ -7,6 +7,29 @@ using User.SoftWare.Service;
 namespace Edit_Community
 {
     /// <summary>
+    /// 计时器的友好名称.
+    /// </summary>
+    public enum TimerDisplayName
+    {
+        SaveBitmap,
+        ExitEdit,
+        HideImg,
+        HideMouse,
+        Weather,
+        BackgroundPic,
+        Update,
+        Notification,
+    }
+    /// <summary>
+    /// 对话框的友好名称.
+    /// </summary>
+    public enum DialogDisplayName
+    {
+        Dialog,
+        GridEditBox,
+        Weather
+    }
+    /// <summary>
     /// 本地设置,只用于实例方法.
     /// </summary>
     public sealed class Local
@@ -38,12 +61,6 @@ namespace Edit_Community
         public readonly USettingsProperty<string> WeathercityProperty;
         readonly USettingsProperty<double> WeatherTimestampProperty;
         readonly USettingsProperty<DateTime> WeatherLastTimeProperty;
-        public readonly USettingsProperty<bool> CheckisOpenProperty;
-        readonly USettingsProperty<AutoCheckCollection> CheckDataProperty;
-        public readonly USettingsProperty<bool> IsAutoUpdateProperty;
-        readonly USettingsProperty<double> UpdateTimestampProperty;
-        readonly USettingsProperty<DateTime> UpdateLastTimeProperty;
-        readonly USettingsProperty<DateTime> NoticeLastTimeProperty;
         readonly USettingsProperty<bool> AllowTranspancyProperty;
         public Local()
         {
@@ -81,12 +98,6 @@ namespace Edit_Community
             WeathercityProperty = uSettings.Register("Weathercity", "杭州", true);
             WeatherTimestampProperty = uSettings.Register("WeatherTimestamp", 120.0);
             WeatherLastTimeProperty = uSettings.Register("WeatherLastTime", new DateTime());
-            CheckisOpenProperty = uSettings.Register("CheckisOpen", false,true);
-            CheckDataProperty = uSettings.Register("CheckData", new AutoCheckCollection() { new AutoCheck("ZWY") { Num = 100 } });
-            IsAutoUpdateProperty = uSettings.Register("IsAutoUpdate", false, true);
-            UpdateTimestampProperty = uSettings.Register("UpdateTimestamp", 120.0);
-            UpdateLastTimeProperty = uSettings.Register("UpdateLastTime", new DateTime());
-            NoticeLastTimeProperty = uSettings.Register("NoticeLastTime", new DateTime());
             AllowTranspancyProperty = uSettings.Register("AllowTranspancy", false);
         }
         public readonly Color[] EditBackgroundColorDefault = new Color[] { Color.FromRgb(20, 30, 0), Color.FromRgb(16, 28, 58), Color.FromRgb(44, 44, 44), Color.FromRgb(54, 54, 8) };
@@ -129,12 +140,6 @@ namespace Edit_Community
         public string Weathercity { get => WeathercityProperty.Value; set => WeathercityProperty.Value = value; }
         public double WeatherTimestamp { get => WeatherTimestampProperty.Value; set => WeatherTimestampProperty.Value = value; }
         public DateTime WeatherLastTime { get => WeatherLastTimeProperty.Value; set => WeatherLastTimeProperty.Value = value; }
-        public bool CheckisOpen { get => CheckisOpenProperty.Value; set => CheckisOpenProperty.Value = value; }
-        public AutoCheckCollection CheckData { get => CheckDataProperty.Value; set => CheckDataProperty.Value = value; }
-        public bool IsAutoUpdate { get=>IsAutoUpdateProperty.Value; set=>IsAutoUpdateProperty.Value =value; }
-        public double UpdateTiemstamp { get => UpdateTimestampProperty.Value; set => UpdateTimestampProperty.Value = value; }
-        public DateTime UpdateLastTime { get => UpdateLastTimeProperty.Value; set => UpdateLastTimeProperty.Value = value; }
-        public DateTime NoticeLastTime { get => NoticeLastTimeProperty.Value; set => NoticeLastTimeProperty.Value = value; }
         public bool AllowTranspancy { get => AllowTranspancyProperty.Value; set => AllowTranspancyProperty.Value = value; }
         public void Flush()
         {

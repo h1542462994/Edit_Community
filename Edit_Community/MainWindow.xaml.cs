@@ -68,19 +68,6 @@ namespace Edit_Community
             AppData.TimerInventory.Register(TimerDisplayName.HideMouse, new TimerQueueInfo(6, new EventHandler(Timer_HideMouse), false, true));
             AppData.TimerInventory.Register(TimerDisplayName.BackgroundPic, new TimerQueueInfo(10, new EventHandler(Timer_BackgroundPic), false, true));
             AppData.TimerInventory.Register(TimerDisplayName.Weather, new TimerQueueInfo(10, new EventHandler(Timer_Weather), false, true));
-            AppData.TimerInventory.Register(TimerDisplayName.Update, new TimerQueueInfo(10, new EventHandler(Timer_Update), false, true));
-            AppData.TimerInventory.Register(TimerDisplayName.Notification, new TimerQueueInfo(10, new EventHandler(Timer_Notification), false, true));
-        }
-        private void Timer_Notification(object sender, EventArgs e)
-        {
-            AppData.NoticeHelper.DownloadNoticeAsync();
-        }
-        private void Timer_Update(object sender, EventArgs e)
-        {
-            if (AppData.Local.IsAutoUpdate)
-            {
-                OnUpdateAsync(false);
-            }
         }
         private void Timer_Weather(object sender, EventArgs e)
         {
@@ -165,7 +152,6 @@ namespace Edit_Community
                 InputMethod.SetPreferredImeState(RTbx[i], InputMethodState.DoNotCare);
                 InputLanguageManager.SetInputLanguage(RTbx[i], CultureInfo.GetCultureInfo("zh-CN"));
             }
-            FrameEditView.Content = new EditViewPage();
             gridBinding = new Dictionary<TriggerImage, Grid>()
             {
                 {ImgEditSettings,GridSettings},
@@ -176,8 +162,6 @@ namespace Edit_Community
             {
                 item.Tapped += ImgSelectedItem_Tapped;
             }
-            SoftWareService.ChannelFreshed += SoftWareService_ChannelFreshed;
-            SoftWareService.CheckUpdateCompleted += SoftWareService_CheckUpdateCompleted;
             this.EditICs.SaveBrushCallBack += Edit.SaveBrush;
             this.EditICs.SetPropertys(AppData.Local.InkColorIndexProperty, AppData.Local.InkPenWidthProperty);
             this.EditICs.LoadPropertys();
@@ -185,7 +169,6 @@ namespace Edit_Community
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadNotice();
             AppData.PageNavigationHelper.PageChanged += PageNavigationHelper_PageChanged;
             AppData.PageNavigationHelper.Add(typeof(SettingsMainPage));
             AppData.Local.Flush();
@@ -195,14 +178,8 @@ namespace Edit_Community
             //((EditViewPage)FrameEditView.Content).Load();
             //EditViewPage.Select();
             WeatherText.Target = Rtx4;
-            AutoCheckText.Target = Rtx4;
-            AutoCheckText.AutoCheckCollection = AppData.Local.CheckData;
             RegisterTimer();
             OnBackgrondPic(AppData.Local.BackgroundMode, true, false);
-            if (AppData.Local.CheckisOpen)
-            {
-                OnAutoCheck();
-            }
         }
         private void Window_Closed(object sender, EventArgs e)
         {
@@ -359,48 +336,6 @@ namespace Edit_Community
                 }
                 QBWeather.IsChecked = (bool)e.NewValue;
             }
-            else if (key == AppData.Local.CheckisOpenProperty)
-            {
-                if ((bool)e.NewValue)
-                {
-                    if (AppData.Edit == null || AppData.Edit.CreateTime.Date == DateTime.Today)
-                    {
-                        QBAutoCheck.Description = "开";
-                        QBAutoCheck.ThemeBrush = UserBrushes.ThemeBrushDefault;
-                    }
-                    else
-                    {
-                        QBAutoCheck.Description = ">今天";
-                        QBAutoCheck.ThemeBrush = UserBrushes.WarningBrush;
-                    }
-                }
-                else
-                {
-                    QBAutoCheck.Description = "关";
-                }
-                QBAutoCheck.IsChecked = (bool)e.NewValue;
-            }
-            else if (key == AppData.Local.IsAutoUpdateProperty)
-            {
-                QBAutoUpdate.IsChecked = (bool)e.NewValue;
-                if ((bool)e.NewValue)
-                {
-                    if (!UpdateDownloaded)
-                    {
-                        QBAutoUpdate.Description = "开";
-                        QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
-                    }
-                    else
-                    {
-                        QBAutoUpdate.Description = "需重启";
-                        QBAutoUpdate.ThemeBrush = UserBrushes.WarningBrush;
-                    }
-                }
-                else
-                {
-                    QBAutoUpdate.Description = "关";
-                }
-            }
         }
         public void Edit_PropertyChanged(USettingsProperty key, UPropertyChangedEventArgs e)
         {
@@ -550,7 +485,6 @@ namespace Edit_Community
             }
             Edit.SetInfos();
             FreshQBWeather();
-            FreshQBAutoCheck();
         }
         private void ImgMenu_Tapped(object sender, RoutedEventArgs e)
         {
@@ -795,22 +729,6 @@ namespace Edit_Community
             {
                 page.SetWeather();
             }
-        }
-        internal void QBAutoCheck_Tapped(object sender, RoutedEventArgs e)
-        {
-            AppData.Local.CheckisOpen = !AppData.Local.CheckisOpen;
-            if (AppData.Local.CheckisOpen)
-            {
-                OnAutoCheck();
-            }
-            if (FrameSettings.Content is ExtensionPage page)
-            {
-                page.SetAutoCheck();
-            }
-        }
-        private void QBAutoUpdate_Tapped(object sender, RoutedEventArgs e)
-        {
-            AppData.Local.IsAutoUpdate = !AppData.Local.IsAutoUpdate;
         }
         private void QBBackgroundNext_Tapped(object sender, RoutedEventArgs e)
         {
@@ -1580,235 +1498,6 @@ namespace Edit_Community
                     QBWeather.Description = ">今天";
                     QBWeather.ThemeBrush = UserBrushes.WarningBrush;
                 }
-            }
-        }
-        #endregion
-        #region AutoCheck
-        public AutoCheckText AutoCheckText = new AutoCheckText();
-        public void OnAutoCheck()
-        {
-            try
-            {
-                AutoCheckText.Next();
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("AutoCheck.Error");
-            }
-        }
-        void FreshQBAutoCheck()
-        {
-            if (AppData.Local.CheckisOpen)
-            {
-                if (AppData.Edit == null || AppData.Edit.CreateTime.Date == DateTime.Today)
-                {
-                    QBAutoCheck.Description = "开";
-                    QBAutoCheck.ThemeBrush = UserBrushes.ThemeBrushDefault;
-                }
-                else
-                {
-                    QBAutoCheck.Description = ">今天";
-                    QBAutoCheck.ThemeBrush = UserBrushes.WarningBrush;
-                }
-            }
-        }
-        #endregion
-        #region 更新
-        bool UpdateDownloaded { get; set; }
-        string Version { get; set; }
-        public SoftWareService SoftWareService { get; } = new SoftWareService(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version, "Edit_Community");
-        double DownloadPercent { get; set; }
-        private void SoftWareService_CheckUpdateCompleted(object sender, CheckUpdateEventArgs e)
-        {
-            if (e.ChannelState == ChannelState.Failed || e.ChannelState == ChannelState.FileFailed)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    QBAutoUpdate.IsOpened = true;
-                    QBAutoUpdate.Description = "错误";
-                    QBAutoUpdate.ThemeBrush = new SolidColorBrush(Colors.Orange);
-                });
-            }
-            else
-            {
-                if (e.UpdateType == UpdateType.Download)
-                {
-                    SoftWareService.DownloadUpdate();
-                    Version = e.Version;
-                }
-                else
-                {
-                    Dispatcher.Invoke(() =>
-                    {
-                        QBAutoUpdate.IsOpened = true;
-                        QBAutoUpdate.Description = "最新";
-                        QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
-                    });
-                }
-            }
-        }
-        private void SoftWareService_ChannelFreshed(object sender, ChannelFreshEventArgs e)
-        {
-            if (e.ChannelState == ChannelState.Completed)
-            {
-                UpdateDownloaded = true;
-            }
-            else
-            {
-                UpdateDownloaded = false;
-            }
-            if (e.ChannelState == ChannelState.Failed || e.ChannelState == ChannelState.FileFailed)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    QBAutoUpdate.IsOpened = true;
-                    QBAutoUpdate.Description = "错误";
-                    QBAutoUpdate.ThemeBrush = new SolidColorBrush(Colors.Orange);
-                });
-
-            }
-            else if (e.ChannelState == ChannelState.Doing)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    QBAutoUpdate.IsOpened = false;
-                    QBAutoUpdate.Description = string.Format("{0}%", e.Percent);
-                    QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
-                });
-
-            }
-            else if (e.ChannelState == ChannelState.Completed)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    QBAutoUpdate.IsOpened = true;
-                    QBAutoUpdate.Description = "需重启";
-                    QBAutoUpdate.ThemeBrush = new SolidColorBrush( Color.FromRgb(235, 149, 20));
-                    ShowUpdateDialog();
-                });
-
-            }
-        }
-        public async void OnUpdateAsync(bool isFirst = false)
-        {
-            if ((isFirst) || DateTime.Now - AppData.Local.UpdateLastTime > TimeSpan.FromMinutes(AppData.Local.UpdateTiemstamp))
-            {
-                QBAutoUpdate.IsOpened = false;
-                QBAutoUpdate.Description = "检查中";
-                QBAutoUpdate.ThemeBrush = UserBrushes.ThemeBrushDefault;
-                await Task.Run(() => SoftWareService.CheckUpdate());
-                AppData.Local.UpdateLastTime = DateTime.Now;
-            }
-        }
-        void ShowUpdateDialog()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                AppData.NoticeHelper.Add(new NotificationInfo
-                {
-                    DateTime = DateTime.Now,
-                    Title = "已下载更新",
-                    Description = $"更新以下载完毕.点击[更新]启动.\n版本:{Version}",
-                    Button = "更新",
-                    ButtonEvent = "Update"
-                });
-            });
-        }
-        void ToUpdate()
-        {
-            string path = SoftWareService.ServiceCache + @"Updater\Edit_CommunityUpdater.exe";
-            if (File.Exists(path))
-            {
-                Process.Start(path);
-                Close();
-            }
-        }
-        #endregion
-        #region 通知
-        public void InvokeNotice(NotificationInfo info)
-        {
-            NoticeDialog1.NotificationInfo = info;
-            NoticeDialog1.Visibility = Visibility.Visible;
-        }
-        private void NoticeDialog_Choose(object sender, NotificationInfo e)
-        {
-            if (e.ButtonEvent == "Update")
-            {
-                ToUpdate();
-            }
-            NoticeDialog1.Visibility = Visibility.Collapsed;
-        }
-        private void NoticeDialog_ChooseToNotification(object sender, NotificationInfo e)
-        {
-            ImgNotice.IsChecked = true;
-            ImgSelectedItem_Tapped(ImgNotice, null);
-            NoticeDialog1.Visibility = Visibility.Collapsed;
-        }
-        private void NoticeDialog_Closed(object sender, NotificationInfo e)
-        {
-            NoticeDialog1.Visibility = Visibility.Collapsed;
-        }
-        public void LoadNotice()
-        {
-            StackPanelNotice.Children.Clear();
-            foreach (var item in AppData.NoticeHelper.Notification.Reverse())
-            {
-                var noticedialog = new NoticeDialog() { Margin = new Thickness(10, 5, 10, 5), NotificationInfo = item };
-                noticedialog.Closed += NoticeDialog_Closed_1;
-                noticedialog.Choose += NoticeDialog_Choose_1;
-                StackPanelNotice.Children.Add(noticedialog);
-            }
-        }
-        private void NoticeDialog_Choose_1(object sender, NotificationInfo e)
-        {
-            NoticeDialog_Choose(sender, e);
-            AppData.NoticeHelper.Remove(e);
-        }
-        private void NoticeDialog_Closed_1(object sender, NotificationInfo e)
-        {
-            AppData.NoticeHelper.Remove(e);
-        }
-        private void TriggerButtonNoticeRemoveAll_Tapped(object sender, RoutedEventArgs e)
-        {
-            AppData.NoticeHelper.Clear();
-        }
-        public void OnDownloadNotice(int count)
-        {
-            this.NoticeDialog1.NotificationInfo = new NotificationInfo { DateTime = DateTime.Now, Title = string.Format("{0}个推送通知", count), Button = "", ButtonEvent = "" };
-        }
-        private async void TriggerButtonSenderNotice_Tapped(object sender, RoutedEventArgs e)
-        {
-            if (TbxNotice1.Text != "")
-            {
-                NotificationInfo notificationInfo = new NotificationInfo
-                {
-                    Title = TbxNotice1.Text,
-                    Button = TbxNotice2.Text,
-                    ButtonEvent = TbxNotice3.Text,
-                    Description = TbxNotice4.Text,
-                    DateTime = DateTime.Now,
-                    DateTimeSpecified = true
-                };
-                TriggerButtonSenderNotice.IsOpened = false;
-                bool result = await AppData.NoticeHelper.SendNoticeAsync(notificationInfo);
-                TriggerButtonSenderNotice.IsOpened = true;
-                if (result)
-                {
-                    TbxNotice1.Text = ""; TbxNotice2.Text = ""; TbxNotice3.Text = ""; TbxNotice4.Text = "";
-                }
-            }
-        }
-        private void ApplyNotice_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (GridNoticeSend.Visibility == Visibility.Collapsed)
-            {
-                GridNoticeSend.Visibility = Visibility.Visible;
-                TriggerButtonSenderNotice.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                GridNoticeSend.Visibility = Visibility.Collapsed;
-                TriggerButtonSenderNotice.Visibility = Visibility.Collapsed;
             }
         }
         #endregion

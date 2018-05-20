@@ -169,14 +169,5 @@ namespace Edit_Community
         }
     }
 
-    public enum EditItemType
-    {
-        Reserved = -1,
-        Daily = 0,
-        Note = 1,
-        Holiday = 2,
-        Summervacation = 3,
-        Wintervacation = 4,
-        Hugeevent = 5
-    }
+
 }

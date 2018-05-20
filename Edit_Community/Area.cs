@@ -36,7 +36,6 @@ namespace Edit_Community
         public static EditInfo[] EditInfos { get; set; }
         public static int EditIndex { get; set; }
         public static PageNavigationHelper PageNavigationHelper { get; set; } = new PageNavigationHelper();
-        public static NoticeHelper NoticeHelper { get; } = new NoticeHelper();
 
         public static EditItemType GetEditType(int arg)
         {

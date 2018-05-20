@@ -16,28 +16,15 @@ using User.SoftWare;
 
 namespace Edit_Community
 {
-    /// <summary>
-    /// 计时器的友好名称.
-    /// </summary>
-    public enum TimerDisplayName
+    public enum EditItemType
     {
-        SaveBitmap,
-        ExitEdit,
-        HideImg,
-        HideMouse,
-        Weather,
-        BackgroundPic,
-        Update,
-        Notification,
-    }
-    /// <summary>
-    /// 对话框的友好名称.
-    /// </summary>
-    public enum DialogDisplayName
-    {
-        Dialog,
-        GridEditBox,
-        Weather
+        Reserved = -1,
+        Daily = 0,
+        Note = 1,
+        Holiday = 2,
+        Summervacation = 3,
+        Wintervacation = 4,
+        Hugeevent = 5
     }
     /// <summary>
     /// 为Edit查找提供快照服务.

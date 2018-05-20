@@ -78,15 +78,6 @@ namespace Edit_Community
             TSWeather.InvokeCheck(AppData.MainWindow.QBWeather.IsChecked);
             LblWeather.Content = AppData.MainWindow.QBWeather.Description;
         }
-        private void TSAutoCheck_Tapped(object sender, RoutedEventArgs e)
-        {
-            AppData.MainWindow.QBAutoCheck.IsChecked = TSAutoCheck.IsChecked;
-            AppData.MainWindow.QBAutoCheck_Tapped(null, new RoutedEventArgs());
-        }
-        public void SetAutoCheck()
-        {
-            TSAutoCheck.InvokeCheck(AppData.MainWindow.QBAutoCheck.IsChecked);
-        }
         private void TsTransprency_Tapped(object sender, RoutedEventArgs e)
         {
             AppData.Local.AllowTranspancy = TsTransprency.IsChecked;
