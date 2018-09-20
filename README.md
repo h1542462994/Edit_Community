@@ -3,7 +3,7 @@ Edit_Community
 # 声明
 + 此软件是开源软件,禁止用于商业目的.
 # 软件介绍
-这是一款**作业展示器**软件,能够实现在班级教室电脑展示当天的功能.
+这是一款**作业展示器**软件,能够实现在班级教室电脑展示当天的功能,还加入了天气查看的辅助功能.
 + 主要功能
 	+ 将当天的作业显示在6个**RichTextBox**中.![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Edit_Community/Picture/main.jpg)
 	+ 支持编辑文本的字号,字体,加粗,倾斜,颜色.**只需要选中文字并松开左键即可** ![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Edit_Community/Picture/editbox.jpg)
@@ -11,8 +11,8 @@ Edit_Community
 	+ 通过左键单击左下角区域来切换当前显示的文件夹.
 		+ 如果要编辑模板,可以按如图所示操作![screenshot](https://github.com/h1542462944/Edit_Community/blob/master/Edit_Community/Picture/settings1.jpg)
 	+ 背景:支持修改`背景颜色`和`显示的图片`.只需在`设置`>`个性化`的相关栏目进行设置.
-	+ 天气:支持天气的显示,
-+ 扩展功能
+	+ 天气:支持天气的显示
++ 扩展功能 *此功能因为稳定性较差，已在1.3.7版本及以后删除*
 	+ 在根文件下修改`StartUp.xml`可以更改文件的缓存路径.</br>
 	```xml
 	<?xml version="1.0" encoding="utf-8"?>
@@ -27,9 +27,9 @@ Edit_Community
 # 注意事项
 + 代码下载:该软件引用HTLibrary库,点击跳转
 [htlibrary https://github.com/h1542462944/HTLibrary](https://github.com/h1542462944/HTLibrary)
-+ 软件更新需要HTStudioService服务.
++ 软件更新需要HTStudioService服务. *此功能因为使用量很少，已经删除了。*
 [HTStudioService](https://github.com/h1542462944/HTStudioService)
-+ 自动更新部署.
++ 自动更新部署. *此功能已经删除。*
 	1. 将Edit_CommunityUpdater放在Edit_Community\SoftWareCache\Updater文件夹内.
 	2. 启动HTStudioService服务(需要部署到iis,或者本机).
 	3. 重新生成HTLibrary,Edit_Community,Edit_CommunityUpdater(如果必要的话).
@@ -43,7 +43,7 @@ Edit_Community
 		+ `important` 发布第一个Edit版本.
 	+ *2017年12月28日* **1.0.0.1**
 		+ `debug` `window` 修复窗体初始化的问题,并且能够实现*普通,最大化和全屏*三种态的切换.
-		+ `debug` `main` 解决输入法的问题(*需要安装英文语言*).
+		+ `debug` `main` 解决输入法的问题(*需要安装英文语言*). *wpf标准控件不支持这个。*
 	+ *2017年12月30日* **1.0.0.2**
 		+ `debug` `userlibrary` 解决UProperty首次创建xml文件时无法保存设置的问题.
 		+ `improve` `main` 可以兼容老的文件版本[只以标准时间字符串命名].例如`20170621`
@@ -115,3 +115,4 @@ Edit_Community
 + [h1542462994](https://github.com/h1542462944)主要的开发人员.
 # 备注
 + 第一个使用本软件的用户:zyl
++ 本软件因为相关库有比较大的重构，已经在2018年暑假后停止更新。
