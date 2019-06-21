@@ -39,10 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HTLibrary">
-      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="HTLibrary.XmlSerializers">
-      <HintPath>..\..\HTLibrary\HTLibrary\bin\Release\HTLibrary.XmlSerializers.dll</HintPath>
+      <HintPath>dll\HTLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
